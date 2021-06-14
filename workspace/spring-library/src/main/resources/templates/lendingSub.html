@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>貸出</title>
+</head>
+<body>
+	図書名<input type="text" name="booksName">
+
+	<form action="/library/lended" method="post">
+	<table border="1">
+	<tr>
+		<th>図書ID</th><th>図書名</th><th>著者名</th>
+	</tr>
+	<tr th:each="books:${booksList}">
+		<td th:text="${books.booksId}"></td>
+		<td th:text="${books.booksName}"></td>
+		<td th:text="${books.booksAuthor}"></td>
+	</tr>
+	</table>
+	<input type="submit" value="貸出">
+	</form>
+</body>
+</html>
