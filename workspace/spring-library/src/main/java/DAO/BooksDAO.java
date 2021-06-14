@@ -11,6 +11,7 @@ public class BooksDAO {
 		getConnection();
 	}
 
+
 	private void getConnection() throws DAOException {
 		try {
 			// JDBCドライバの登録

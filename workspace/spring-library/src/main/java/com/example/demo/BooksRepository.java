@@ -1,8 +1,6 @@
-package DAO;
+package com.example.demo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import Bean.Books;
 
 public interface BooksRepository extends JpaRepository<Books, Integer> {
 
