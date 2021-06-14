@@ -5,22 +5,44 @@
 <title>図書登録</title>
 </head>
 <body>
+
 <form action="/library/addBooks"method="post">
+<table border=1>
+<tr>
+<th>図書名</th><th><input type="text"name="booksName"required></th>
+</tr>
+<tr>
+<th>著者名</th>
+<th><input type="text"name="booksAuthor"required></th>
+</tr>
+<tr>
+<th>冊数</th>
+<th><input type="text"name="booksStock"required>
+</th>
+<tr><th>備考</th>
+<th><input type="text"name="booksRemarks"required></th>
+</tr>
+<tr><th>分類</th>
+<th><select name="classificationId">
 
-<input type="text"name="booksName"><br>
-<input type="text"name="booksAuthor"><br>
-<input type="text"name="booksStock"><br>
-<input type="text"name="booksRemarks"><br>
+<option value="1">哲学</option>
+<option value="2">歴史</option>
+<option value="3">社会科学</option>
+<option value="4">自然科学</option>
+<option value="5">技術</option>
+<option value="6">産業</option>
+<option value="7">産業</option>
+<option value="8">芸術</option>
+<option value="9">文学</option>
+<option value="10">総記</option>
+</select></th>
 
-<select name="classificationName">
-<option value="サンプル1">サンプル1</option>
-<option value="サンプル2">サンプル2</option>
-<option value="サンプル3">サンプル3</option>
-</select>
+</tr>
+
+</table>
 
 <input type="submit" class="button"value="登録">
-
 </form>
-
+<p><span th:text="${message}" style="color:red"></span></p>
 </body>
 </html>
