@@ -35,9 +35,20 @@ public class Books {
 	@Column(name = "books_remark")
 	private String booksRemark;
 
-	Books(){
+	@Column(name = "insert_date")
+	private Date insertDate;
 
-	}
+	@Column(name = "insert_employee_id")
+	private int insertEmployeeId;
+
+	@Column(name = "update_date")
+	private Date updateDate;
+
+	@Column(name = "update_employee_id")
+	private int updateEmployeeId;
+
+	@Column(name = "classification_id")
+	private int classificationId;
 
 	public int getBooksId() {
 		return booksId;
@@ -95,6 +106,56 @@ public class Books {
 		this.booksRemark = booksRemark;
 	}
 
+	public Date getInsertDate() {
+		return insertDate;
+	}
 
+	public void setInsertDate(Date insertDate) {
+		this.insertDate = insertDate;
+	}
+
+	public int getInsertEmployeeId() {
+		return insertEmployeeId;
+	}
+
+	public void setInsertEmployeeId(int insertEmployeeId) {
+		this.insertEmployeeId = insertEmployeeId;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public int getUpdateEmployeeId() {
+		return updateEmployeeId;
+	}
+
+	public void setUpdateEmployeeId(int updateEmployeeId) {
+		this.updateEmployeeId = updateEmployeeId;
+	}
+
+	public int getClassificationId() {
+		return classificationId;
+	}
+
+	public void setClassificationId(int classificationId) {
+		this.classificationId = classificationId;
+	}
+
+	Books(){
+
+	}
+	Books(String booksName, String booksAuthor, int booksStock, String booksRemark, int classificationId){
+		this.booksName=booksName;
+		this.booksAuthor=booksAuthor;
+		this.booksStock=booksStock;
+		this.booksRemark=booksRemark;
+		this.classificationId=classificationId;
+
+	}
 
 }
