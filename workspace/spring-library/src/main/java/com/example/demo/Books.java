@@ -1,4 +1,4 @@
-package Bean;
+package com.example.demo;
 
 import java.sql.Date;
 
