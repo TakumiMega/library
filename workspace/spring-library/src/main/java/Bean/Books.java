@@ -1,5 +1,7 @@
 package Bean;
 
+import java.sql.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +27,7 @@ public class Books {
 	private int booksStock;
 
 	@Column(name = "books_insert_date")
-	private String booksInsertDate;
+	private Date booksInsertDate;
 
 	@Column(name = "books_lend")
 	private String booksLend;
@@ -69,11 +71,11 @@ public class Books {
 		this.booksStock = booksStock;
 	}
 
-	public String getBooksInsertDate() {
+	public Date getBooksInsertDate() {
 		return booksInsertDate;
 	}
 
-	public void setBooksInsertDate(String booksInsertDate) {
+	public void setBooksInsertDate(Date booksInsertDate) {
 		this.booksInsertDate = booksInsertDate;
 	}
 
