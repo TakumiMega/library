@@ -130,7 +130,6 @@ public class Books {
 		this.updateDate = updateDate;
 	}
 
-
 	public int getUpdateEmployeeId() {
 		return updateEmployeeId;
 	}
