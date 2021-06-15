@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>図書一覧</title>
 </head>
 <body>
-<form action="/library/serchBooks"method="get"></form>
+<form action="/library/serchBooks"method="get">
 
 <table>
 <tr>
@@ -17,7 +17,23 @@
 <tr>
 <th>分類名</th><th><input type="text"name="classificationId"></th>
 </tr>
+
 </table>
+<input type="submit" class="button"value="登録">
+</form>
+
+ <table>
+ <tr><th>図書名</th><th>著者名</th><th>冊数</th><th>備考</th><th>分類</th>
+		 <tr th:each="books:${booksList}"></tr>
+ 		<td th:text="${books.booksId}"></td>
+		<td th:text="${books.booksName}"></td>
+		<td th:text="${books.booksAuthor}"></td>
+		<td th:text="${books.booksStock}"></td>
+		<td th:text="${books.booksRemarks}"></td>
+		<td th:text="${classification.classificationName}"></td>
+
+		</tr>
+	</table>
 
 
 </body>
