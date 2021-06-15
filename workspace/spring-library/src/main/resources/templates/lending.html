@@ -1,14 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" th:src="@{/lending.js}"></script>
 <title>貸出</title>
-<script type="text/javascript">
-function openSubWindow(url){
-	 var obj_window = window.open(url, 'width=600,height=400');
-/* 	 obj_window.document.getElementById("booksName").value = document.getElementById("booksName").value; */
-}
-</script>
 </head>
 <body>
 
@@ -16,8 +11,8 @@ function openSubWindow(url){
 		利用者ID<input type="text" name="usersId">
 	</form>
 
-	<form name="/library/lendingSub">
-		図書名<input type="text" id="booksName"><input type="button"value="検索" onClick="openSubWindow('lendingSub.html')">
+	<form th:action="@{/library/lendingSub}"method="GET"name="formGet">
+		図書名<input type="text" name="booksName"><input type="button"value="検索" onClick="openWin('formGet')">
 	</form>
 
 	<form action="/library/lended" method="post">

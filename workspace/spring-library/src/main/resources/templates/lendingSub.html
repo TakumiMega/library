@@ -1,34 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" th:src="@{/lending.js}"></script>
 <title>貸出</title>
-<script type="text/javascript">
-  window.onload = function(){
-    // 親ウィンドウの存在チェック
-    if(!window.opener || window.opener.closed){
-       window.alert('親ウィンドウがありません。');
-       return false;
-    }
-    // 子ウィンドから親ウィンドウへ値を渡す
-
-
-  }
-</script>
 </head>
 <body>
-	図書名<input type="text" id="booksName" disabled>
+	図書名<input type="text" name="booksName" id="booksName"th:value="${booksName}" disabled>
 
 	<table border="1">
 	<tr>
 		<th>図書ID</th><th>図書名</th><th>著者名</th>
 	</tr>
-<!-- 	<tr th:each="books:${booksList}">
+	<tr th:each="books:${booksList}">
 		<td th:text="${books.booksId}"></td>
 		<td th:text="${books.booksName}"></td>
 		<td th:text="${books.booksAuthor}"></td>
-		<td><form th:action="'/library/lending/'+${books.booksId}"><input type ="button" value = "追加"></form></td>
-	</tr> -->
+		<td><form th:action="@{'/library/lending/'+${books.booksId}}"method="GET"name="formGet"><input type ="button" value = "追加"onClick="openWin('formGet')"></form></td>
+	</tr>
 	</table>
 </body>
 </html>

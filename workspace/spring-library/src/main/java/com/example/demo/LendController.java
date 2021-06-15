@@ -3,6 +3,7 @@ package com.example.demo;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,8 +22,8 @@ public class LendController {
 	}
 
 	//検索サブウィンド表示
-	@RequestMapping(value = "/library/lendingSub")
-	public ModelAndView showLendingSub(
+	@GetMapping(value = "/library/lendingSub")
+	public ModelAndView openWinByGet(
 			@RequestParam("booksName") String booksName,
 			ModelAndView mv) throws DAOException{
 
