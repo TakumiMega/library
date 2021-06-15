@@ -38,6 +38,14 @@ public class LendController {
 		return "lending";
 	}
 
+	@RequestMapping("/library/lending/userId")
+	public String searchUserid(
+			@RequestParam("usersId") String usersId,
+			ModelAndView mv) {
+
+		return "lending";
+	}
+
 	@GetMapping(value = "/library/lendingSub")
 	public ModelAndView openWinByGet(
 			@RequestParam("booksName") String booksName,
