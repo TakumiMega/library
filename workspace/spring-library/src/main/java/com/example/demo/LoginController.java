@@ -55,6 +55,9 @@ public class LoginController {
 			mv.setViewName("login");
 			return mv;
 		}
+		
+		//sessionにログインした社員IDを格納
+		session.setAttribute("employeeId", employee.getEmployeeId());
 
 		//役職が受付だった場合、受付用のメイン画面を表示
 		if(employee.getPositionId() == receptionID) {

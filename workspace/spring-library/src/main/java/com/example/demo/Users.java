@@ -61,6 +61,7 @@ public class Users {
 	}
 
 	public Users(String usersName, String usersAddress, Date usersBirthday, String usersPhone, String usersEmail, Date insertDate, int insertEmployeeId, Date updateDate, int updateEmployeeId) {
+		super();
 		this.usersName = usersName;
 		this.usersAddress = usersAddress;
 		this.usersBirthday = usersBirthday;
