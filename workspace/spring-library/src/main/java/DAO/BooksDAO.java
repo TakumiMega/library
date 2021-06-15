@@ -60,7 +60,7 @@ public class BooksDAO {
 		}
 	}
 
-	public List<BooksBean> searchBooksId(int bookId) throws DAOException {
+	public BooksBean searchBooksId(int bookId) throws DAOException {
 		if (con == null)
 			getConnection();
 		PreparedStatement st = null;
@@ -76,13 +76,13 @@ public class BooksDAO {
 			// SQLの実行
 			rs = st.executeQuery();
 			// 結果の取得
-			List<BooksBean> list = new ArrayList<BooksBean>();
+			BooksBean list = null;
 			while (rs.next()) {
 				int booksId = rs.getInt("books_id");
 				String booksName = rs.getString("books_name");
 				String booksAuthor = rs.getString("books_author");
 				BooksBean bean = new BooksBean(booksId,booksName,booksAuthor);
-				list.add(bean);
+				list=bean;
 			}
 
 			return list;

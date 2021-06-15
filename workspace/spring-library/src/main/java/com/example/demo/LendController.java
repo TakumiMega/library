@@ -1,7 +1,8 @@
 package com.example.demo;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +17,10 @@ import DAO.DAOException;
 
 @Controller
 public class LendController {
-
-	List<BooksBean> lendingList = new ArrayList<>();
-
+//
+//	List<BooksBean> lendingList = new ArrayList<>();
+	Map<Integer, BooksBean> lendingMap = new HashMap<>();
+	int key = 0;
 	@RequestMapping("/")
 	public String loginPage() {
 		return "lending";
@@ -44,10 +46,24 @@ public class LendController {
 	public ModelAndView deleteHouseHold(
 			@PathVariable("booksId") int booksId,
 			ModelAndView mv) throws NumberFormatException, DAOException {
-
 		BooksDAO dao = new BooksDAO();
-		lendingList.addAll(dao.searchBooksId(booksId));
-		mv.addObject("booksList", lendingList);
+			lendingMap.put(key, dao.searchBooksId(booksId));
+			key = key+1;
+		mv.addObject("lendingMap",lendingMap);
+
+		//表示させるHTMLをセット
+		mv.setViewName("lending");
+
+		return mv;
+	}
+
+	@RequestMapping(value = "/library/deleteLending/{key}")
+	public ModelAndView deleteLending(
+			@PathVariable("key") int key,
+			ModelAndView mv) throws NumberFormatException, DAOException {
+
+		lendingMap.remove(key);
+		mv.addObject("lendingMap",lendingMap);
 
 		//表示させるHTMLをセット
 		mv.setViewName("lending");
