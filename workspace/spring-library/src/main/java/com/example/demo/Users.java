@@ -1,4 +1,4 @@
-package com.example.demo;
+	package com.example.demo;
 
 import java.util.Date;
 
@@ -16,7 +16,7 @@ public class Users {
 	
 	//利用者ID
 	@Id
-	@Column(name="users_")
+	@Column(name="users_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int usersId;
 	

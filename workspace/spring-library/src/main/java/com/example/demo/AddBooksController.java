@@ -23,7 +23,7 @@ public class AddBooksController {
 	@Autowired
 	ClassificationRepository classificationRepository;
 
-	@RequestMapping("/")
+	@RequestMapping("/aaa")
 	public String addBooks() {
 		// セッション情報はクリアする
 		session.invalidate();
