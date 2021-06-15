@@ -26,7 +26,7 @@ public class LoginController {
 	/**
 	 * トップ画面を表示
 	 */
-	@RequestMapping("/")
+	@RequestMapping("/library")
 	public ModelAndView top(
 			ModelAndView mv
 			){
