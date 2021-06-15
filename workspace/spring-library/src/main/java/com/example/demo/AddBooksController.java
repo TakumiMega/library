@@ -24,7 +24,7 @@ public class AddBooksController {
 	ClassificationRepository classificationRepository;
 
 	@RequestMapping("/")
-	public String login() {
+	public String addBooks() {
 		// セッション情報はクリアする
 		session.invalidate();
 		return "addBooks";
