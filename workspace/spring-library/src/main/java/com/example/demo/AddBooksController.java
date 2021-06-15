@@ -33,7 +33,7 @@ public class AddBooksController {
 	@RequestMapping("/library/addBooks")
 	public ModelAndView addBooksPage(@RequestParam(name = "booksName") String booksName,
 			@RequestParam(name = "booksAuthor") String booksAuthor,
-			@RequestParam(name = "booksStock") String booksStock,
+			@RequestParam(name = "booksStock") int booksStock,
 			@RequestParam(name = "booksRemarks") String booksRemarks,
 			@RequestParam(name = "classificationId") int classificationId, ModelAndView mv) {
 
