@@ -1,5 +1,9 @@
 package com.example.demo;
 
+
+
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,39 +14,57 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AddBooksController {
+	private static final String Lending_Flag="0";//貸出可能フラグ:0
+	private static final String Non_Lending_Flag="1";//貸出不可フラグ:1
 	@Autowired
 	HttpSession session;
 
 	@Autowired
 	BooksRepository booksRepository;
 
-	@RequestMapping("/library/addBooksPage")
+	@Autowired
+	ClassificationRepository classificationRepository;
+
+	@RequestMapping("/")
+	public String login() {
+		// セッション情報はクリアする
+		session.invalidate();
+		return "addBooks";
+	}
+
+	@RequestMapping("/library/addBooks")
 	public ModelAndView addBooksPage(@RequestParam(name = "booksName") String booksName,
 			@RequestParam(name = "booksAuthor") String booksAuthor,
-			@RequestParam(name = "books_stock") int booksStock, @RequestParam(name = "booksRemark") String booksRemark,
+			@RequestParam(name = "booksStock") int booksStock,
+			@RequestParam(name = "booksRemarks") String booksRemarks,
 			@RequestParam(name = "classificationId") int classificationId, ModelAndView mv) {
 
-		//入力値チェック
-		if (booksName.equals("") || booksAuthor.equals("") || booksStock==0 || classificationId==0) {
-			mv.addObject("message", "未入力の部分があります");
-			mv.setViewName("addBooks");
-			return mv;
-		}
 
 		//図書登録　同じ図書名と著者名がすでに登録されていないかチェック
-		Books booksinfo = booksRepository.findByBooksNameAndBooksAuthor(booksName,booksAuthor);
+		Books booksinfo = booksRepository.findByBooksNameAndBooksAuthor(booksName, booksAuthor);
+		Date booksRegistration=new Date();
+		String booksLend=Lending_Flag;
 		if (booksinfo == null) {
-			Books addbooks = new Books(booksName,booksAuthor,booksStock,booksRemark,classificationId);
+			Books addbooks = new Books(booksName, booksAuthor, booksStock,booksRegistration,booksLend,booksRemarks, classificationId);
 			booksRepository.saveAndFlush(addbooks);
 			mv.addObject("message", "登録完了しました");
-			mv.setViewName("top");
+			mv.setViewName("addBooks");
 
 			return mv;
 		}
 
-		mv.addObject("message", "すでに登録されている");
-		mv.setViewName("regist");
+		//すでに登録済みだった場合
+		mv.addObject("message", "すでに登録されています。");
+		mv.setViewName("addBooks");
 		return mv;
 	}
 
-}
+/*	public boolean isNumber(String booksStock) {
+		try {
+			Integer.parseInt(booksStock);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}*/
+	}
+
