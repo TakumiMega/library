@@ -40,7 +40,7 @@ public class AddBooksController {
 		//登録に必要な今日の日付
 		Date booksRegistration = new Date();
 
-		//貸出の可、不可　初期値には可を入れる
+		//貸出の是非 初期値には可を入れる
 		String booksLend = Lending_Flag;
 
 		//図書名文字チェック 101字以上入力の場合エラー
