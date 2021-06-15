@@ -12,30 +12,30 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class LoginController {
-	
+
 	private static final int receptionID  = 1;	//受付ID
 	private static final int staffID  = 2;		//職員ID
 	private static final int adminID  = 3;		//管理者ID
-	
+
 	@Autowired
 	HttpSession session;
-	
+
 	@Autowired
 	EmployeeRepository employeeRepository;
-	
+
 	/**
 	 * トップ画面を表示
 	 */
-	@RequestMapping("/")
+	@RequestMapping("/library")
 	public ModelAndView top(
 			ModelAndView mv
 			){
-		session.invalidate();		
+		session.invalidate();
 		mv.setViewName("login");
 		return mv;
 	}
-	
-	
+
+
 	/**
 	 * ログイン処理
 	 */
@@ -45,7 +45,7 @@ public class LoginController {
 			@RequestParam("employeePass") String employeePass,
 			ModelAndView mv
 			){
-		
+
 		// 社員名とパスワードを照合
 		Employee employee = employeeRepository.findByEmployeeNameAndEmployeePass(employeeName, employeePass);
 		// employeeがnullだった場合エラーメッセージを表示
@@ -55,12 +55,12 @@ public class LoginController {
 			mv.setViewName("login");
 			return mv;
 		}
-		
+
 		//役職が受付だった場合、受付用のメイン画面を表示
 		if(employee.getPositionId() == receptionID) {
 			mv.setViewName("receptionMain");
 		}
-		
+
 		//役職が職員だった場合、職員用のメイン画面を表示
 		if(employee.getPositionId() == staffID) {
 			mv.setViewName("staffMain");
@@ -70,7 +70,7 @@ public class LoginController {
 		if(employee.getPositionId() == adminID) {
 			mv.setViewName("adminMain");
 		}
-		
+
 		return mv;
 	}
 
