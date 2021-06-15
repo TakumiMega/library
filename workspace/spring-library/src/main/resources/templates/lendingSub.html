@@ -3,22 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <title>貸出</title>
+<script type="text/javascript">
+  window.onload = function(){
+    // 親ウィンドウの存在チェック
+    if(!window.opener || window.opener.closed){
+       window.alert('親ウィンドウがありません。');
+       return false;
+    }
+    // 子ウィンドから親ウィンドウへ値を渡す
+
+
+  }
+</script>
 </head>
 <body>
-	図書名<input type="text" name="booksName">
+	図書名<input type="text" id="booksName" disabled>
 
-	<form action="/library/lended" method="post">
 	<table border="1">
 	<tr>
 		<th>図書ID</th><th>図書名</th><th>著者名</th>
 	</tr>
-	<tr th:each="books:${booksList}">
+<!-- 	<tr th:each="books:${booksList}">
 		<td th:text="${books.booksId}"></td>
 		<td th:text="${books.booksName}"></td>
 		<td th:text="${books.booksAuthor}"></td>
-	</tr>
+		<td><form th:action="'/library/lending/'+${books.booksId}"><input type ="button" value = "追加"></form></td>
+	</tr> -->
 	</table>
-	<input type="submit" value="貸出">
-	</form>
 </body>
 </html>

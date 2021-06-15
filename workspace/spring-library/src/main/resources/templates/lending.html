@@ -3,10 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <title>貸出</title>
+<script type="text/javascript">
+function openSubWindow(url){
+	 var obj_window = window.open(url, 'width=600,height=400');
+/* 	 obj_window.document.getElementById("booksName").value = document.getElementById("booksName").value; */
+}
+</script>
 </head>
 <body>
-	利用者ID<input type="text" name="usersId">
-	<form action="/library/lendingSub">図書名<input type="text" name="booksName"><input type="button"value="検索"></form>
+
+	<form>
+		利用者ID<input type="text" name="usersId">
+	</form>
+
+	<form name="/library/lendingSub">
+		図書名<input type="text" id="booksName"><input type="button"value="検索" onClick="openSubWindow('lendingSub.html')">
+	</form>
 
 	<form action="/library/lended" method="post">
 	<table border="1">
@@ -19,7 +31,7 @@
 		<td th:text="${books.booksAuthor}"></td>
 	</tr>
 	</table>
-	<input type="submit" value="貸出">
+		<input type="submit" value="貸出">
 	</form>
 </body>
 </html>
