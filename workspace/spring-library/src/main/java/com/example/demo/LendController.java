@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -16,12 +17,13 @@ import DAO.DAOException;
 @Controller
 public class LendController {
 
+	List<BooksBean> lendingList = new ArrayList<>();
+
 	@RequestMapping("/")
 	public String loginPage() {
 		return "lending";
 	}
 
-	//検索サブウィンド表示
 	@GetMapping(value = "/library/lendingSub")
 	public ModelAndView openWinByGet(
 			@RequestParam("booksName") String booksName,
@@ -38,10 +40,14 @@ public class LendController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/library/lending/{booksId}")
+	@GetMapping(value = "/library/lending/{booksId}")
 	public ModelAndView deleteHouseHold(
 			@PathVariable("booksId") int booksId,
 			ModelAndView mv) throws NumberFormatException, DAOException {
+
+		BooksDAO dao = new BooksDAO();
+		lendingList.addAll(dao.searchBooksId(booksId));
+		mv.addObject("booksList", lendingList);
 
 		//表示させるHTMLをセット
 		mv.setViewName("lending");
