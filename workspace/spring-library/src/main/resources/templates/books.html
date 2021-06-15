@@ -19,18 +19,17 @@
 </tr>
 
 </table>
-<input type="submit" class="button"value="登録">
+<input type="submit" class="button"value="検索">
 </form>
 
- <table>
- <tr><th>図書名</th><th>著者名</th><th>冊数</th><th>備考</th><th>分類</th>
-		 <tr th:each="books:${booksList}"></tr>
- 		<td th:text="${books.booksId}"></td>
+ <table border=1>
+ <tr><th>図書名</th><th>著者名</th><th>冊数</th><th>備考</th><th>分類</th></tr>
+		 <tr th:each="books:${booksList}">
 		<td th:text="${books.booksName}"></td>
 		<td th:text="${books.booksAuthor}"></td>
 		<td th:text="${books.booksStock}"></td>
 		<td th:text="${books.booksRemarks}"></td>
-		<td th:text="${classification.classificationName}"></td>
+		<td th:text="${books.classificationName}"></td>
 
 		</tr>
 	</table>
