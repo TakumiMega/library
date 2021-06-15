@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class AddBooksController {
 	private static final String Lending_Flag = "0";//貸出可能フラグ:0
-	private static final String Non_Lending_Flag = "1";//貸出不可フラグ:1
+	//private static final String Non_Lending_Flag = "1";//貸出不可フラグ:1
 	@Autowired
 	HttpSession session;
 
