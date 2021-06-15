@@ -25,7 +25,7 @@ public class AddBooksController {
 	@Autowired
 	ClassificationRepository classificationRepository;
 
-	@RequestMapping("/")
+	@RequestMapping("/a")
 	public String login() {
 		// セッション情報はクリアする
 		session.invalidate();

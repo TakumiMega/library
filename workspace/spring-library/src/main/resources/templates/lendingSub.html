@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" th:src="@{/lending.js}"></script>
 <title>貸出</title>
 </head>
 <body>
-	図書名<input type="text" name="booksName">
+	図書名<input type="text" name="booksName" id="booksName"th:value="${booksName}" disabled>
 
-	<form action="/library/lended" method="post">
 	<table border="1">
 	<tr>
 		<th>図書ID</th><th>図書名</th><th>著者名</th>
@@ -16,9 +16,9 @@
 		<td th:text="${books.booksId}"></td>
 		<td th:text="${books.booksName}"></td>
 		<td th:text="${books.booksAuthor}"></td>
+		<td><input type ="button" value = "追加"onClick="addBooks()">
+		<input type ="hidden" id="booksId"  th:value = "${books.booksId}"></td>
 	</tr>
 	</table>
-	<input type="submit" value="貸出">
-	</form>
 </body>
 </html>
