@@ -15,17 +15,19 @@
 		図書名<input type="text" name="booksName"><input type="button"value="検索" onClick="openWin('formGet')">
 	</form>
 
-	<form action="/library/lended" method="post">
+
 	<table border="1">
 	<tr>
-		<th>図書ID</th><th>図書名</th><th>著者名</th>
+		<th>図書ID</th><th>図書名</th><th>著者名</th><th>削除</th>
 	</tr>
-	<tr th:each="books:${booksList}">
-		<td th:text="${books.booksId}"></td>
-		<td th:text="${books.booksName}"></td>
-		<td th:text="${books.booksAuthor}"></td>
+	<tr th:each="map:${lendingMap}">
+		<td th:text="${map.value.booksId}"></td>
+		<td th:text="${map.value.booksName}"></td>
+		<td th:text="${map.value.booksAuthor}"></td>
+		<td><form th:action="'/library/deleteLending/'+${map.key}"><input type="submit" value="削除"></form></td>
 	</tr>
 	</table>
+	<form action="/library/lended" method="post">
 		<input type="submit" value="貸出">
 	</form>
 	<form action="/library/lending/"method="GET"name="closeWin">
