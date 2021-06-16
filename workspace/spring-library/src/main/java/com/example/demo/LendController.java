@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +26,13 @@ import DAO.DAOException;
 public class LendController {
 
 	@Autowired
+	HttpSession session;
+
+	@Autowired
 	LendingRepository lendingRepository;
+
+	@Autowired
+	UsersRepository usersRepository;
 
 	final String leandingFlg_lending = "0";
 	final String leandingFlg_return = "1";
@@ -36,11 +44,20 @@ public class LendController {
 
 
 	@RequestMapping("/library/lending/userId")
-	public String searchUserid(
+	public ModelAndView searchUserid(
 			@RequestParam("usersId") String usersId,
 			ModelAndView mv) {
-
-		return "lending";
+		if (isNumber(usersId) == true) {
+			session.setAttribute("usersId",usersId);
+//			Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId));
+//			lendUser.getUsersId();
+//			lendUser.getUsersName();
+		}
+		else {
+			mv.addObject("message", "数値を入力してください");
+		}
+		mv.setViewName("lending");
+		return mv;
 	}
 
 	@GetMapping(value = "/library/lendingSub")
@@ -116,4 +133,15 @@ public class LendController {
 
 		return mv;
 	}
+
+	public boolean isNumber(String s) {
+		try {
+			Integer.parseInt(s);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
+
+//	session.removeAttribute("age");
 }
