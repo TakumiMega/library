@@ -66,6 +66,7 @@ public class UsersController {
 			mv.setViewName("addUsers");
 			return mv;
 		}
+		
 		//住所101文字以上エラー
 		if (usersForm.getUsersAddress().length() > 100) {
 			mv.addObject("message", "住所は100文字までしか入力できません");
@@ -73,6 +74,7 @@ public class UsersController {
 			mv.setViewName("addUsers");
 			return mv;
 		}
+		
 		//電話番号21文字以上エラー
 		if (usersForm.getUsersPhone().length() > 20) {
 			mv.addObject("message", "正しい電話番号を入力してください");
@@ -80,6 +82,16 @@ public class UsersController {
 			mv.setViewName("addUsers");
 			return mv;
 		}
+		
+		//同じ利用者名と生年月日が既に登録されている場合
+		Users sameUsers = usersRepository.findByUsersNameAndUsersBirthday(usersForm.getUsersName(), usersBirthday);
+		if(sameUsers != null) {
+			mv.addObject("message", "既に同じ名前と生年月日のユーザが存在しますが、登録しますか");
+			mv.addObject("usersForm",usersForm);
+			mv.setViewName("confirmUsers");
+			return mv;
+		}
+		
 		
 		//データを登録
 		Users users = new Users(usersForm.getUsersName(), usersForm.getUsersAddress(), usersBirthday, usersForm.getUsersPhone(), usersForm.getUsersEmail(), insertDate, insertEmployeeId, updateDate, updateEmployeeId);
@@ -89,6 +101,33 @@ public class UsersController {
 		mv.setViewName("addUsers");
 		return mv;
 	}
+	
+	
+	//確認後の利用者登録処理
+		@RequestMapping("/library/ConfirmUsers")
+		public ModelAndView ConfirmUsers(
+				@ModelAttribute UsersForm usersForm,
+				ModelAndView mv
+				) throws ParseException{
+			
+			//入力された利用者の誕生日をString型から Data型に変換		
+			Date usersBirthday = dateFormat.parse(usersForm.getUsersBirthday());
+			
+			//今日の日付と登録する社員IDを取得
+			Date insertDate = new Date();
+			Date updateDate = new Date();
+			int insertEmployeeId = (int) session.getAttribute("employeeId");
+			int updateEmployeeId = (int) session.getAttribute("employeeId");
+			
+			//データを登録
+			Users users = new Users(usersForm.getUsersName(), usersForm.getUsersAddress(), usersBirthday, usersForm.getUsersPhone(), usersForm.getUsersEmail(), insertDate, insertEmployeeId, updateDate, updateEmployeeId);
+			usersRepository.saveAndFlush(users);
+			mv.addObject("message", "登録が完了しました");
+			mv.addObject("usersForm",usersForm);
+			mv.setViewName("addUsers");
+			
+			return mv;
+		}
 	
 	
 	

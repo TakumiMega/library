@@ -13,51 +13,51 @@ import javax.persistence.Table;
 @Entity
 @Table(name="users")
 public class Users {
-	
+
 	//利用者ID
 	@Id
 	@Column(name="users_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int usersId;
-	
+
 	//利用者名
 	@Column(name="users_name")
 	private String usersName;
-	
+
 	//利用者の住所
 	@Column(name="users_address")
 	private String usersAddress;
-	
+
 	//利用者の誕生日
 	@Column(name="users_birthday")
 	private Date usersBirthday;
-	
+
 	//利用者の電話番号
 	@Column(name="users_phone")
 	private String usersPhone;
-	
+
 	//利用者のメールアドレス
 	@Column(name="users_email")
 	private String usersEmail;
-	
+
 	//登録日
 	@Column(name="insert_date")
 	private Date insertDate;
-	
+
 	//登録ユーザーID
 	@Column(name="insert_employee_id")
 	private int insertEmployeeId;
-	
+
 	//更新日
 	@Column(name="update_date")
 	private Date updateDate;
-		
+
 	//更新ユーザーID
 	@Column(name="update_employee_id")
 	private int updateEmployeeId;
-	
+
 	public Users() {
-		
+		super();
 	}
 
 	public Users(String usersName, String usersAddress, Date usersBirthday, String usersPhone, String usersEmail, Date insertDate, int insertEmployeeId, Date updateDate, int updateEmployeeId) {
@@ -72,7 +72,7 @@ public class Users {
 		this.updateDate = updateDate;
 		this.updateEmployeeId = updateEmployeeId;
 	}
-	
+
 	public int getUsersId() {
 		return usersId;
 	}
@@ -153,5 +153,5 @@ public class Users {
 		this.updateEmployeeId = updateEmployeeId;
 	}
 
-	
+
 }

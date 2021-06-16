@@ -26,7 +26,9 @@ public class BooksDAO {
 		try
 		{
 			// SQL文の作成
-			String sql = "SELECT books_id, books_name, books_author FROM books WHERE books_name LIKE ?";
+			String sql = "SELECT books_id, books_name, books_author FROM books WHERE books_name LIKE ? AND books_stock > "
+					+ "(select count(*) as lendcount from lending AS l,books AS b "
+					+ "where l.books_id = b.books_id AND l.lending_flg = '0')";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1,"%"+bookName+"%");

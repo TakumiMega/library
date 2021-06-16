@@ -8,11 +8,13 @@
 <body>
 
 	<form method="get" action="/library/lending/userId">
-		利用者ID<input type="text" name="usersId">
+		利用者ID<input type="text" name="usersId"th:value="${session.usersId}" maxlength='8'autofocus>
 	</form>
-
+	利用者ID<input type="text" name="usersId"th:value="${session.usersName}" disabled>
 	<form th:action="@{/library/lendingSub}"method="GET"name="formGet">
-		図書名<input type="text" name="booksName"><input type="button"value="検索" onClick="openWin('formGet')">
+		図書名<input type="text" name="booksName">
+		<input type="button"value="検索" onClick="openWin('formGet')"th:if="${session.usersId}">
+		<input type="button"value="検索" onClick="openWin('formGet')"th:unless="${session.usersId}"disabled>
 	</form>
 
 	<p><font color="red"><span th:text="${message}"></span></font></p>
