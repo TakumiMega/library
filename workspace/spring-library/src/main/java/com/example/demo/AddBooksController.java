@@ -23,18 +23,22 @@ public class AddBooksController {
 	@Autowired
 	ClassificationRepository classificationRepository;
 
+	@RequestMapping("/")
+	public String addbooks() {
+		return "addBooks";
+	}
+
 	@RequestMapping("/library/addBooks")
 	public ModelAndView addBooksPage(@RequestParam(name = "booksName") String booksName,
 			@RequestParam(name = "booksAuthor") String booksAuthor,
 			@RequestParam(name = "booksStock") String booksStock,
+			@RequestParam(name = "booksLend") String booksLend,
 			@RequestParam(name = "booksRemarks") String booksRemarks,
 			@RequestParam(name = "classificationId") int classificationId, ModelAndView mv) {
 
 		//登録に必要な今日の日付
 		Date booksRegistration = new Date();
 
-		//貸出の是非 初期値には可を入れる
-		String booksLend = Lending_Flag;
 
 		//図書名文字チェック 101字以上入力の場合エラー
 		if (booksName.length() > 100) {
@@ -59,7 +63,7 @@ public class AddBooksController {
 			//図書登録　同じ図書名と著者名がすでに登録されていないかチェック
 			Books booksinfo = booksRepository.findByBooksNameAndBooksAuthor(booksName, booksAuthor);
 			if (booksinfo == null) {
-				Books addbooks = new Books(booksName, booksAuthor, booksStockCount, booksRegistration, booksLend,
+				Books addbooks = new Books(booksName, booksAuthor, booksStockCount, booksRegistration,booksLend,
 						booksRemarks, classificationId);
 				booksRepository.saveAndFlush(addbooks);
 				mv.addObject("message", "登録完了しました");

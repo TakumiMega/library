@@ -15,11 +15,25 @@
 <th>著者名</th><th><input type="text"name="booksAuthor"></th>
 </tr>
 <tr>
-<th>分類名</th><th><input type="text"name="classificationId"></th>
+<th>分類名</th><th><select name="classificationId">
+<option value="0">なし</option>
+<option value="1">哲学</option>
+<option value="2">歴史</option>
+<option value="3">社会科学</option>
+<option value="4">自然科学</option>
+<option value="5">技術</option>
+<option value="6">産業</option>
+<option value="7">産業</option>
+<option value="8">芸術</option>
+<option value="9">文学</option>
+<option value="10">総記</option>
+</select></th>
+
 </tr>
 
 </table>
 <input type="submit" class="button"value="検索">
+<!-- hiddenで送る -->
 </form>
 
  <table border=1>
@@ -33,6 +47,7 @@
 
 		</tr>
 	</table>
+
 
 
 </body>
