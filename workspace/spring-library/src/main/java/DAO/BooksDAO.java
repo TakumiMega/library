@@ -105,7 +105,47 @@ public class BooksDAO {
 		}
 	}
 
-	//図書名検索
+	public boolean alreadyLendingBooksId(int usersId,int bookId) throws DAOException {
+		if (con == null)
+			getConnection();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		String lending_id = null;
+		try
+		{
+			// SQL文の作成
+			String sql = "select lending_id from lending where users_id = ? AND books_id = ? AND lending_flg = '0'";
+			// PreparedStatementオブジェクトの取得
+			st = con.prepareStatement(sql);
+			st.setInt(1,usersId);
+			st.setInt(2,bookId);
+			// SQLの実行
+			rs = st.executeQuery();
+			while (rs.next()) {
+				lending_id = String.valueOf(rs.getInt("lending_id"));
+			}
+			if(lending_id ==null||lending_id.length() == 0) {
+				return true;
+			}
+
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの取得に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null)
+					rs.close();
+				if (st != null)
+					st.close();
+				close();
+			} catch (Exception e) {
+				throw new DAOException("リソースの開放に失敗しました。");
+			}
+		}
+	}
+
 	public List<BooksBean> searchBooksName(String bookName) throws DAOException {
 		if (con == null)
 			getConnection();
@@ -155,7 +195,6 @@ public class BooksDAO {
 		}
 	}
 
-	//著者名検索
 	public List<BooksBean> searchBooksAuthor(String bookAuthor) throws DAOException {
 		if (con == null)
 			getConnection();
@@ -204,156 +243,7 @@ public class BooksDAO {
 			}
 		}
 	}
-	//分類名
-	public List<BooksBean> searchBooksclassificationId(int classificationId) throws DAOException {
-		if (con == null)
-			getConnection();
-		PreparedStatement st = null;
-		ResultSet rs = null;
 
-		try
-		{
-			// SQL文の作成
-			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
-					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE classification.classification_id = ?";
-			// PreparedStatementオブジェクトの取得
-			st = con.prepareStatement(sql);
-			st.setInt(1,classificationId);
-			// SQLの実行
-			rs = st.executeQuery();
-			// 結果の取得
-			List<BooksBean> list = new ArrayList<BooksBean>();
-			while (rs.next()) {
-				int booksId = rs.getInt("books_id");
-				String booksName = rs.getString("books_name");
-				String booksAuthor = rs.getString("books_author");
-				int booksStock = rs.getInt("books_stock");
-				String booksRemarks = rs.getString("books_remarks");
-				String classificationName = rs.getString("classification_name");
-
-				BooksBean bean = new BooksBean(booksId,booksName,booksAuthor,booksStock,booksRemarks,classificationName);
-				list.add(bean);
-			}
-
-			return list;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new DAOException("レコードの取得に失敗しました。");
-		} finally {
-			try {
-				// リソースの開放
-				if (rs != null)
-					rs.close();
-				if (st != null)
-					st.close();
-				close();
-			} catch (Exception e) {
-				throw new DAOException("リソースの開放に失敗しました。");
-			}
-		}
-	}
-	//図書名,著者名検索
-		public List<BooksBean> searchBooksNameAndAuthor(String bookName,String bookAuthor) throws DAOException {
-			if (con == null)
-				getConnection();
-			PreparedStatement st = null;
-			ResultSet rs = null;
-
-			try
-			{
-				// SQL文の作成
-				String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
-						+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-						+ "WHERE books_name LIKE ? AND books_author LIKE ?";
-				// PreparedStatementオブジェクトの取得
-				st = con.prepareStatement(sql);
-				st.setString(1,"%"+bookName+"%");
-				st.setString(2,"%"+bookAuthor+"%");
-				// SQLの実行
-				rs = st.executeQuery();
-				// 結果の取得
-				List<BooksBean> list = new ArrayList<BooksBean>();
-				while (rs.next()) {
-					int booksId = rs.getInt("books_id");
-					String booksName = rs.getString("books_name");
-					String booksAuthor = rs.getString("books_author");
-					int booksStock = rs.getInt("books_stock");
-					String booksRemarks = rs.getString("books_remarks");
-					String classificationName = rs.getString("classification_name");
-
-					BooksBean bean = new BooksBean(booksId,booksName,booksAuthor,booksStock,booksRemarks,classificationName);
-					list.add(bean);
-				}
-
-				return list;
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new DAOException("レコードの取得に失敗しました。");
-			} finally {
-				try {
-					// リソースの開放
-					if (rs != null)
-						rs.close();
-					if (st != null)
-						st.close();
-					close();
-				} catch (Exception e) {
-					throw new DAOException("リソースの開放に失敗しました。");
-				}
-			}
-		}
-		//図書名,著者名検索
-		public List<BooksBean> searchBooksNameAndAuthorAndclassificationId(String bookName,String bookAuthor,int classificationId) throws DAOException {
-			if (con == null)
-				getConnection();
-			PreparedStatement st = null;
-			ResultSet rs = null;
-
-			try
-			{
-				// SQL文の作成
-				String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
-						+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-						+ "WHERE books_name LIKE ? AND books_author LIKE ? AND classification_id ?";
-				// PreparedStatementオブジェクトの取得
-				st = con.prepareStatement(sql);
-				st.setString(1,"%"+bookName+"%");
-				st.setString(2,"%"+bookAuthor+"%");
-				st.setInt(3,classificationId);
-				// SQLの実行
-				rs = st.executeQuery();
-				// 結果の取得
-				List<BooksBean> list = new ArrayList<BooksBean>();
-				while (rs.next()) {
-					int booksId = rs.getInt("books_id");
-					String booksName = rs.getString("books_name");
-					String booksAuthor = rs.getString("books_author");
-					int booksStock = rs.getInt("books_stock");
-					String booksRemarks = rs.getString("books_remarks");
-					String classificationName = rs.getString("classification_name");
-
-					BooksBean bean = new BooksBean(booksId,booksName,booksAuthor,booksStock,booksRemarks,classificationName);
-					list.add(bean);
-				}
-
-				return list;
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new DAOException("レコードの取得に失敗しました。");
-			} finally {
-				try {
-					// リソースの開放
-					if (rs != null)
-						rs.close();
-					if (st != null)
-						st.close();
-					close();
-				} catch (Exception e) {
-					throw new DAOException("リソースの開放に失敗しました。");
-				}
-			}
-		}
 
 
 	private void getConnection() throws DAOException {
