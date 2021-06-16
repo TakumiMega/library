@@ -25,7 +25,7 @@ public class BooksDAO {
 
 		try {
 			// SQL文の作成
-			String sql = "SELECT books_id, books_name, books_author FROM books WHERE books_name LIKE ? AND books_stock > "
+			String sql = "SELECT books_id, books_name, books_author FROM books WHERE books_name LIKE ? AND books_lend = '0' AND books_stock > "
 					+ "(select count(*) as lendcount from lending AS l,books AS b "
 					+ "where l.books_id = b.books_id AND l.lending_flg = '0')";
 			// PreparedStatementオブジェクトの取得
@@ -86,6 +86,46 @@ public class BooksDAO {
 			}
 
 			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの取得に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null)
+					rs.close();
+				if (st != null)
+					st.close();
+				close();
+			} catch (Exception e) {
+				throw new DAOException("リソースの開放に失敗しました。");
+			}
+		}
+	}
+
+	public boolean alreadyLendingBooksId(int usersId, int bookId) throws DAOException {
+		if (con == null)
+			getConnection();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		String lending_id = null;
+		try {
+			// SQL文の作成
+			String sql = "select lending_id from lending where users_id = ? AND books_id = ? AND lending_flg = '0'";
+			// PreparedStatementオブジェクトの取得
+			st = con.prepareStatement(sql);
+			st.setInt(1, usersId);
+			st.setInt(2, bookId);
+			// SQLの実行
+			rs = st.executeQuery();
+			while (rs.next()) {
+				lending_id = String.valueOf(rs.getInt("lending_id"));
+			}
+			if (lending_id == null || lending_id.length() == 0) {
+				return true;
+			}
+
+			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException("レコードの取得に失敗しました。");

@@ -10,46 +10,61 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="lending")
+@Table(name = "lending")
 public class Lending {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="lending_id")
+	@Column(name = "lending_id")
 	private Integer lendingId;
 
-	@Column(name="lending_lend_date")
+	@Column(name = "lending_lend_date")
 	private Date lendingLendDate;
 
-	@Column(name="lending_return_date")
+	@Column(name = "lending_return_date")
 	private Date lendingReturnDate;
 
-	@Column(name="lending_flg")
+	@Column(name = "lending_flg")
 	private String lendingFlg;
 
-	@Column(name="insert_date")
+	@Column(name = "insert_date")
 	private Date insertDate;
 
-	@Column(name="insert_employee_id")
+	@Column(name = "insert_employee_id")
 	private Integer insertEmployeeId;
 
-	@Column(name="update_date")
+	@Column(name = "update_date")
 	private Date updateDate;
 
-	@Column(name="update_employee_id")
+	@Column(name = "update_employee_id")
 	private Integer updateEmployeeId;
 
-	@Column(name="users_id")
+	@Column(name = "users_id")
 	private Integer usersId;
 
-	@Column(name="books_id")
+	@Column(name = "books_id")
 	private Integer booksId;
 
 	public Lending() {
 		super();
 	}
 
-	public Lending(Date lendingLendDate,Date lendingReturnDate,String lendingFlg,Date insertDate,
-			int insertEmployeeId,Date updateDate,int updateEmployeeId,int usersId,int booksId) {
+	public Lending(int lendingId, Date lendingLendDate, Date lendingReturnDate, String lendingFlg, Date insertDate,
+			int insertEmployeeId, Date updateDate, int updateEmployeeId, int usersId, int booksId) {
+		super();
+		this.lendingId = lendingId;
+		this.lendingLendDate = lendingLendDate;
+		this.lendingReturnDate = lendingReturnDate;
+		this.lendingFlg = lendingFlg;
+		this.insertDate = insertDate;
+		this.insertEmployeeId = insertEmployeeId;
+		this.updateDate = updateDate;
+		this.updateEmployeeId = updateEmployeeId;
+		this.usersId = usersId;
+		this.booksId = booksId;
+	}
+
+	public Lending(Date lendingLendDate, Date lendingReturnDate, String lendingFlg, Date insertDate,
+			int insertEmployeeId, Date updateDate, int updateEmployeeId, int usersId, int booksId) {
 		super();
 		this.lendingLendDate = lendingLendDate;
 		this.lendingReturnDate = lendingReturnDate;
