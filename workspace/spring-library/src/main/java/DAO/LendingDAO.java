@@ -24,15 +24,14 @@ public class LendingDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
-		try
-		{
+		try {
 			// SQL文の作成
 			String sql = "SELECT l.LENDING_ID,l.LENDING_LEND_DATE,l.LENDING_RETURN_DATE,l.INSERT_DATE,l.INSERT_EMPLOYEE_ID,l.USERS_ID,b.BOOKS_ID,b.BOOKS_NAME,b.BOOKS_AUTHOR "
 					+ "FROM LENDING l JOIN BOOKS b ON l.BOOKS_ID = b.BOOKS_ID "
 					+ "WHERE l.USERS_ID = ? AND l.LENDING_FLG = '0'";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
-			st.setInt(1,userId);
+			st.setInt(1, userId);
 			// SQLの実行
 			rs = st.executeQuery();
 			// 結果の取得
@@ -48,9 +47,10 @@ public class LendingDAO {
 				int booksId = rs.getInt("books_id");
 				String booksName = rs.getString("books_name");
 				String booksAuthor = rs.getString("books_author");
-				LendingBean bean = new LendingBean(lendingId,lendingLendDate,lendingReturnDate,insertDate,insertEmployeeId,usersId,booksId,booksName,booksAuthor);
+				LendingBean bean = new LendingBean(lendingId, lendingLendDate, lendingReturnDate, insertDate,
+						insertEmployeeId, usersId, booksId, booksName, booksAuthor);
 				map.put(key, bean);
-				key=key+1;
+				key = key + 1;
 			}
 			return map;
 		} catch (Exception e) {
@@ -69,9 +69,6 @@ public class LendingDAO {
 			}
 		}
 	}
-
-
-
 
 	private void getConnection() throws DAOException {
 		try {

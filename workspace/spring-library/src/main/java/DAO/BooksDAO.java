@@ -103,27 +103,25 @@ public class BooksDAO {
 		}
 	}
 
-
-	public boolean alreadyLendingBooksId(int usersId,int bookId) throws DAOException {
+	public boolean alreadyLendingBooksId(int usersId, int bookId) throws DAOException {
 		if (con == null)
 			getConnection();
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		String lending_id = null;
-		try
-		{
+		try {
 			// SQL文の作成
 			String sql = "select lending_id from lending where users_id = ? AND books_id = ? AND lending_flg = '0'";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
-			st.setInt(1,usersId);
-			st.setInt(2,bookId);
+			st.setInt(1, usersId);
+			st.setInt(2, bookId);
 			// SQLの実行
 			rs = st.executeQuery();
 			while (rs.next()) {
 				lending_id = String.valueOf(rs.getInt("lending_id"));
 			}
-			if(lending_id ==null||lending_id.length() == 0) {
+			if (lending_id == null || lending_id.length() == 0) {
 				return true;
 			}
 
