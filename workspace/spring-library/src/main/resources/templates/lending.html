@@ -10,7 +10,7 @@
 	<form method="get" action="/library/lending/userId">
 		利用者ID<input type="text" name="usersId"th:value="${session.usersId}" maxlength='8'autofocus>
 	</form>
-	利用者ID<input type="text" name="usersId"th:value="${session.usersName}" disabled>
+		利用者名<input type="text" name="usersName"th:value="${session.usersName}" disabled>
 	<form th:action="@{/library/lendingSub}"method="GET"name="formGet">
 		図書名<input type="text" name="booksName">
 		<input type="button"value="検索" onClick="openWin('formGet')"th:if="${session.usersId}">

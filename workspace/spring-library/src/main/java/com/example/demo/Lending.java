@@ -48,6 +48,21 @@ public class Lending {
 		super();
 	}
 
+	public Lending(int lendingId,Date lendingLendDate,Date lendingReturnDate,String lendingFlg,Date insertDate,
+			int insertEmployeeId,Date updateDate,int updateEmployeeId,int usersId,int booksId) {
+		super();
+		this.lendingId = lendingId;
+		this.lendingLendDate = lendingLendDate;
+		this.lendingReturnDate = lendingReturnDate;
+		this.lendingFlg = lendingFlg;
+		this.insertDate = insertDate;
+		this.insertEmployeeId = insertEmployeeId;
+		this.updateDate = updateDate;
+		this.updateEmployeeId = updateEmployeeId;
+		this.usersId = usersId;
+		this.booksId = booksId;
+	}
+
 	public Lending(Date lendingLendDate,Date lendingReturnDate,String lendingFlg,Date insertDate,
 			int insertEmployeeId,Date updateDate,int updateEmployeeId,int usersId,int booksId) {
 		super();

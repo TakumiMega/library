@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>貸出</title>
+</head>
+<body>
+
+	<form method="get" action="/library/returning/userId">
+		利用者ID<input type="text" name="usersId"th:value="${session.usersId}" maxlength='8'autofocus><br>
+		利用者名<input type="text" name="usersName"th:value="${session.usersName}" disabled><input type="submit"value="検索">
+	</form>
+
+	<p><font color="red"><span th:text="${message}"></span></font></p>
+	<table border="1">
+	<tr>
+		<th>図書ID</th><th>図書名</th><th>著者名</th>
+	</tr>
+	<tr th:each="lendmap:${lendMap}">
+		<td th:text="${lendmap.value.booksId}"></td>
+		<td th:text="${lendmap.value.booksName}"></td>
+		<td th:text="${lendmap.value.booksAuthor}"></td>
+		<td><form th:action="'/library/returning/'+${lendmap.key}"><input type="submit" value="追加"></form></td>
+	</tr>
+	</table>
+	<br>
+	<span>↓</span>
+	<br>
+	<table border="1">
+	<tr>
+		<th>図書ID</th><th>図書名</th><th>著者名</th>
+	</tr>
+	<tr th:each="returnmap:${returnMap}">
+		<td th:text="${returnmap.value.booksId}"></td>
+		<td th:text="${returnmap.value.booksName}"></td>
+		<td th:text="${returnmap.value.booksAuthor}"></td>
+		<td><form th:action="'/library/returningback/'+${returnmap.key}"><input type="submit" value="戻す"></form></td>
+	</tr>
+	</table>
+	<form action="/library/returned" method="post">
+		<input type="submit" value="返却">
+	</form>
+</body>
+</html>
