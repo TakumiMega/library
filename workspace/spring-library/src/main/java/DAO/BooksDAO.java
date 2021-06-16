@@ -23,15 +23,14 @@ public class BooksDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
-		try
-		{
+		try {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author FROM books WHERE books_name LIKE ? AND books_lend = '0' AND books_stock > "
 					+ "(select count(*) as lendcount from lending AS l,books AS b "
 					+ "where l.books_id = b.books_id AND l.lending_flg = '0')";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
-			st.setString(1,"%"+bookName+"%");
+			st.setString(1, "%" + bookName + "%");
 			// SQLの実行
 			rs = st.executeQuery();
 			// 結果の取得
@@ -40,7 +39,7 @@ public class BooksDAO {
 				int booksId = rs.getInt("books_id");
 				String booksName = rs.getString("books_name");
 				String booksAuthor = rs.getString("books_author");
-				BooksBean bean = new BooksBean(booksId,booksName,booksAuthor);
+				BooksBean bean = new BooksBean(booksId, booksName, booksAuthor);
 				list.add(bean);
 			}
 
@@ -68,13 +67,12 @@ public class BooksDAO {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 
-		try
-		{
+		try {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author FROM books WHERE books_id = ?";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
-			st.setInt(1,bookId);
+			st.setInt(1, bookId);
 			// SQLの実行
 			rs = st.executeQuery();
 			// 結果の取得
@@ -83,8 +81,8 @@ public class BooksDAO {
 				int booksId = rs.getInt("books_id");
 				String booksName = rs.getString("books_name");
 				String booksAuthor = rs.getString("books_author");
-				BooksBean bean = new BooksBean(booksId,booksName,booksAuthor);
-				list=bean;
+				BooksBean bean = new BooksBean(booksId, booksName, booksAuthor);
+				list = bean;
 			}
 
 			return list;
@@ -104,6 +102,7 @@ public class BooksDAO {
 			}
 		}
 	}
+
 
 	public boolean alreadyLendingBooksId(int usersId,int bookId) throws DAOException {
 		if (con == null)
