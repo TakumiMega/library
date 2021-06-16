@@ -531,9 +531,4 @@ public class BooksDAO {
 		}
 	}
 
-	//lendcontroller errorのため
-	public boolean alreadyLendingBooksId(int parseInt, int booksId) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
-	}
 }
