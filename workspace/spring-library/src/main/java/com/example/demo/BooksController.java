@@ -17,41 +17,71 @@ public class BooksController {
 	public String booksinfo() {
 		return "books";
 	}
-	int classificationId=0;
+
+	int classificationId = 0;
+
 	@RequestMapping(value = "/library/serchBooks")
 	public ModelAndView showBooksName(
 			@RequestParam("booksName") String booksName,
 			@RequestParam("booksAuthor") String booksAuthor,
 			@RequestParam("classificationId") int classificationId,
 			ModelAndView mv) throws DAOException {
-		BooksDAO dao = new BooksDAO();
+			BooksDAO dao = new BooksDAO();
+
+		if (booksName.length() > 100) {
+			mv.addObject("message", "図書名は100文字までしか入力できません");
+			mv.setViewName("books");
+			return mv;
+		}
+
+		//著者名文字チェック 51字以上入力の場合エラー
+		if (booksAuthor.length() > 50) {
+			mv.addObject("message", "著者名は50文字までしか入力できません");
+			mv.setViewName("books");
+			return mv;
+		}
+		List<BooksBean> booksList = dao.searchBooksInfo(booksName);
+		mv.addObject("booksName", booksName);
+		mv.addObject("booksList", booksList);
 		//名前入力○
-		if (!(booksName.length()==0)) {
-			List<BooksBean> booksList = dao.searchBooksName(booksName);
+		if (!(booksName.length() == 0)) {
+			booksList = dao.searchBooksName(booksName);
 			mv.addObject("booksName", booksName);
 			mv.addObject("booksList", booksList);
 			//名前入力○著者入力○
-			if(!(booksName.length()==0)&&!(booksAuthor.length()==0)) {
-				booksList = dao.searchBooksNameAndAuthor(booksName,booksAuthor);
+			if (!(booksName.length() == 0) && !(booksAuthor.length() == 0)) {
+				booksList = dao.searchBooksNameAndAuthor(booksName, booksAuthor);
 				mv.addObject("booksName", booksName);
 				mv.addObject("booksList", booksList);
-			}
-			else if(!(booksName.length()==0)&&!(booksAuthor.length()==0)&&!(classificationId==0)) {
-				booksList = dao.searchBooksNameAndAuthorAndclassificationId(booksName,booksAuthor,classificationId);
+			} else if (!(booksName.length() == 0) && !(booksAuthor.length() == 0) && !(classificationId == 0)) {
+				booksList = dao.searchBooksNameAndAuthorAndclassificationId(booksName, booksAuthor, classificationId);
 				mv.addObject("booksName", booksName);
 				mv.addObject("booksList", booksList);
 			}
 		}
 		//著者入力○
-		else if(!(booksAuthor.length()==0)) {
-			List<BooksBean> booksList = dao.searchBooksAuthor(booksAuthor);
+		else if (!(booksAuthor.length() == 0)) {
+			booksList = dao.searchBooksAuthor(booksAuthor);
 			mv.addObject("booksAuthor", booksAuthor);
 			mv.addObject("booksList", booksList);
 		}
-		else if(!(classificationId==0)) {
-			List<BooksBean> booksList = dao.searchBooksclassificationId(classificationId);
+		//分類入力○
+		else if (!(classificationId == 0)) {
+			booksList = dao.searchBooksclassificationId(classificationId);
 			mv.addObject("classificationId", classificationId);
 			mv.addObject("booksList", booksList);
+			//名前＋分類
+			if (!(booksName.length() == 0) && !(classificationId == 0)) {
+				booksList = dao.searchBooksNameAndclassificationId(booksName, classificationId);
+				mv.addObject("booksName", booksName);
+				mv.addObject("booksList", booksList);
+			}
+			//著者名＋分類
+			if (!(booksAuthor.length() == 0) && !(classificationId == 0)) {
+				booksList = dao.searchBooksAuthorAndclassificationId(booksAuthor, classificationId);
+				mv.addObject("booksAuthor", booksAuthor);
+				mv.addObject("booksList", booksList);
+			}
 		}
 		//表示させるHTMLをセット
 		mv.setViewName("books");

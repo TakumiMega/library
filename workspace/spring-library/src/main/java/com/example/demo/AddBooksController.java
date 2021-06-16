@@ -23,7 +23,7 @@ public class AddBooksController {
 	@Autowired
 	ClassificationRepository classificationRepository;
 
-	@RequestMapping("/")
+	@RequestMapping("/add")
 	public String addbooks() {
 		return "addBooks";
 	}
