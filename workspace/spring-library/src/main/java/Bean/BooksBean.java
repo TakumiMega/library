@@ -9,12 +9,13 @@ public class BooksBean {
 	private int booksStock;
 	private Date booksInsertDate;
 	private String booksLend;
-	private String booksRemark;
+	private String booksRemarks;
 	private Date insertDate;
 	private int insertEmployeeId;
 	private Date updateDate;
 	private int updateEmployeeId;
 	private int classificationId;
+	private String classificationName;
 	public int getBooksId() {
 		return booksId;
 	}
@@ -51,11 +52,11 @@ public class BooksBean {
 	public void setBooksLend(String booksLend) {
 		this.booksLend = booksLend;
 	}
-	public String getBooksRemark() {
-		return booksRemark;
+	public String getBooksRemarks() {
+		return booksRemarks;
 	}
-	public void setBooksRemark(String booksRemark) {
-		this.booksRemark = booksRemark;
+	public void setBooksRemark(String booksRemarks) {
+		this.booksRemarks = booksRemarks;
 	}
 	public Date getInsertDate() {
 		return insertDate;
@@ -88,6 +89,15 @@ public class BooksBean {
 		this.classificationId = classificationId;
 	}
 
+	public String getClassificationName() {
+		return classificationName;
+	}
+	public void setClassificationName(String classificationName) {
+		this.classificationName = classificationName;
+	}
+	public void setBooksRemarks(String booksRemarks) {
+		this.booksRemarks = booksRemarks;
+	}
 
 	public BooksBean() {
 	}
@@ -97,4 +107,14 @@ public class BooksBean {
 		this.booksName = booksName;
 		this.booksAuthor = booksAuthor;
 	}
+	public BooksBean(int booksId, String booksName, String booksAuthor,int booksStock,String booksRemarks,String classificationName) {
+		this.booksId = booksId;
+		this.booksName = booksName;
+		this.booksAuthor = booksAuthor;
+		this.booksStock=booksStock;
+		this.booksRemarks=booksRemarks;
+		this.classificationName=classificationName;
+	}
+
+
 }

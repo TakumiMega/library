@@ -23,13 +23,6 @@ public class AddBooksController {
 	@Autowired
 	ClassificationRepository classificationRepository;
 
-	@RequestMapping("/a")
-	public String addBooks() {
-		// セッション情報はクリアする
-		session.invalidate();
-		return "addBooks";
-	}
-
 	@RequestMapping("/library/addBooks")
 	public ModelAndView addBooksPage(@RequestParam(name = "booksName") String booksName,
 			@RequestParam(name = "booksAuthor") String booksAuthor,

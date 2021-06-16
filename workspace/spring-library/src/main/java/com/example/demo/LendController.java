@@ -41,10 +41,7 @@ public class LendController {
 	Map<Integer, BooksBean> lendingMap = new HashMap<>();
 	int key = 0;
 
-	@RequestMapping("/")
-	public String loginPage() {
-		return "lending";
-	}
+
 
 	@RequestMapping("/library/lending/userId")
 	public ModelAndView searchUserid(
