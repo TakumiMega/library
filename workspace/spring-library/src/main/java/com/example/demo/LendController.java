@@ -45,14 +45,14 @@ public class LendController {
 	Map<Integer, LendingBean> lendMap = new HashMap<>();
 	Map<Integer, LendingBean> returnMap = new HashMap<>();
 	int key = 0;
-//
-//	//貸出画面に遷移
-//	@RequestMapping("/")
-//	public ModelAndView lending(
-//			ModelAndView mv) {
-//		mv.setViewName("lending");
-//		return mv;
-//	}
+
+	//貸出画面に遷移
+	@RequestMapping("/")
+	public ModelAndView lending(
+			ModelAndView mv) {
+		mv.setViewName("lending");
+		return mv;
+	}
 
 	//ユーザID入力
 	@RequestMapping("/library/lending/userId")
