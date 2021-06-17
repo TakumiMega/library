@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>利用者一覧</title>
+</head>
+<body>
+
+	<form action="/library/searchUsers" method="get">
+		<table border="1">
+			<tr>
+				<th>利用者ID</th>
+				<td><input type="text" name="usersId" th:value="${usersId}"></td>
+			</tr>
+		</table>
+		<input type="submit" value="検索">
+	</form>
+	
+	<table border="1">
+		<tr>
+			<th>利用者ID</th>
+			<th>利用者名</th>
+			<th>生年月日</th>
+			<th>住所</th>
+			<th>電話番号</th>
+			<th>メールアドレス</th>
+			<th></th>
+		</tr>
+		<tr th:each="user:${usersList}">
+			<td th:text="${#numbers.formatInteger(user.usersId, 8)}"></td>
+			<td th:text="${user.usersName}"></td>
+			<td th:text="${#dates.format(user.usersBirthday, 'yyyy年MM月dd日')}"></td>
+			<td th:text="${user.usersAddress}"></td>
+			<td th:text="${user.usersPhone}"></td>
+			<td th:text="${user.usersEmail}"></td>
+			<td>
+				<form action="/library/updateUsersPage" method="get">
+					<input type="submit" value="更新">
+					<input type="hidden" name="usersId" th:value="${user.usersId}">
+				</form>
+			</td>			
+		</tr>
+	</table>
+	
+	<br>
+	
+	<form action="/library/main" method="get">
+		<input type="submit" value="戻る">
+	</form>
+</body>
+</html>

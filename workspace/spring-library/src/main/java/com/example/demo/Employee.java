@@ -48,6 +48,21 @@ public class Employee {
 	@Column(name="position_id")
 	private int positionId;
 
+	public Employee() {
+		
+	}
+
+	public Employee(String employeeName, String employeePass, Date insertDate, int insertEmployeeId, Date updateDate, int updateEmployeeId, int positionId) {
+		super();
+		this.employeeName = employeeName;
+		this.employeePass = employeePass;
+		this.insertDate = insertDate;
+		this.insertEmployeeId = insertEmployeeId;
+		this.updateDate = updateDate;
+		this.updateEmployeeId = updateEmployeeId;
+		this.positionId = positionId;
+	}
+	
 	public int getEmployeeId() {
 		return employeeId;
 	}
