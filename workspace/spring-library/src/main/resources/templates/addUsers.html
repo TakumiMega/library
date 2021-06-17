@@ -5,11 +5,23 @@
 <title>利用者登録</title>
 </head>
 <body>
-	
+
 	<form action="/library/addUsers" method="post" th:object="${usersForm}">
 		<table border="1">
 			<tr>
 				<th>名前</th>
+				<td><input type="text" name="usersName" th:field="*{usersName}" required></td>
+			</tr>
+			<tr>
+				<th>俺の名前を言ってみろ</th>
+				<td><input type="text" name="usersName" th:field="*{usersName}" required></td>
+			</tr>
+			<tr>
+				<th>兄より優れた弟はいねえ</th>
+				<td><input type="text" name="usersName" th:field="*{usersName}" required></td>
+			</tr>
+			<tr>
+				<th>ぷぎゃあ</th>
 				<td><input type="text" name="usersName" th:field="*{usersName}" required></td>
 			</tr>
 			<tr>
@@ -32,14 +44,14 @@
 		<input type="submit" value="登録">
 	</form>
 	<p><span th:text="${message}" style="color:red"></span></p>
-	
+
 	<br>
-	
+
 	<form action="/library/main" method="get">
 		<input type="submit" value="戻る">
 	</form>
-	
-	
-	
+
+
+
 </body>
 </html>
