@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import Bean.BooksBean;
+import Bean.LendingBean;
 import DAO.BooksDAO;
 import DAO.DAOException;
+import DAO.LendingDAO;
 
 @Controller
 public class LendController {
@@ -39,22 +42,47 @@ public class LendController {
 	final Calendar calendar = Calendar.getInstance();
 	final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	Map<Integer, BooksBean> lendingMap = new HashMap<>();
+	Map<Integer, LendingBean> lendMap = new HashMap<>();
+	Map<Integer, LendingBean> returnMap = new HashMap<>();
 	int key = 0;
 
+	//貸出画面に遷移
+	@RequestMapping("/")
+	public ModelAndView lending(
+			ModelAndView mv) {
+		mv.setViewName("lending");
+		return mv;
+	}
 
-
+	//ユーザID入力
 	@RequestMapping("/library/lending/userId")
-	public ModelAndView searchUserid(
+	public ModelAndView lendSearchUserid(
 			@RequestParam("usersId") String usersId,
 			ModelAndView mv) {
-		if (isNumber(usersId) == true) {
-			session.setAttribute("usersId",usersId);
-//			Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId));
-//			lendUser.getUsersId();
-//			lendUser.getUsersName();
-		}
-		else {
-			mv.addObject("message", "数値を入力してください");
+		if (usersId.length() == 0 || usersId == null) {
+			session.removeAttribute("usersId");
+			session.removeAttribute("usersName");
+			mv.addObject("message", "正しいIDを入力してください");
+		} else {
+			if (isNumber(usersId) == true) {
+				if (usersId.length() < 8) {
+					session.removeAttribute("usersId");
+					session.removeAttribute("usersName");
+					mv.addObject("message", "正しいIDを入力してください");
+				} else {
+					Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+					if (lendUser != null) {
+						session.setAttribute("usersId", usersId);
+						session.setAttribute("usersName", lendUser.getUsersName());
+					} else {
+						session.removeAttribute("usersId");
+						session.removeAttribute("usersName");
+						mv.addObject("message", "その会員番号の利用者は存在しません");
+					}
+				}
+			} else {
+				mv.addObject("message", "正しいIDを入力してください");
+			}
 		}
 		mv.setViewName("lending");
 		return mv;
@@ -63,7 +91,7 @@ public class LendController {
 	@GetMapping(value = "/library/lendingSub")
 	public ModelAndView openWinByGet(
 			@RequestParam("booksName") String booksName,
-			ModelAndView mv) throws DAOException{
+			ModelAndView mv) throws DAOException {
 
 		BooksDAO dao = new BooksDAO();
 		List<BooksBean> booksList = dao.searchBooks(booksName);
@@ -80,20 +108,32 @@ public class LendController {
 	public ModelAndView deleteHouseHold(
 			@PathVariable("booksId") int booksId,
 			ModelAndView mv) throws NumberFormatException, DAOException {
-		for(Map.Entry<Integer, BooksBean> entry : lendingMap.entrySet()) {
-			if(entry.getValue().getBooksId()==booksId) {
+
+		BooksDAO dao = new BooksDAO();
+		String lendUsersId = ((String) session.getAttribute("usersId")).replaceFirst("^0+", "");
+
+		if (dao.alreadyLendingBooksId(Integer.parseInt(lendUsersId), booksId) == false) {
+			mv.addObject("message", "すでに借りている本です");
+			mv.addObject("lendingMap", lendingMap);
+			//表示させるHTMLをセット
+			mv.setViewName("lending");
+			return mv;
+		}
+
+		for (Map.Entry<Integer, BooksBean> entry : lendingMap.entrySet()) {
+			if (entry.getValue().getBooksId() == booksId) {
 				mv.addObject("message", "同じ本は一冊までです");
-				mv.addObject("lendingMap",lendingMap);
+				mv.addObject("lendingMap", lendingMap);
 				//表示させるHTMLをセット
 				mv.setViewName("lending");
 				return mv;
 			}
+
 		}
 
-		BooksDAO dao = new BooksDAO();
-			lendingMap.put(key, dao.searchBooksId(booksId));
-			key = key+1;
-		mv.addObject("lendingMap",lendingMap);
+		lendingMap.put(key, dao.searchBooksId(booksId));
+		key = key + 1;
+		mv.addObject("lendingMap", lendingMap);
 		//表示させるHTMLをセット
 		mv.setViewName("lending");
 
@@ -106,7 +146,7 @@ public class LendController {
 			ModelAndView mv) throws NumberFormatException, DAOException {
 
 		lendingMap.remove(key);
-		mv.addObject("lendingMap",lendingMap);
+		mv.addObject("lendingMap", lendingMap);
 
 		//表示させるHTMLをセット
 		mv.setViewName("lending");
@@ -116,21 +156,121 @@ public class LendController {
 
 	@RequestMapping(value = "/library/lended", method = RequestMethod.POST)
 	public ModelAndView lended(
-//			@PathVariable("usersId") int usersId,
 			ModelAndView mv) throws NumberFormatException, DAOException {
 
 		//現在の年月日を取得・セット
 		Date nowDay = calendar.getTime();
-		calendar.add(Calendar.DATE,7);
+		calendar.add(Calendar.DATE, 7);
 		Date returnDay = calendar.getTime();
+		String lendUsersId = ((String) session.getAttribute("usersId")).replaceFirst("^0+", "");
 
-		for(Map.Entry<Integer, BooksBean> entry : lendingMap.entrySet()) {
-			Lending lending = new Lending(nowDay,returnDay,leandingFlg_lending,nowDay,1,nowDay,1,1,entry.getValue().getBooksId());
+		for (Map.Entry<Integer, BooksBean> entry : lendingMap.entrySet()) {
+			Lending lending = new Lending(nowDay, returnDay, leandingFlg_lending, nowDay, 1, nowDay, 1,
+					Integer.parseInt(lendUsersId), entry.getValue().getBooksId());
 			lendingRepository.saveAndFlush(lending);
 		}
 		//表示させるHTMLをセット
 		mv.setViewName("lending");
+		session.removeAttribute("usersId");
+		session.removeAttribute("usersName");
+		lendingMap.clear();
+		key = 0;
+		return mv;
+	}
 
+	//ユーザID入力
+	@RequestMapping("/library/returning/userId")
+	public ModelAndView returnSearchUserid(
+			@RequestParam("usersId") String usersId,
+			ModelAndView mv) throws DAOException {
+		if (usersId.length() == 0 || usersId == null) {
+			session.removeAttribute("usersId");
+			session.removeAttribute("usersName");
+			mv.addObject("message", "正しいIDを入力してください");
+		} else {
+			if (isNumber(usersId) == true) {
+				if (usersId.length() < 8) {
+					session.removeAttribute("usersId");
+					session.removeAttribute("usersName");
+					mv.addObject("message", "正しいIDを入力してください");
+				} else {
+					Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+					if (lendUser != null) {
+						session.setAttribute("usersId", usersId);
+						session.setAttribute("usersName", lendUser.getUsersName());
+						LendingDAO dao = new LendingDAO();
+						lendMap = dao.searchLendingBooks(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+						mv.addObject("lendMap", lendMap);
+					} else {
+						session.removeAttribute("usersId");
+						session.removeAttribute("usersName");
+						mv.addObject("message", "その会員番号の利用者は存在しません");
+					}
+				}
+			} else {
+				session.removeAttribute("usersId");
+				session.removeAttribute("usersName");
+				mv.addObject("message", "正しいIDを入力してください");
+			}
+		}
+		mv.setViewName("return");
+		return mv;
+	}
+
+	@RequestMapping(value = "/library/returning/{key}")
+	public ModelAndView addreturning(
+			@PathVariable("key") int key,
+			ModelAndView mv) throws NumberFormatException, DAOException {
+
+		returnMap.put(key, lendMap.get(key));
+		lendMap.remove(key);
+
+		mv.addObject("lendMap", lendMap);
+		mv.addObject("returnMap", returnMap);
+		//表示させるHTMLをセット
+		mv.setViewName("return");
+
+		return mv;
+	}
+
+	@RequestMapping(value = "/library/returningback/{key}")
+	public ModelAndView backreturning(
+			@PathVariable("key") int key,
+			ModelAndView mv) throws NumberFormatException, DAOException {
+
+		lendMap.put(key, returnMap.get(key));
+		returnMap.remove(key);
+
+		mv.addObject("lendMap", lendMap);
+		mv.addObject("returnMap", returnMap);
+		//表示させるHTMLをセット
+		mv.setViewName("return");
+
+		return mv;
+	}
+
+	@RequestMapping(value = "/library/returned", method = RequestMethod.POST)
+	public ModelAndView returned(
+			ModelAndView mv) throws NumberFormatException, DAOException {
+
+		//現在の年月日を取得・セット
+		Date nowDay = calendar.getTime();
+
+		for (Entry<Integer, LendingBean> entry : returnMap.entrySet()) {
+			Lending lending = new Lending(entry.getValue().getLendingId(), entry.getValue().getLendingLendDate(),
+					entry.getValue().getLendingReturnDate(),
+					leandingFlg_return, entry.getValue().getInsertDate(), entry.getValue().getInsertEmployeeId(),
+					nowDay, 1,
+					entry.getValue().getUsersId(), entry.getValue().getUsersId());
+			lendingRepository.saveAndFlush(lending);
+		}
+		//表示させるHTMLをセット
+		mv.setViewName("return");
+		session.removeAttribute("usersId");
+		session.removeAttribute("usersName");
+		lendMap.clear();
+		returnMap.clear();
+		key = 0;
 		return mv;
 	}
 
@@ -142,6 +282,4 @@ public class LendController {
 			return false;
 		}
 	}
-
-//	session.removeAttribute("age");
 }
