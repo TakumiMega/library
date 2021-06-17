@@ -25,6 +25,12 @@ public class MainController {
 	@Autowired
 	HttpSession session;
 
+	@Autowired
+	UsersRepository usersRepository;
+
+	@Autowired
+	PositionRepository positionRepository;
+
 	//貸出画面に遷移
 	@RequestMapping("/library/lending")
 	public ModelAndView lending(
@@ -93,6 +99,10 @@ public class MainController {
 	public ModelAndView usersList(
 			ModelAndView mv
 			){
+
+		//ユーザの一覧を取得
+		List<Users> usersList = usersRepository.findAll();
+		mv.addObject("usersList",usersList);
 		mv.setViewName("usersList");
 		return mv;
 	}
@@ -120,8 +130,15 @@ public class MainController {
 	//社員登録画面に遷移
 	@RequestMapping("/library/addEmployeePage")
 	public ModelAndView addEmployeePage(
+			EmployeeForm employeeForm,
 			ModelAndView mv
 			){
+
+		//役職選択に使用する情報をリストに格納する
+		List<Position> positionList = positionRepository.findAll();
+
+		mv.addObject("positionList",positionList);
+		mv.addObject("employeeForm",employeeForm);
 		mv.setViewName("addEmployee");
 		return mv;
 	}
