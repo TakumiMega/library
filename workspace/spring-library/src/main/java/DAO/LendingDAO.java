@@ -6,13 +6,19 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Bean.LendingBean;
 
 public class LendingDAO {
 	private Connection con;
+	final Calendar calendar = Calendar.getInstance();
+	final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	public LendingDAO() throws DAOException {
 		getConnection();
@@ -53,6 +59,158 @@ public class LendingDAO {
 				key = key + 1;
 			}
 			return map;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの取得に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null)
+					rs.close();
+				if (st != null)
+					st.close();
+				close();
+			} catch (Exception e) {
+				throw new DAOException("リソースの開放に失敗しました。");
+			}
+		}
+	}
+
+	public List<LendingBean> searchFirstLendingList() throws DAOException {
+		if (con == null)
+			getConnection();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			// SQL文の作成
+			String sql = "SELECT b.BOOKS_ID,b.BOOKS_NAME,b.BOOKS_AUTHOR,c.CLASSIFICATION_NAME,u.USERS_NAME,l.LENDING_LEND_DATE,l.LENDING_RETURN_DATE "
+					+ "FROM LENDING l LEFT OUTER JOIN USERS u ON l.USERS_ID = u.USERS_ID "
+					+ "LEFT OUTER JOIN books b ON l.BOOKS_ID = b.BOOKS_ID "
+					+ "LEFT OUTER JOIN CLASSIFICATION c ON b.CLASSIFICATION_ID = c.CLASSIFICATION_ID "
+					+ "WHERE l.LENDING_FLG = '0'";
+			// PreparedStatementオブジェクトの取得
+			st = con.prepareStatement(sql);
+			// SQLの実行
+			rs = st.executeQuery();
+			// 結果の取得
+			List<LendingBean> list = new ArrayList<LendingBean>();
+			while (rs.next()) {
+				int booksId = rs.getInt("books_id");
+				String booksName = rs.getString("books_name");
+				String booksAuthor = rs.getString("books_author");
+				String classificationName = rs.getString("classification_name");
+				String usersName = rs.getString("users_name");
+				Date lendingLendDate = rs.getDate("lending_lend_date");
+				Date lendingReturnDate = rs.getDate("lending_return_date");
+				LendingBean bean = new LendingBean(booksId, booksName, booksAuthor,classificationName,usersName,dateFormat.format(lendingLendDate),dateFormat.format(lendingReturnDate));
+				list.add(bean);
+			}
+
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの取得に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null)
+					rs.close();
+				if (st != null)
+					st.close();
+				close();
+			} catch (Exception e) {
+				throw new DAOException("リソースの開放に失敗しました。");
+			}
+		}
+	}
+
+	public List<LendingBean> searchLendingListBooksNameBooksAuthorAll(String bookName, String bookAuthor) throws DAOException {
+		if (con == null)
+			getConnection();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			// SQL文の作成
+			String sql = "SELECT b.BOOKS_ID,b.BOOKS_NAME,b.BOOKS_AUTHOR,c.CLASSIFICATION_NAME,u.USERS_NAME,l.LENDING_LEND_DATE,l.LENDING_RETURN_DATE "
+					+ "FROM LENDING l LEFT OUTER JOIN USERS u ON l.USERS_ID = u.USERS_ID "
+					+ "LEFT OUTER JOIN books b ON l.BOOKS_ID = b.BOOKS_ID "
+					+ "LEFT OUTER JOIN CLASSIFICATION c ON b.CLASSIFICATION_ID = c.CLASSIFICATION_ID "
+					+ "WHERE l.LENDING_FLG = '0' AND BOOKS_NAME LIKE ? AND BOOKS_AUTHOR LIKE ?";
+			// PreparedStatementオブジェクトの取得
+			st = con.prepareStatement(sql);
+			st.setString(1, "%" + bookName + "%");
+			st.setString(2, "%" + bookAuthor + "%");
+			// SQLの実行
+			rs = st.executeQuery();
+			// 結果の取得
+			List<LendingBean> list = new ArrayList<LendingBean>();
+			while (rs.next()) {
+				int booksId = rs.getInt("books_id");
+				String booksName = rs.getString("books_name");
+				String booksAuthor = rs.getString("books_author");
+				String classificationName = rs.getString("classification_name");
+				String usersName = rs.getString("users_name");
+				Date lendingLendDate = rs.getDate("lending_lend_date");
+				Date lendingReturnDate = rs.getDate("lending_return_date");
+				LendingBean bean = new LendingBean(booksId, booksName, booksAuthor,classificationName,usersName,dateFormat.format(lendingLendDate),dateFormat.format(lendingReturnDate));
+				list.add(bean);
+			}
+
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの取得に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null)
+					rs.close();
+				if (st != null)
+					st.close();
+				close();
+			} catch (Exception e) {
+				throw new DAOException("リソースの開放に失敗しました。");
+			}
+		}
+	}
+
+	public List<LendingBean> searchLendingListBooksNameBooksAuthorClass(String bookName, String bookAuthor,int classification) throws DAOException {
+		if (con == null)
+			getConnection();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			// SQL文の作成
+			String sql = "SELECT b.BOOKS_ID,b.BOOKS_NAME,b.BOOKS_AUTHOR,c.CLASSIFICATION_NAME,u.USERS_NAME,l.LENDING_LEND_DATE,l.LENDING_RETURN_DATE "
+					+ "FROM LENDING l LEFT OUTER JOIN USERS u ON l.USERS_ID = u.USERS_ID "
+					+ "LEFT OUTER JOIN books b ON l.BOOKS_ID = b.BOOKS_ID "
+					+ "LEFT OUTER JOIN CLASSIFICATION c ON b.CLASSIFICATION_ID = c.CLASSIFICATION_ID "
+					+ "WHERE l.LENDING_FLG = '0' AND BOOKS_NAME LIKE ? AND BOOKS_AUTHOR LIKE ? AND c.CLASSIFICATION_ID = ?";
+			// PreparedStatementオブジェクトの取得
+			st = con.prepareStatement(sql);
+			st.setString(1, "%" + bookName + "%");
+			st.setString(2, "%" + bookAuthor + "%");
+			st.setInt(3, classification);
+			// SQLの実行
+			rs = st.executeQuery();
+			// 結果の取得
+			List<LendingBean> list = new ArrayList<LendingBean>();
+			while (rs.next()) {
+				int booksId = rs.getInt("books_id");
+				String booksName = rs.getString("books_name");
+				String booksAuthor = rs.getString("books_author");
+				String classificationName = rs.getString("classification_name");
+				String usersName = rs.getString("users_name");
+				Date lendingLendDate = rs.getDate("lending_lend_date");
+				Date lendingReturnDate = rs.getDate("lending_return_date");
+				LendingBean bean = new LendingBean(booksId, booksName, booksAuthor,classificationName,usersName,dateFormat.format(lendingLendDate),dateFormat.format(lendingReturnDate));
+				list.add(bean);
+			}
+
+			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DAOException("レコードの取得に失敗しました。");
