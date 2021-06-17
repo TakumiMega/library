@@ -23,11 +23,6 @@ public class AddBooksController {
 	@Autowired
 	ClassificationRepository classificationRepository;
 
-	@RequestMapping("/add")
-	public String addbooks() {
-		return "addBooks";
-	}
-
 	@RequestMapping("/library/addBooks")
 	public ModelAndView addBooksPage(@RequestParam(name = "booksName") String booksName,
 			@RequestParam(name = "booksAuthor") String booksAuthor,
@@ -38,7 +33,7 @@ public class AddBooksController {
 
 		//登録に必要な今日の日付
 		Date booksRegistration = new Date();
-
+		session.setAttribute("booksRegistration", booksRegistration);
 
 		//図書名文字チェック 101字以上入力の場合エラー
 		if (booksName.length() > 100) {

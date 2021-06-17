@@ -2,6 +2,9 @@ package com.example.demo;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,11 +16,8 @@ import DAO.DAOException;
 
 @Controller
 public class BooksController {
-	@RequestMapping("/books")
-	public String booksinfo() {
-		return "books";
-	}
-
+	@Autowired
+	HttpSession session;
 	int classificationId = 0;
 
 	@RequestMapping(value = "/library/serchBooks")
@@ -41,6 +41,7 @@ public class BooksController {
 			return mv;
 		}
 		List<BooksBean> booksList = dao.searchBooksInfo(booksName);
+		session.setAttribute("booksList", booksList);
 		mv.addObject("booksName", booksName);
 		mv.addObject("booksList", booksList);
 		//名前入力○
