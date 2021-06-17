@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,7 +40,7 @@ public class LoginController {
 	/**
 	 * ログイン処理
 	 */
-	@RequestMapping("/library/main")
+	@RequestMapping(value="/library/main", method=RequestMethod.POST)
 	public ModelAndView login(
 			@RequestParam("employeeName") String employeeName,
 			@RequestParam("employeePass") String employeePass,
@@ -74,6 +75,33 @@ public class LoginController {
 			mv.setViewName("adminMain");
 		}
 
+		return mv;
+	}
+	
+	//メイン画面に戻る
+	@RequestMapping("/library/main")
+	public ModelAndView backToMain(
+			ModelAndView mv
+			) {
+		
+		//sessionに格納されていた社員IDを用いて役職IDを取得
+		Employee employee = employeeRepository.findByEmployeeId((int) session.getAttribute("employeeId"));
+		
+		//役職が受付だった場合、受付用のメイン画面を表示
+		if(employee.getPositionId() == receptionID) {
+			mv.setViewName("receptionMain");
+		}
+
+		//役職が職員だった場合、職員用のメイン画面を表示
+		if(employee.getPositionId() == staffID) {
+			mv.setViewName("staffMain");
+		}
+
+		//役職が管理者だった場合、管理者用のメイン画面を表示
+		if(employee.getPositionId() == adminID) {
+			mv.setViewName("adminMain");
+		}
+		
 		return mv;
 	}
 

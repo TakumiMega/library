@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+<<<<<<< HEAD
 import Bean.ClassificationBean;
 import Bean.LendingBean;
 import Bean.LendingListForm;
+=======
+import Bean.EmployeeForm;
+>>>>>>> branch 'main' of git@github.com:TakumiMega/library.git
 import Bean.UsersForm;
 import DAO.ClassificationDAO;
 import DAO.DAOException;
@@ -24,6 +28,7 @@ public class MainController {
 
 	@Autowired
 	HttpSession session;
+<<<<<<< HEAD
 
 	@Autowired
 	UsersRepository usersRepository;
@@ -31,6 +36,15 @@ public class MainController {
 	@Autowired
 	PositionRepository positionRepository;
 
+=======
+	
+	@Autowired
+	UsersRepository usersRepository;
+	
+	@Autowired
+	PositionRepository positionRepository;
+	
+>>>>>>> branch 'main' of git@github.com:TakumiMega/library.git
 	//貸出画面に遷移
 	@RequestMapping("/library/lending")
 	public ModelAndView lending(
@@ -98,10 +112,17 @@ public class MainController {
 	@RequestMapping("/library/usersList")
 	public ModelAndView usersList(
 			ModelAndView mv
+<<<<<<< HEAD
 			){
 
 		//ユーザの一覧を取得
 		List<Users> usersList = usersRepository.findAll();
+=======
+			){	
+		
+		//ユーザの一覧を取得
+		List<Users> usersList = usersRepository.findAll();	
+>>>>>>> branch 'main' of git@github.com:TakumiMega/library.git
 		mv.addObject("usersList",usersList);
 		mv.setViewName("usersList");
 		return mv;
@@ -132,11 +153,19 @@ public class MainController {
 	public ModelAndView addEmployeePage(
 			EmployeeForm employeeForm,
 			ModelAndView mv
+<<<<<<< HEAD
 			){
 
 		//役職選択に使用する情報をリストに格納する
 		List<Position> positionList = positionRepository.findAll();
 
+=======
+			){	
+		
+		//役職選択に使用する情報をリストに格納する
+		List<Position> positionList = positionRepository.findAll();
+		
+>>>>>>> branch 'main' of git@github.com:TakumiMega/library.git
 		mv.addObject("positionList",positionList);
 		mv.addObject("employeeForm",employeeForm);
 		mv.setViewName("addEmployee");

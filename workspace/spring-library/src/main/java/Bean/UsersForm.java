@@ -11,6 +11,14 @@ public class UsersForm {
 	public UsersForm(){
 		
 	}
+	
+	public UsersForm(String usersName, String usersBirthday, String usersAddress, String usersPhone, String usersEmail){
+		this.usersName = usersName;
+		this.usersBirthday = usersBirthday;
+		this.usersAddress = usersAddress;
+		this.usersPhone = usersPhone;
+		this.usersEmail = usersEmail;
+	}
 
 	public String getUsersName() {
 		return usersName;
