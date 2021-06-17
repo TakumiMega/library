@@ -5,50 +5,60 @@
 <title>図書一覧</title>
 </head>
 <body>
-<form action="/library/serchBooks"method="get">
+	<form action="/library/serchBooks"method="get">
 
-<table>
-<tr>
-<th>図書名</th><th><input type="text"name="booksName"></th>
-</tr>
-<tr>
-<th>著者名</th><th><input type="text"name="booksAuthor"></th>
-</tr>
-<tr>
-<th>分類名</th><th><select name="classificationId">
-<option value="0">なし</option>
-<option value="1">哲学</option>
-<option value="2">歴史</option>
-<option value="3">社会科学</option>
-<option value="4">自然科学</option>
-<option value="5">技術</option>
-<option value="6">産業</option>
-<option value="7">産業</option>
-<option value="8">芸術</option>
-<option value="9">文学</option>
-<option value="10">総記</option>
-</select></th>
+		<table>
+			<tr>
+				<th>図書名</th><th><input type="text"name="booksName"></th>
+			</tr>
+			<tr>
+				<th>著者名</th><th><input type="text"name="booksAuthor"></th>
+			</tr>
+			<tr>
+				<th>分類名</th>
+				<th>
+					<select name="classificationId">
+						<option value="1">哲学</option>
+						<option value="2">歴史</option>
+						<option value="3">社会科学</option>
+						<option value="4">自然科学</option>
+						<option value="5">技術</option>
+						<option value="6">産業</option>
+						<option value="7">産業</option>
+						<option value="8">芸術</option>
+						<option value="9">文学</option>
+						<option value="10">総記</option>
+						<option value="11">すべて</option>
+					</select>
+				</th>
+			</tr>
+		</table>
+		<input type="submit" class="button"value="検索">
+	</form>
 
-</tr>
-
-</table>
-<input type="submit" class="button"value="検索">
-<!-- hiddenで送る -->
-</form>
-
- <table border=1>
- <tr><th>図書名</th><th>著者名</th><th>冊数</th><th>備考</th><th>分類</th></tr>
-		 <tr th:each="books:${booksList}">
-		<td th:text="${books.booksName}"></td>
-		<td th:text="${books.booksAuthor}"></td>
-		<td th:text="${books.booksStock}"></td>
-		<td th:text="${books.booksRemarks}"></td>
-		<td th:text="${books.classificationName}"></td>
-
+	 <table border=1>
+	 	<tr>
+	 		<th>図書名</th>
+	 		<th>著者名</th>
+	 		<th>冊数</th>
+	 		<th>備考</th>
+	 		<th>分類</th>
+	 		<th>更新</th>
+	 	</tr>
+			<tr th:each="books:${booksList}">
+				<td th:text="${books.booksName}"></td>
+				<td th:text="${books.booksAuthor}"></td>
+				<td th:text="${books.booksStock}"></td>
+				<td th:text="${books.booksRemarks}"></td>
+				<td th:text="${books.classificationName}"></td>
+				<td>
+					<form th:action="'/library/updateBooksPage/'+${books.booksId}"method="get">
+						<input type="submit" class="button"value="更新">
+					</form>
+				</td>
 		</tr>
 	</table>
-
-<p><span th:text="${message}" style="color:red"></span></p>
+	<p><span th:text="${message}" style="color:red"></span></p>
 
 </body>
 </html>
