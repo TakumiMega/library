@@ -21,32 +21,32 @@ import Bean.UsersForm;
 
 @Controller
 public class UsersController {
-	
+
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	
+
 	@Autowired
 	HttpSession session;
-	
+
 	@Autowired
 	UsersRepository usersRepository;
-	
+
 	//利用者登録処理
 	@RequestMapping(value="/library/addUsers", method=RequestMethod.POST)
 	public ModelAndView addUsers(
 			@ModelAttribute UsersForm usersForm,
 			ModelAndView mv
 			) throws ParseException{
-		
-		//入力された利用者の誕生日をString型から Data型に変換		
+
+		//入力された利用者の誕生日をString型から Data型に変換
 		Date usersBirthday = dateFormat.parse(usersForm.getUsersBirthday());
-		
+
 		//今日の日付と登録する社員IDを取得
 		Date insertDate = new Date();
 		Date updateDate = new Date();
 		int insertEmployeeId = (int) session.getAttribute("employeeId");
 		int updateEmployeeId = (int) session.getAttribute("employeeId");
-		
-		
+
+
 		//生年月日エラー
 		Date today = new Date();	//今日の日付を取得
 		if(usersBirthday.after(today)) {	//今日の日付と取得した日付を比較
@@ -54,8 +54,8 @@ public class UsersController {
 			mv.addObject("usersForm",usersForm);
 			mv.setViewName("addUsers");
 			return mv;
-		}		
-		
+		}
+
 		//電話番号の数値チェック
 		if(usersForm.getUsersPhone() != null && !(isNumber(usersForm.getUsersPhone()))) {
 			mv.addObject("message", "電話番号が正しくありません");
@@ -63,7 +63,7 @@ public class UsersController {
 			mv.setViewName("addUsers");
 			return mv;
 		}
-		
+
 		//名前51文字以上エラー
 		if (usersForm.getUsersName().length() > 50) {
 			mv.addObject("message", "名前は50文字以下にしてください");
@@ -71,7 +71,7 @@ public class UsersController {
 			mv.setViewName("addUsers");
 			return mv;
 		}
-		
+
 		//住所101文字以上エラー
 		if (usersForm.getUsersAddress().length() > 100) {
 			mv.addObject("message", "住所は100文字までしか入力できません");
@@ -79,7 +79,7 @@ public class UsersController {
 			mv.setViewName("addUsers");
 			return mv;
 		}
-		
+
 		//電話番号21文字以上エラー
 		if (usersForm.getUsersPhone() != null && usersForm.getUsersPhone().length() > 20) {
 			mv.addObject("message", "正しい電話番号を入力してください");
@@ -87,7 +87,7 @@ public class UsersController {
 			mv.setViewName("addUsers");
 			return mv;
 		}
-		
+
 		//同じ利用者名と生年月日が既に登録されている場合
 		Users sameUsers = usersRepository.findByUsersNameAndUsersBirthday(usersForm.getUsersName(), usersBirthday);
 		if(sameUsers != null) {
@@ -96,8 +96,8 @@ public class UsersController {
 			mv.setViewName("confirmUsers");
 			return mv;
 		}
-		
-		
+
+
 		//データを登録
 		Users users = new Users(usersForm.getUsersName(), usersForm.getUsersAddress(), usersBirthday, usersForm.getUsersPhone(), usersForm.getUsersEmail(), insertDate, insertEmployeeId, updateDate, updateEmployeeId);
 		usersRepository.saveAndFlush(users);
@@ -106,42 +106,42 @@ public class UsersController {
 		mv.setViewName("addUsers");
 		return mv;
 	}
-	
-	
+
+
 	//確認後の利用者登録処理
 	@RequestMapping(value="/library/ConfirmUsers", method=RequestMethod.POST)
 	public ModelAndView ConfirmUsers(
 			@ModelAttribute UsersForm usersForm,
 			ModelAndView mv
 			) throws ParseException{
-		
-		//入力された利用者の誕生日をString型から Data型に変換		
+
+		//入力された利用者の誕生日をString型から Data型に変換
 		Date usersBirthday = dateFormat.parse(usersForm.getUsersBirthday());
-		
+
 		//今日の日付と登録する社員IDを取得
 		Date insertDate = new Date();
 		Date updateDate = new Date();
 		int insertEmployeeId = (int) session.getAttribute("employeeId");
 		int updateEmployeeId = (int) session.getAttribute("employeeId");
-		
+
 		//データを登録
 		Users users = new Users(usersForm.getUsersName(), usersForm.getUsersAddress(), usersBirthday, usersForm.getUsersPhone(), usersForm.getUsersEmail(), insertDate, insertEmployeeId, updateDate, updateEmployeeId);
 		usersRepository.saveAndFlush(users);
 		mv.addObject("message", "登録が完了しました");
 		mv.addObject("usersForm",usersForm);
 		mv.setViewName("addUsers");
-		
+
 		return mv;
 	}
-	
-	
+
+
 	//利用者IDの検索
 	@RequestMapping("/library/searchUsers")
 	public ModelAndView searchUsers(
 			@RequestParam("usersId") String usersId,
 			ModelAndView mv
 			) {
-				
+
 		//検索フォームに何も入力されずに検索ボタンを押下された場合、全件表示
 		if(usersId.equals("")) {
 			//ユーザの一覧を取得
@@ -150,7 +150,7 @@ public class UsersController {
 			mv.setViewName("usersList");
 			return mv;
 		}
-		
+
 		//IDが8桁で入力されていなかった場合、全件表示？
 		if(usersId.length() != 8) {
 			mv.addObject("message", "正しいIDを入力してください");
@@ -160,19 +160,19 @@ public class UsersController {
 			mv.setViewName("usersList");
 			return mv;
 		}
-		
+
 		//入力されたIDの0を除去
 		Pattern p = Pattern.compile("^0+([0-9]+.*)");
 		Matcher m = p.matcher(usersId);
 		String outUsersId = null;
 		if (m.matches()) {
 			outUsersId = m.group(1);
-		}		
+		}
 		int serchUsersId  = Integer.parseInt(outUsersId);
-		
+
 		//検索対象の情報を取得
 		Users usersList = usersRepository.findByUsersId(serchUsersId);
-		
+
 		//
 		if(usersList == null) {
 			mv.addObject("message", "お探しのIDは見つかりませんでした");
@@ -185,8 +185,8 @@ public class UsersController {
 		mv.setViewName("usersList");
 		return mv;
 	}
-	
-	
+
+
 	//利用者更新画面に遷移
 	@RequestMapping("/library/updateUsersPage")
 	public ModelAndView updateUsersPage(
@@ -194,19 +194,19 @@ public class UsersController {
 			@ModelAttribute UsersForm usersForm,
 			ModelAndView mv
 			) {
-		
-		Users users = usersRepository.findByUsersId(usersId); 
+
+		Users users = usersRepository.findByUsersId(usersId);
 		String usersBirthday = dateFormat.format(users.getUsersBirthday());
-		
+
 		usersForm = new UsersForm(users.getUsersName(), usersBirthday, users.getUsersAddress(), users.getUsersPhone(), users.getUsersEmail());
-				
+
 		mv.addObject("usersId",usersId);
 		mv.addObject("usersForm",usersForm);
 		mv.setViewName("updateUsers");
 		return mv;
 	}
-	
-	
+
+
 	//利用者更新処理
 		@RequestMapping(value="/library/updateUsers", method=RequestMethod.POST)
 		public ModelAndView updateUsers(
@@ -214,14 +214,14 @@ public class UsersController {
 			@ModelAttribute UsersForm usersForm,
 			ModelAndView mv
 			) throws ParseException {
-			
-		//入力された利用者の誕生日をString型から Data型に変換		
+
+		//入力された利用者の誕生日をString型から Data型に変換
 		Date usersBirthday = dateFormat.parse(usersForm.getUsersBirthday());
-			
+
 		//今日の日付と登録する社員IDを取得
 		Date updateDate = new Date();
 		int updateEmployeeId = (int) session.getAttribute("employeeId");
-			
+
 		//生年月日エラー
 		Date today = new Date();	//今日の日付を取得
 		if(usersBirthday.after(today)) {	//今日の日付と取得した日付を比較
@@ -230,8 +230,8 @@ public class UsersController {
 			mv.addObject("usersForm",usersForm);
 			mv.setViewName("updateUsers");
 			return mv;
-		}		
-			
+		}
+
 		//電話番号の数値チェック
 		if(usersForm.getUsersPhone() != null && !(isNumber(usersForm.getUsersPhone()))) {
 			mv.addObject("message", "電話番号が正しくありません");
@@ -240,7 +240,7 @@ public class UsersController {
 			mv.setViewName("updateUsers");
 			return mv;
 		}
-			
+
 		//名前51文字以上エラー
 		if (usersForm.getUsersName().length() > 50) {
 			mv.addObject("message", "名前は50文字以下にしてください");
@@ -249,7 +249,7 @@ public class UsersController {
 			mv.setViewName("updateUsers");
 			return mv;
 		}
-		
+
 		//住所101文字以上エラー
 		if (usersForm.getUsersAddress().length() > 100) {
 			mv.addObject("message", "住所は100文字までしか入力できません");
@@ -258,7 +258,7 @@ public class UsersController {
 			mv.setViewName("updateUsers");
 			return mv;
 		}
-		
+
 		//電話番号21文字以上エラー
 		if (usersForm.getUsersPhone() != null && usersForm.getUsersPhone().length() > 20) {
 			mv.addObject("message", "正しい電話番号を入力してください");
@@ -267,19 +267,19 @@ public class UsersController {
 			mv.setViewName("updateUsers");
 			return mv;
 		}
-					
-		Users insertEmployee = usersRepository.findByUsersId(usersId); 
-		
+
+		Users insertEmployee = usersRepository.findByUsersId(usersId);
+
 		Users updateUsers = new Users(usersId, usersForm.getUsersName(), usersForm.getUsersAddress(), usersBirthday, usersForm.getUsersPhone(), usersForm.getUsersEmail(), insertEmployee.getInsertDate(), insertEmployee.getInsertEmployeeId(), updateDate, updateEmployeeId);
 		usersRepository.saveAndFlush(updateUsers);
 		mv.addObject("message", "登録が完了しました");
 		mv.addObject("usersId",usersId);
 		mv.addObject("usersForm",usersForm);
 		mv.setViewName("updateUsers");
-		
+
 		return mv;
 	}
-	
+
 	public boolean isNumber(String booksStock) {
 		try {
 			Integer.parseInt(booksStock);
@@ -288,7 +288,7 @@ public class UsersController {
 			return false;
 		}
 	}
-	
-	
-	
+
+
+
 }
