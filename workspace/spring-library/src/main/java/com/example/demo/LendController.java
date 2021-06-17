@@ -47,12 +47,12 @@ public class LendController {
 	int key = 0;
 
 	//貸出画面に遷移
-	@RequestMapping("/")
-	public ModelAndView lending(
-			ModelAndView mv) {
-		mv.setViewName("lending");
-		return mv;
-	}
+//	@RequestMapping("/")
+//	public ModelAndView lending(
+//			ModelAndView mv) {
+//		mv.setViewName("lending");
+//		return mv;
+//	}
 
 	//ユーザID入力
 	@RequestMapping("/library/lending/userId")

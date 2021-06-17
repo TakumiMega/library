@@ -1,11 +1,17 @@
 package Bean;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class LendingBean {
+	final Calendar calendar = Calendar.getInstance();
+	final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private int lendingId;
 	private Date lendingLendDate;
 	private Date lendingReturnDate;
+	private String LendDate;
+	private String ReturnDate;
 	private String lendingFlg;
 	private Date insertDate;
 	private int insertEmployeeId;
@@ -15,8 +21,17 @@ public class LendingBean {
 	private int booksId;
 	private String booksName;
 	private String booksAuthor;
+	private String classificationName;
+	private String usersName;
 
-	public LendingBean() {
+	public LendingBean(int booksId, String booksName, String booksAuthor, String classificationName, String usersName, String LendDate, String ReturnDate) {
+		this.booksId = booksId;
+		this.booksName = booksName;
+		this.booksAuthor = booksAuthor;
+		this.classificationName = classificationName;
+		this.usersName = usersName;
+		this.LendDate = LendDate;
+		this.ReturnDate = ReturnDate;
 	}
 
 	public LendingBean(int lendingId, Date lendingLendDate, Date lendingReturnDate, Date insertDate,
@@ -126,5 +141,37 @@ public class LendingBean {
 
 	public void setBooksAuthor(String booksAuthor) {
 		this.booksAuthor = booksAuthor;
+	}
+
+	public String getClassificationName() {
+		return classificationName;
+	}
+
+	public void setClassificationName(String classificationName) {
+		this.classificationName = classificationName;
+	}
+
+	public String getUsersName() {
+		return usersName;
+	}
+
+	public void setUsersName(String usersName) {
+		this.usersName = usersName;
+	}
+
+	public String getLendDate() {
+		return LendDate;
+	}
+
+	public void setLendDate(String lendDate) {
+		LendDate = lendDate;
+	}
+
+	public String getReturnDate() {
+		return ReturnDate;
+	}
+
+	public void setReturnDate(String returnDate) {
+		ReturnDate = returnDate;
 	}
 }

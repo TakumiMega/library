@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>貸出図書一覧</title>
+</head>
+<body>
+	<form action="/library/lendingList/search" th:object="${form}" method="get">
+		<table>
+			<tr>
+				<th>図書名</th>
+				<th><input type="text" name="booksName"th:field="*{booksName}"></th>
+			</tr>
+			<tr>
+				<th>著者名</th>
+				<th><input type="text" name="booksAuthor"th:field="*{booksAuthor}"></th>
+			</tr>
+			<tr>
+				<th>分類名</th>
+				<th><select name="classificationId">
+						<option  th:each="classification:*{classificationList}"th:selected="${classification.classificationId} == *{classificateId}"th:value="${classification.classificationId}" th:text="${classification.classificationName}"></option>
+				</select></th>
+			</tr>
+		</table>
+		<input type="submit" class="button" value="検索">
+	</form>
+
+	<table border=1>
+		<tr>
+			<th>図書ID</th>
+			<th>図書名</th>
+			<th>著者名</th>
+			<th>分類</th>
+			<th>利用者</th>
+			<th>貸出日</th>
+			<th>返却予定日</th>
+		</tr>
+		<tr th:each="lendings:${lendingList}">
+			<td th:text="${lendings.booksId}"></td>
+			<td th:text="${lendings.booksName}"></td>
+			<td th:text="${lendings.booksAuthor}"></td>
+			<td th:text="${lendings.classificationName}"></td>
+			<td th:text="${lendings.usersName}"></td>
+			<td th:text="${lendings.LendDate}"></td>
+			<td th:text="${lendings.ReturnDate}"></td>
+
+		</tr>
+	</table>
+</body>
+</html>
