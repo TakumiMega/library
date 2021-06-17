@@ -72,6 +72,20 @@ public class Users {
 		this.updateDate = updateDate;
 		this.updateEmployeeId = updateEmployeeId;
 	}
+	
+	public Users(int usersId, String usersName, String usersAddress, Date usersBirthday, String usersPhone, String usersEmail, Date insertDate, int insertEmployeeId, Date updateDate, int updateEmployeeId) {
+		super();
+		this.usersId = usersId;
+		this.usersName = usersName;
+		this.usersAddress = usersAddress;
+		this.usersBirthday = usersBirthday;
+		this.usersPhone = usersPhone;
+		this.usersEmail = usersEmail;
+		this.insertDate = insertDate;
+		this.insertEmployeeId = insertEmployeeId;
+		this.updateDate = updateDate;
+		this.updateEmployeeId = updateEmployeeId;
+	}
 
 	public int getUsersId() {
 		return usersId;

@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>利用者登録</title>
+<title>利用者更新</title>
 </head>
 <body>
-
-	<form action="/library/addUsers" method="post" th:object="${usersForm}">
+	
+	<form action="/library/updateUsers" method="post" th:object="${usersForm}">
 		<table border="1">
 			<tr>
 				<th>名前</th>
@@ -29,17 +29,18 @@
 				<td><input type="text" name="usersEmail" th:field="*{usersEmail}"></td>
 			</tr>
 		</table>
-		<input type="submit" value="登録">
+		<input type="submit" value="更新">
+		<input type="hidden" name="usersId" th:value="${usersId}">
 	</form>
 	<p><span th:text="${message}" style="color:red"></span></p>
-
+	
 	<br>
-
-	<form action="/library/main" method="get">
+	
+	<form action="/library/usersList" method="get">
 		<input type="submit" value="戻る">
 	</form>
-
-
-
+	
+	
+	
 </body>
 </html>

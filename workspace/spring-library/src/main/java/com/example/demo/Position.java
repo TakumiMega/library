@@ -16,13 +16,13 @@ public class Position {
 	
 	//役職ID
 	@Id
-	@Column(name="employee_id")
+	@Column(name="position_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int employeeId;
+	private int positionId;
 	
 	//役職名
-	@Column(name="employee_name")
-	private String employeeName;
+	@Column(name="position_name")
+	private String positionName;
 	
 	//登録日
 	@Column(name="insert_date")
@@ -40,20 +40,24 @@ public class Position {
 	@Column(name="update_employee_id")
 	private int updateEmployeeId;
 
-	public int getEmployeeId() {
-		return employeeId;
+	public Position() {
+		
 	}
 
-	public void setEmployeeId(int employeeId) {
-		this.employeeId = employeeId;
+	public int getPositionId() {
+		return positionId;
 	}
 
-	public String getEmployeeName() {
-		return employeeName;
+	public void setPositionId(int positionId) {
+		this.positionId = positionId;
 	}
 
-	public void setEmployeeName(String employeeName) {
-		this.employeeName = employeeName;
+	public String getPositionName() {
+		return positionName;
+	}
+
+	public void setPositionName(String positionName) {
+		this.positionName = positionName;
 	}
 
 	public Date getInsertDate() {
@@ -87,6 +91,7 @@ public class Position {
 	public void setUpdateEmployeeId(int updateEmployeeId) {
 		this.updateEmployeeId = updateEmployeeId;
 	}
-
+	
+	
 	
 }
