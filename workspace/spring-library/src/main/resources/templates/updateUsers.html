@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <title>利用者更新</title>
 </head>
+<header><a href="/library/main">メイン画面へ</a></header>
+<hr>
 <body>
-	
+
 	<form action="/library/updateUsers" method="post" th:object="${usersForm}">
 		<table border="1">
 			<tr>
@@ -33,14 +35,14 @@
 		<input type="hidden" name="usersId" th:value="${usersId}">
 	</form>
 	<p><span th:text="${message}" style="color:red"></span></p>
-	
+
 	<br>
-	
+
 	<form action="/library/usersList" method="get">
 		<input type="submit" value="戻る">
 	</form>
-	
-	
-	
+
+
+
 </body>
 </html>

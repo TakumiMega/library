@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <title>利用者一覧</title>
 </head>
+<header><a href="/library/main">メイン画面へ</a></header>
+<hr>
 <body>
 
 	<form action="/library/searchUsers" method="get">
@@ -15,7 +17,7 @@
 		</table>
 		<input type="submit" value="検索">
 	</form>
-	
+
 	<table border="1">
 		<tr>
 			<th>利用者ID</th>
@@ -38,12 +40,12 @@
 					<input type="submit" value="更新">
 					<input type="hidden" name="usersId" th:value="${user.usersId}">
 				</form>
-			</td>			
+			</td>
 		</tr>
 	</table>
-	
+
 	<br>
-	
+
 	<form action="/library/main" method="get">
 		<input type="submit" value="戻る">
 	</form>

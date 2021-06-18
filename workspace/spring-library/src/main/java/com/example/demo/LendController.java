@@ -46,14 +46,6 @@ public class LendController {
 	Map<Integer, LendingBean> returnMap = new HashMap<>();
 	int key = 0;
 
-	//貸出画面に遷移
-	@RequestMapping("/")
-	public ModelAndView lending(
-			ModelAndView mv) {
-		mv.setViewName("return");
-		return mv;
-	}
-
 	//ユーザID入力
 	@RequestMapping("/library/lending/userId")
 	public ModelAndView lendSearchUserid(
@@ -167,7 +159,7 @@ public class LendController {
 			Date returnDay = calendar.getTime();
 			String lendUsersId = ((String) session.getAttribute("usersId")).replaceFirst("^0+", "");
 			for (Map.Entry<Integer, BooksBean> entry : lendingMap.entrySet()) {
-				Lending lending = new Lending(nowDay, returnDay, leandingFlg_lending, nowDay, 1, nowDay, 1,
+				Lending lending = new Lending(nowDay, returnDay, leandingFlg_lending, nowDay, (int) session.getAttribute("employeeId"), nowDay, (int) session.getAttribute("employeeId"),
 						Integer.parseInt(lendUsersId), entry.getValue().getBooksId());
 				lendingRepository.saveAndFlush(lending);
 			}
@@ -267,7 +259,7 @@ public class LendController {
 				Lending lending = new Lending(entry.getValue().getLendingId(), entry.getValue().getLendingLendDate(),
 						entry.getValue().getLendingReturnDate(),
 						leandingFlg_return, entry.getValue().getInsertDate(), entry.getValue().getInsertEmployeeId(),
-						nowDay, 1,
+						nowDay, (int) session.getAttribute("employeeId"),
 						entry.getValue().getUsersId(), entry.getValue().getUsersId());
 				lendingRepository.saveAndFlush(lending);
 			}
