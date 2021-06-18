@@ -11,38 +11,43 @@
 	<form action="/library/addBooks"th:object="${updateForm}"method="post">
 		<table border=1>
 			<tr>
-			<th>図書名</th><th><input type="text"name="booksName"maxlength="100"required></th>
+				<th>図書名</th>
+				<th><input type="text"name="booksName"maxlength="100"required></th>
 			</tr>
 			<tr>
-			<th>著者名</th>
-			<th><input type="text"name="booksAuthor"maxlength="50"required></th>
+				<th>著者名</th>
+				<th><input type="text"name="booksAuthor"maxlength="50"required></th>
 			</tr>
 			<tr>
-			<th>冊数</th>
-			<th><input type="text"name="booksStock"required>
-			</th>
+				<th>冊数</th>
+				<th><input type="text"name="booksStock"required></th>
 			<tr>
-			<th>貸出の是非</th>
-			<th><select name="booksLend">
-			<option value="0">可能</option>
-			<option value="1">不可</option>
-			</select></th>
+				<th>貸出の是非</th>
+				<th>
+					<select name="booksLend">
+						<option value="0">可能</option>
+						<option value="1">不可</option>
+					</select>
+				</th>
 			</tr>
-			<tr><th>備考</th>
-			<th><input type="text"name="booksRemarks"></th>
+			<tr>
+				<th>備考</th>
+				<th><input type="text"name="booksRemarks"></th>
 			</tr>
-			<tr><th>分類</th>
-			<th><select name="classificationId">
-			<option  th:each="classification:*{classificationList}"
-								 th:value="${classification.classificationId}" th:text="${classification.classificationName}"></option>
-			</select></th>
-
+			<tr>
+				<th>分類</th>
+				<th>
+					<select name="classificationId">
+						<option  th:each="classification:*{classificationList}" th:value="${classification.classificationId}"
+								 th:text="${classification.classificationName}">
+						</option>
+					</select>
+				</th>
 			</tr>
-
 		</table>
 
-		<input type="submit" class="button"value="登録">
+				<input type="submit" class="button"value="登録">
 	</form>
-	<p><span th:text="${message}" style="color:red"></span></p>
+		<p><span th:text="${message}" style="color:red"></span></p>
 </body>
 </html>

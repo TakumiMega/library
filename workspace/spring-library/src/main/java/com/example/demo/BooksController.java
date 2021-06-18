@@ -40,16 +40,16 @@ public class BooksController {
 			mv.setViewName("books");
 			return mv;
 		}
-		List<BooksBean> booksList = dao.searchBooksInfo(booksName);
-		session.setAttribute("booksList", booksList);
-		mv.addObject("booksName", booksName);
-		mv.addObject("booksList", booksList);
+			List<BooksBean> booksList = dao.searchBooksInfo(booksName);
+			session.setAttribute("booksList", booksList);
+			mv.addObject("booksName", booksName);
+			mv.addObject("booksList", booksList);
 		//名前入力○
 		if (!(booksName.length() == 0)) {
 			booksList = dao.searchBooksName(booksName);
 			mv.addObject("booksName", booksName);
 			mv.addObject("booksList", booksList);
-			//名前入力○著者入力○
+		//名前入力○著者入力○
 			if (!(booksName.length() == 0) && !(booksAuthor.length() == 0)) {
 				booksList = dao.searchBooksNameAndAuthor(booksName, booksAuthor);
 				mv.addObject("booksName", booksName);
@@ -71,13 +71,13 @@ public class BooksController {
 			booksList = dao.searchBooksclassificationId(classificationId);
 			mv.addObject("classificationId", classificationId);
 			mv.addObject("booksList", booksList);
-			//名前＋分類
+		//名前＋分類
 			if (!(booksName.length() == 0) && !(classificationId == 0)) {
 				booksList = dao.searchBooksNameAndclassificationId(booksName, classificationId);
 				mv.addObject("booksName", booksName);
 				mv.addObject("booksList", booksList);
 			}
-			//著者名＋分類
+		//著者名＋分類
 			if (!(booksAuthor.length() == 0) && !(classificationId == 0)) {
 				booksList = dao.searchBooksAuthorAndclassificationId(booksAuthor, classificationId);
 				mv.addObject("booksAuthor", booksAuthor);

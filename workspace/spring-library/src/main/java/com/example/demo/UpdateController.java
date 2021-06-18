@@ -30,9 +30,8 @@ public class UpdateController {
 	public ModelAndView updateBooks(
 			ModelAndView mv,
 			@PathVariable("booksId") int booksId,
-			@ModelAttribute UpdateForm updateform
-			) {
-		List<Classification> classificationList=classificationRepository.findAll();
+			@ModelAttribute UpdateForm updateform) {
+		List<Classification> classificationList = classificationRepository.findAll();
 		Books books = booksRepository.findByBooksId(booksId);
 		mv.addObject("books", books);
 		mv.addObject("updateform", updateform);
@@ -56,9 +55,9 @@ public class UpdateController {
 		/*List<Books> updatelist=(List<Books>) booksRepository.findByBooksId(booksId);*/
 		Books books = booksRepository.findByBooksId(Integer.parseInt(booksId));
 		//sessionから図書登録をする役職IDを取得
-			int insertEmployeeId=(int) session.getAttribute("employeeId");
+		int insertEmployeeId = (int) session.getAttribute("employeeId");
 		Date updateDate = new Date();
-		Date insertDate=books.getInsertDate();
+		Date insertDate = books.getInsertDate();
 		//冊数項目に数値以外が入力されていないかチェック
 		if (isNumber(booksStock)) {
 			int booksStockCount = Integer.parseInt(booksStock);
@@ -67,14 +66,12 @@ public class UpdateController {
 
 			Books updatebooks = new Books((Integer.parseInt(booksId)), booksName, booksAuthor, booksStockCount,
 					books.getBooksRegistration(), booksLend,
-					booksRemarks,insertDate,insertEmployeeId, updateDate,classificationId);
+					booksRemarks, insertDate, insertEmployeeId, updateDate, classificationId);
 			booksRepository.saveAndFlush(updatebooks);
 			mv.addObject("message", "更新完了しました");
 			mv.setViewName("books");
 			return mv;
-		}
-
-		else
+		} else
 			//数値以外が入力されていた場合
 			mv.addObject("message", "数値を入力してください");
 		mv.setViewName("updateBooks");
