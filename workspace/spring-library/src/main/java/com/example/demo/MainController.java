@@ -135,6 +135,7 @@ public class MainController {
 		
 		// モデルのDAOを生成
 		EmployeeDAO employeeDAO = new EmployeeDAO();
+		//社員テーブルと役職テーブルを結合する
 		List<EmployeeListBean> employeeList = employeeDAO.findAll();
 		mv.addObject("employeeList",employeeList);
 		mv.setViewName("employeeList");

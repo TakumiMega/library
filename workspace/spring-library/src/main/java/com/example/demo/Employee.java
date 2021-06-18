@@ -51,6 +51,18 @@ public class Employee {
 	public Employee() {
 		
 	}
+	
+	public Employee(int employeeId, String employeeName, String employeePass, Date insertDate, int insertEmployeeId, Date updateDate, int updateEmployeeId, int positionId) {
+		super();
+		this.employeeId = employeeId;
+		this.employeeName = employeeName;
+		this.employeePass = employeePass;
+		this.insertDate = insertDate;
+		this.insertEmployeeId = insertEmployeeId;
+		this.updateDate = updateDate;
+		this.updateEmployeeId = updateEmployeeId;
+		this.positionId = positionId;
+	}
 
 	public Employee(String employeeName, String employeePass, Date insertDate, int insertEmployeeId, Date updateDate, int updateEmployeeId, int positionId) {
 		super();
