@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,7 +26,8 @@ public class EmployeeController {
 	@Autowired
 	EmployeeRepository employeeRepository;
 	
-	
+	@Autowired
+	PositionRepository positionRepository;
 	
 	
 	//社員登録処理
@@ -41,19 +43,14 @@ public class EmployeeController {
 			int insertEmployeeId = (int) session.getAttribute("employeeId");
 			int updateEmployeeId = (int) session.getAttribute("employeeId");
 			
-			
-			//名前51文字以上エラー
-			if (employeeForm.getEmployeeName().length() > 50) {
-				mv.addObject("message", "名前は50文字以下にしてください");
-				mv.addObject("employeeForm",employeeForm);
-				mv.setViewName("addEmployee");
-				return mv;
-			}
+			//役職選択に使用する情報をリストに格納する
+			List<Position> positionList = positionRepository.findAll();			
 			
 			//パスワード大文字小文字含む英数字8文字以上
 			if(!(passcheck(employeeForm.getEmployeePass()))){
-				mv.addObject("message", "パスワードには大文字小文字含む英数字を使用し、8文字以上20文字以下にしてください");
+				mv.addObject("message", "パスワードには大文字小文字含む英数字を使用し、8文字以上30文字以下にしてください");
 				mv.addObject("employeeForm",employeeForm);
+				mv.addObject("positionList",positionList);
 				mv.setViewName("addEmployee");
 				return mv;
 			}
@@ -62,6 +59,7 @@ public class EmployeeController {
 			if(!(employeeForm.getEmployeePass().equals(employeeForm.getEmployeeRePass()))) {
 				mv.addObject("message", "パスワードが一致しません");
 				mv.addObject("employeeForm", employeeForm);
+				mv.addObject("positionList",positionList);
 				mv.setViewName("addEmployee");
 				return mv;
 			}
@@ -71,6 +69,7 @@ public class EmployeeController {
 			if(sameEmployee != null) {
 				mv.addObject("message", "違うパスワードを入力してください");
 				mv.addObject("employeeForm",employeeForm);
+				mv.addObject("positionList",positionList);
 				mv.setViewName("addEmployee");
 				return mv;
 			}
@@ -80,6 +79,7 @@ public class EmployeeController {
 			employeeRepository.saveAndFlush(employee);
 			mv.addObject("message", "登録が完了しました");
 			mv.addObject("employeeForm",employeeForm);
+			mv.addObject("positionList",positionList);
 			mv.setViewName("addEmployee");
 			return mv;
 			
@@ -87,7 +87,7 @@ public class EmployeeController {
 		
 		public static boolean passcheck(String pass) {
 			boolean result = true;
-			String check = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z\\-]{8,20}$" ;
+			String check = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z\\-]{8,30}$" ;
 			Pattern pattern = Pattern.compile(check);
 			Matcher m1 = pattern.matcher(pass); // パターンと検査対象文字列の照合
 			   result = m1.matches(); // 照合結果をtrueかfalseで取得
