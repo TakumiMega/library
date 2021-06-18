@@ -56,6 +56,7 @@ public class LoginController {
 			mv.setViewName("login");
 			return mv;
 		}
+
 		
 		// 社員名とパスワードを照合
 		Employee employee = employeeRepository.findByEmployeeNameAndEmployeePass(employeeName, employeePass);

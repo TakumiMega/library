@@ -6,7 +6,7 @@ function openWin(formName){
 		alert('指定したフォームが所得できませんでした');
 		return;
 	}
-	let win = window.open('about:blank', formName);
+	let win = window.open('about:blank', formName, "width=600,height=400,scrollbars=yes,resizable=yes");
 	form.target = formName;
 	form.submit();
 	win.focus();

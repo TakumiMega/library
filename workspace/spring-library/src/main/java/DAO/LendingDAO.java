@@ -228,6 +228,104 @@ public class LendingDAO {
 		}
 	}
 
+	public List<LendingBean> searchFirstLendingOverList() throws DAOException {
+		if (con == null)
+			getConnection();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			// SQL文の作成
+			String sql = "SELECT l.LENDING_ID,u.USERS_ID,u.USERS_NAME,b.BOOKS_NAME,l.LENDING_LEND_DATE,l.LENDING_RETURN_DATE  "
+					+ "FROM LENDING l LEFT OUTER JOIN USERS u ON l.USERS_ID = u.USERS_ID LEFT OUTER JOIN books b ON l.BOOKS_ID = b.BOOKS_ID "
+					+ "WHERE l.LENDING_FLG = '0' AND ? > l.LENDING_RETURN_DATE::character varying";
+			// PreparedStatementオブジェクトの取得
+			st = con.prepareStatement(sql);
+			String nowDay = dateFormat.format(calendar.getTime());
+			st.setString(1, nowDay);
+			// SQLの実行
+			rs = st.executeQuery();
+			// 結果の取得
+			List<LendingBean> list = new ArrayList<LendingBean>();
+			while (rs.next()) {
+				int lendingId = rs.getInt("lending_id");
+				int usersId = rs.getInt("users_id");
+				String usersName = rs.getString("users_name");
+				String booksName = rs.getString("books_name");
+				Date lendingLendDate = rs.getDate("lending_lend_date");
+				Date lendingReturnDate = rs.getDate("lending_return_date");
+				LendingBean bean = new LendingBean(lendingId,usersId,usersName,booksName,dateFormat.format(lendingLendDate),dateFormat.format(lendingReturnDate));
+				list.add(bean);
+			}
+
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの取得に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null)
+					rs.close();
+				if (st != null)
+					st.close();
+				close();
+			} catch (Exception e) {
+				throw new DAOException("リソースの開放に失敗しました。");
+			}
+		}
+	}
+
+
+	public List<LendingBean> searchLendingOverList(int userId) throws DAOException {
+		if (con == null)
+			getConnection();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+
+		try {
+			// SQL文の作成
+			String sql = "SELECT l.LENDING_ID,u.USERS_ID,u.USERS_NAME,b.BOOKS_NAME,l.LENDING_LEND_DATE,l.LENDING_RETURN_DATE  "
+					+ "FROM LENDING l LEFT OUTER JOIN USERS u ON l.USERS_ID = u.USERS_ID LEFT OUTER JOIN books b ON l.BOOKS_ID = b.BOOKS_ID "
+					+ "WHERE l.LENDING_FLG = '0' AND ? > l.LENDING_RETURN_DATE::character varying AND l.USERS_ID = ?";
+			// PreparedStatementオブジェクトの取得
+			st = con.prepareStatement(sql);
+			String nowDay = dateFormat.format(calendar.getTime());
+			st.setString(1, nowDay);
+			st.setInt(2, userId);
+			// SQLの実行
+			rs = st.executeQuery();
+			// 結果の取得
+			List<LendingBean> list = new ArrayList<LendingBean>();
+			while (rs.next()) {
+				int lendingId = rs.getInt("lending_id");
+				int usersId = rs.getInt("users_id");
+				String usersName = rs.getString("users_name");
+				String booksName = rs.getString("books_name");
+				Date lendingLendDate = rs.getDate("lending_lend_date");
+				Date lendingReturnDate = rs.getDate("lending_return_date");
+				LendingBean bean = new LendingBean(lendingId,usersId,usersName,booksName,dateFormat.format(lendingLendDate),dateFormat.format(lendingReturnDate));
+				list.add(bean);
+			}
+
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの取得に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null)
+					rs.close();
+				if (st != null)
+					st.close();
+				close();
+			} catch (Exception e) {
+				throw new DAOException("リソースの開放に失敗しました。");
+			}
+		}
+	}
+
 	private void getConnection() throws DAOException {
 		try {
 			// JDBCドライバの登録

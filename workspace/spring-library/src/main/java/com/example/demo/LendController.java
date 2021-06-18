@@ -57,7 +57,7 @@ public class LendController {
 			mv.addObject("message", "正しいIDを入力してください");
 		} else {
 			if (isNumber(usersId) == true) {
-				if (usersId.length() < 8) {
+				if (usersId.length() < 8 || usersId.equals("00000000")) {
 					session.removeAttribute("usersId");
 					session.removeAttribute("usersName");
 					mv.addObject("message", "正しいIDを入力してください");
@@ -272,6 +272,41 @@ public class LendController {
 		}
 		//表示させるHTMLをセット
 		mv.setViewName("return");
+		return mv;
+	}
+
+	@RequestMapping("/library/returnOver/searchUser")
+	public ModelAndView returnOverSearchUserid(
+			@RequestParam("usersId") String usersId,
+			ModelAndView mv) throws DAOException {
+
+		LendingDAO lendao = new LendingDAO();
+		if (usersId.length() == 0 || usersId == null) {
+			session.removeAttribute("usersId");
+			List<LendingBean> lendingList = lendao.searchFirstLendingOverList();
+			mv.addObject("lendingList",lendingList);
+		} else {
+			if (isNumber(usersId) == true) {
+				if (usersId.length() < 8  || usersId.equals("00000000")) {
+					session.removeAttribute("usersId");
+					mv.addObject("message", "正しいIDを入力してください");
+				} else {
+					Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+					if (lendUser != null) {
+						session.setAttribute("usersId", usersId);
+						List<LendingBean> lendingList = lendao.searchLendingOverList(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+						mv.addObject("lendingList",lendingList);
+					} else {
+						session.removeAttribute("usersId");
+						mv.addObject("message", "その会員番号の利用者は存在しません");
+					}
+				}
+			} else {
+				session.removeAttribute("usersId");
+				mv.addObject("message", "正しいIDを入力してください");
+			}
+		}
+		mv.setViewName("returnOver");
 		return mv;
 	}
 
