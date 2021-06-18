@@ -12,17 +12,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import Bean.ClassificationBean;
 import Bean.EmployeeForm;
-import Bean.EmployeeListBean;
 import Bean.LendingBean;
 import Bean.LendingListForm;
 import Bean.UsersForm;
 import DAO.ClassificationDAO;
 import DAO.DAOException;
-import DAO.EmployeeDAO;
 import DAO.LendingDAO;
 
 @Controller
 public class MainController {
+	final Calendar calendar = Calendar.getInstance();
+	final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 
 	@Autowired
@@ -92,8 +92,11 @@ public class MainController {
 	@RequestMapping("/library/returnOver")
 	public ModelAndView returnOver(
 			ModelAndView mv
-			){
-		mv.setViewName("returnOver.");
+			) throws DAOException{
+		LendingDAO lendao = new LendingDAO();
+		List<LendingBean> lendingList = lendao.searchFirstLendingOverList();
+		mv.addObject("lendingList",lendingList);
+		mv.setViewName("returnOver");
 		return mv;
 	}
 
