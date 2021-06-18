@@ -67,7 +67,7 @@ public class LoginController {
 			mv.setViewName("login");
 			return mv;
 		}
-		
+
 		//sessionにログインした社員IDを格納
 		session.setAttribute("employeeId", employee.getEmployeeId());
 
@@ -88,16 +88,16 @@ public class LoginController {
 
 		return mv;
 	}
-	
+
 	//メイン画面に戻る
 	@RequestMapping("/library/main")
 	public ModelAndView backToMain(
 			ModelAndView mv
 			) {
-		
+
 		//sessionに格納されていた社員IDを用いて役職IDを取得
 		Employee employee = employeeRepository.findByEmployeeId((int) session.getAttribute("employeeId"));
-		
+
 		//役職が受付だった場合、受付用のメイン画面を表示
 		if(employee.getPositionId() == receptionID) {
 			mv.setViewName("receptionMain");
@@ -112,7 +112,8 @@ public class LoginController {
 		if(employee.getPositionId() == adminID) {
 			mv.setViewName("adminMain");
 		}
-		
+		session.removeAttribute("usersId");
+		session.removeAttribute("usersName");
 		return mv;
 	}
 
