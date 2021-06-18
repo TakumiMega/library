@@ -150,10 +150,5 @@ public class MainController {
 		return mv;
 	}
 
-	/*
-	 * //お問い合わせ画面に遷移
-	 *
-	 * @RequestMapping("/library/contact") public ModelAndView contact( ModelAndView
-	 * mv ){ mv.setViewName(""); return mv; }
-	 */
+	
 }

@@ -57,36 +57,13 @@ public class UsersController {
 		}
 
 		//電話番号の数値チェック
-		if(usersForm.getUsersPhone() != null && !(isNumber(usersForm.getUsersPhone()))) {
+		if(!(usersForm.getUsersPhone().equals("")) && !(isNumber(usersForm.getUsersPhone()))) {
 			mv.addObject("message", "電話番号が正しくありません");
 			mv.addObject("usersForm",usersForm);
 			mv.setViewName("addUsers");
 			return mv;
 		}
 
-		//名前51文字以上エラー
-		if (usersForm.getUsersName().length() > 50) {
-			mv.addObject("message", "名前は50文字以下にしてください");
-			mv.addObject("usersForm",usersForm);
-			mv.setViewName("addUsers");
-			return mv;
-		}
-
-		//住所101文字以上エラー
-		if (usersForm.getUsersAddress().length() > 100) {
-			mv.addObject("message", "住所は100文字までしか入力できません");
-			mv.addObject("usersForm",usersForm);
-			mv.setViewName("addUsers");
-			return mv;
-		}
-
-		//電話番号21文字以上エラー
-		if (usersForm.getUsersPhone() != null && usersForm.getUsersPhone().length() > 20) {
-			mv.addObject("message", "正しい電話番号を入力してください");
-			mv.addObject("usersForm",usersForm);
-			mv.setViewName("addUsers");
-			return mv;
-		}
 
 		//同じ利用者名と生年月日が既に登録されている場合
 		Users sameUsers = usersRepository.findByUsersNameAndUsersBirthday(usersForm.getUsersName(), usersBirthday);
@@ -150,13 +127,17 @@ public class UsersController {
 			mv.setViewName("usersList");
 			return mv;
 		}
+		
+		//利用者IDの数値チェック
+		if(!(isNumber(usersId))) {
+			mv.addObject("message", "正しいIDを入力してください");
+			mv.setViewName("usersList");
+			return mv;
+		}
 
-		//IDが8桁で入力されていなかった場合、全件表示？
+		//IDが8桁で入力されていなかった場合
 		if(usersId.length() != 8) {
 			mv.addObject("message", "正しいIDを入力してください");
-			//ユーザの一覧を取得
-			List<Users> usersList = usersRepository.findAll();
-			mv.addObject("usersList",usersList);
 			mv.setViewName("usersList");
 			return mv;
 		}
@@ -175,7 +156,7 @@ public class UsersController {
 
 		//
 		if(usersList == null) {
-			mv.addObject("message", "お探しのIDは見つかりませんでした");
+			mv.addObject("message", "その会員番号の利用者は存在しません");
 			mv.setViewName("usersList");
 			return mv;
 		}
@@ -208,8 +189,8 @@ public class UsersController {
 
 
 	//利用者更新処理
-		@RequestMapping(value="/library/updateUsers", method=RequestMethod.POST)
-		public ModelAndView updateUsers(
+	@RequestMapping(value="/library/updateUsers", method=RequestMethod.POST)
+	public ModelAndView updateUsers(
 			@RequestParam("usersId") int usersId,
 			@ModelAttribute UsersForm usersForm,
 			ModelAndView mv
@@ -217,11 +198,11 @@ public class UsersController {
 
 		//入力された利用者の誕生日をString型から Data型に変換
 		Date usersBirthday = dateFormat.parse(usersForm.getUsersBirthday());
-
+	
 		//今日の日付と登録する社員IDを取得
 		Date updateDate = new Date();
 		int updateEmployeeId = (int) session.getAttribute("employeeId");
-
+	
 		//生年月日エラー
 		Date today = new Date();	//今日の日付を取得
 		if(usersBirthday.after(today)) {	//今日の日付と取得した日付を比較
@@ -231,58 +212,33 @@ public class UsersController {
 			mv.setViewName("updateUsers");
 			return mv;
 		}
-
+	
 		//電話番号の数値チェック
-		if(usersForm.getUsersPhone() != null && !(isNumber(usersForm.getUsersPhone()))) {
+		if(!(usersForm.getUsersPhone().equals("")) && !(isNumber(usersForm.getUsersPhone()))) {
 			mv.addObject("message", "電話番号が正しくありません");
 			mv.addObject("usersId",usersId);
 			mv.addObject("usersForm",usersForm);
 			mv.setViewName("updateUsers");
 			return mv;
 		}
-
-		//名前51文字以上エラー
-		if (usersForm.getUsersName().length() > 50) {
-			mv.addObject("message", "名前は50文字以下にしてください");
-			mv.addObject("usersId",usersId);
-			mv.addObject("usersForm",usersForm);
-			mv.setViewName("updateUsers");
-			return mv;
-		}
-
-		//住所101文字以上エラー
-		if (usersForm.getUsersAddress().length() > 100) {
-			mv.addObject("message", "住所は100文字までしか入力できません");
-			mv.addObject("usersId",usersId);
-			mv.addObject("usersForm",usersForm);
-			mv.setViewName("updateUsers");
-			return mv;
-		}
-
-		//電話番号21文字以上エラー
-		if (usersForm.getUsersPhone() != null && usersForm.getUsersPhone().length() > 20) {
-			mv.addObject("message", "正しい電話番号を入力してください");
-			mv.addObject("usersId",usersId);
-			mv.addObject("usersForm",usersForm);
-			mv.setViewName("updateUsers");
-			return mv;
-		}
-
+	
+	
+	
 		Users insertEmployee = usersRepository.findByUsersId(usersId);
-
+	
 		Users updateUsers = new Users(usersId, usersForm.getUsersName(), usersForm.getUsersAddress(), usersBirthday, usersForm.getUsersPhone(), usersForm.getUsersEmail(), insertEmployee.getInsertDate(), insertEmployee.getInsertEmployeeId(), updateDate, updateEmployeeId);
 		usersRepository.saveAndFlush(updateUsers);
 		mv.addObject("message", "登録が完了しました");
 		mv.addObject("usersId",usersId);
 		mv.addObject("usersForm",usersForm);
 		mv.setViewName("updateUsers");
-
+	
 		return mv;
 	}
 
-	public boolean isNumber(String booksStock) {
+	public boolean isNumber(String number) {
 		try {
-			Integer.parseInt(booksStock);
+			Integer.parseInt(number);
 			return true;
 		} catch (NumberFormatException e) {
 			return false;

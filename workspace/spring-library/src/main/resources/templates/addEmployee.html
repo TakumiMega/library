@@ -12,7 +12,7 @@
 		<table border="1">
 			<tr>
 				<th>名前</th>
-				<td><input type="text" name="employeeName" th:field="*{employeeName}" required></td>
+				<td><input type="text" name="employeeName" th:field="*{employeeName}" maxlength="50" required></td>
 			</tr>
 			<tr>
 				<th>役職</th>
@@ -24,11 +24,11 @@
 			</tr>
 			<tr>
 				<th>パスワード</th>
-				<td><input type="password" name="employeePass" th:field="*{employeePass}" required></td>
+				<td><input type="password" name="employeePass" th:field="*{employeePass}" maxlength="30" required></td>
 			</tr>
 			<tr>
 				<th>パスワード再入力</th>
-				<td><input type="password" name="employeeRePass" th:field="*{employeeRePass}" required></td>
+				<td><input type="password" name="employeeRePass" th:field="*{employeeRePass}" maxlength="30" required></td>
 			</tr>
 		</table>
 		<input type="submit" value="登録">

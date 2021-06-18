@@ -25,7 +25,7 @@ public class LoginController {
 	EmployeeRepository employeeRepository;
 
 	/**
-	 * トップ画面を表示
+	 * ログイン画面を表示
 	 */
 	@RequestMapping("/library")
 	public ModelAndView top(
@@ -47,15 +47,29 @@ public class LoginController {
 			ModelAndView mv
 			){
 
-		// 社員名とパスワードを照合
-		Employee employee = employeeRepository.findByEmployeeNameAndEmployeePass(employeeName, employeePass);
+		//社員が存在しません
+		Employee empName = employeeRepository.findByEmployeeName(employeeName);
 		// employeeがnullだった場合エラーメッセージを表示
-		if (employee == null) {
-			mv.addObject("message", "パスワードが違います。\n正しいパスワードを入力してください。");
+		if (empName == null) {
+			mv.addObject("message", "その社員は存在しません");
 			mv.addObject("employeeName", employeeName);
 			mv.setViewName("login");
 			return mv;
 		}
+<<<<<<< HEAD
+	
+		
+		// 社員名とパスワードを照合
+		Employee employee = employeeRepository.findByEmployeeNameAndEmployeePass(employeeName, employeePass);
+		// employeeがnullだった場合エラーメッセージを表示
+		if (employee == null) {
+			mv.addObject("message", "パスワードが違います。正しいパスワードを入力してください。");
+			mv.addObject("employeeName", employeeName);
+			mv.setViewName("login");
+			return mv;
+		}
+=======
+>>>>>>> branch 'main' of git@github.com:TakumiMega/library.git
 
 		//sessionにログインした社員IDを格納
 		session.setAttribute("employeeId", employee.getEmployeeId());
