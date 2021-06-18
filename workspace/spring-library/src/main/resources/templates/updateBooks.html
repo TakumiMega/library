@@ -6,14 +6,14 @@
 </head>
 <body>
 
-	<form th:action="'/library/updateBooks/'+${books.booksId}"method="post">
+	<form th:action="'/library/updateBooks/'+${books.booksId}"th:object="${updateForm}"method="post">
 		<table border=1>
 			<tr>
-				<th>図書名</th><th><input type="text"name="booksName"required th:value="${books.booksName}"></th>
+				<th>図書名</th><th><input type="text"name="booksName"required th:value="${books.booksName}"maxlength="100"></th>
 			</tr>
 			<tr>
 				<th>著者名</th>
-				<th><input type="text"name="booksAuthor"required th:value="${books.booksAuthor}"></th>
+				<th><input type="text"name="booksAuthor" maxlength="50" required th:value="${books.booksAuthor}"></th>
 			</tr>
 			<tr>
 				<th>冊数</th>
@@ -34,17 +34,9 @@
 			<tr>
 				<th>分類</th>
 				<th>
-					<select name="classificationId" th:value="${books.classificationId}">
-						<option value="1">哲学</option>
-						<option value="2">歴史</option>
-						<option value="3">社会科学</option>
-						<option value="4">自然科学</option>
-						<option value="5">技術</option>
-						<option value="6">産業</option>
-						<option value="7">産業</option>
-						<option value="8">芸術</option>
-						<option value="9">文学</option>
-						<option value="10">総記</option>
+					<select name="classificationId"th:field="*{classificationId}">
+						<option  th:each="classification:${classificationList}"
+								 th:value="${classification.classificationId}" th:text="${classification.classificationName}"></option>
 					</select>
 				</th>
 			</tr>

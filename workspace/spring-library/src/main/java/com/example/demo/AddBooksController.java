@@ -1,14 +1,18 @@
 package com.example.demo;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import Bean.UpdateForm;
 
 @Controller
 public class AddBooksController {
@@ -29,10 +33,19 @@ public class AddBooksController {
 			@RequestParam(name = "booksStock") String booksStock,
 			@RequestParam(name = "booksLend") String booksLend,
 			@RequestParam(name = "booksRemarks") String booksRemarks,
-			@RequestParam(name = "classificationId") int classificationId, ModelAndView mv) {
+			@RequestParam(name = "classificationId") int classificationId,
+			@ModelAttribute UpdateForm updateform,ModelAndView mv) {
 
+		List<Classification> classificationList=classificationRepository.findAll();
+		mv.addObject("updateform", updateform);
+		mv.addObject("classificationList", classificationList);
+		//sessionから図書登録をする役職IDを取得
+		int insertEmployeeId=(int) session.getAttribute("employeeId");
 		//登録に必要な今日の日付
 		Date booksRegistration = new Date();
+		Date insertDate = new Date();
+		Date updateDate = new Date();
+		//session
 		session.setAttribute("booksRegistration", booksRegistration);
 
 		//図書名文字チェック 101字以上入力の場合エラー
@@ -59,10 +72,11 @@ public class AddBooksController {
 			Books booksinfo = booksRepository.findByBooksNameAndBooksAuthor(booksName, booksAuthor);
 			if (booksinfo == null) {
 				Books addbooks = new Books(booksName, booksAuthor, booksStockCount, booksRegistration,booksLend,
-						booksRemarks, classificationId);
+						booksRemarks, insertDate,updateDate,insertEmployeeId,insertEmployeeId,classificationId);
 				booksRepository.saveAndFlush(addbooks);
 				mv.addObject("message", "登録完了しました");
-				mv.setViewName("addBooks");
+				mv.setViewName("books");
+
 				return mv;
 			}
 			//数値以外が入力されていた場合

@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import Bean.BooksBean;
 import Bean.ClassificationBean;
 import Bean.EmployeeForm;
 import Bean.LendingBean;
 import Bean.LendingListForm;
+import Bean.UpdateForm;
 import Bean.UsersForm;
+import DAO.BooksDAO;
 import DAO.ClassificationDAO;
 import DAO.DAOException;
 import DAO.LendingDAO;
@@ -31,6 +34,9 @@ public class MainController {
 
 	@Autowired
 	PositionRepository positionRepository;
+
+	@Autowired
+	ClassificationRepository classificationRepository;
 
 	//貸出画面に遷移
 	@RequestMapping("/library/lending")
@@ -54,7 +60,12 @@ public class MainController {
 	@RequestMapping("/library/booksList")
 	public ModelAndView booksList(
 			ModelAndView mv
-			){
+			) throws DAOException{
+
+		BooksDAO dao = new BooksDAO();
+
+		List<BooksBean> booksList = dao.findAll();
+		mv.addObject("booksList", booksList);
 		mv.setViewName("books");
 		return mv;
 	}
@@ -62,8 +73,13 @@ public class MainController {
 	//図書登録画面に遷移
 	@RequestMapping("/library/addBooksPage")
 	public ModelAndView addBooksPage(
+			@ModelAttribute UpdateForm updateform,
 			ModelAndView mv
 			){
+		List<Classification> classificationList=classificationRepository.findAll();
+		updateform.setClassificationList(classificationList);
+		mv.addObject("updateform", updateform);
+		mv.addObject("classificationList", classificationList);
 		mv.setViewName("addBooks");
 		return mv;
 	}

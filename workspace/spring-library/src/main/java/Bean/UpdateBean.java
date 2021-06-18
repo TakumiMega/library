@@ -133,4 +133,10 @@ public class UpdateBean {
 		this.booksRemarks=booksRemarks;
 		this.classificationName=classificationName;
 	}
+	public UpdateBean(int booksId, String booksName, String booksAuthor,String classificationName) {
+		this.booksId=booksId;
+		this.booksName = booksName;
+		this.booksAuthor = booksAuthor;
+		this.classificationName=classificationName;
+	}
 }

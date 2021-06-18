@@ -127,17 +127,23 @@ public class Books {
 	Books(){
 
 	}
-	Books(String booksName, String booksAuthor, int booksStock,Date booksRegistration, String booksLend,String booksRemarks, int classificationId){
+	Books(String booksName, String booksAuthor, int booksStock,Date booksRegistration, String booksLend,String booksRemarks,
+			Date insertDate,Date updateDate,int insertEmployeeId,int updateEmployeeId,int classificationId){
 		this.booksName=booksName;
 		this.booksAuthor=booksAuthor;
 		this.booksStock=booksStock;
 		this.booksRegistration=booksRegistration;
 		this.booksLend=booksLend;
 		this.booksRemarks=booksRemarks;
+		this.insertDate=insertDate;
+		this.updateDate=updateDate;
+		this.insertEmployeeId=insertEmployeeId;
+		this.updateEmployeeId=updateEmployeeId;
 		this.classificationId=classificationId;
 
 	}
-	Books(int booksId,String booksName, String booksAuthor, int booksStock,Date booksRegistration, String booksLend,String booksRemarks, Date updateDate,int classificationId){
+	Books(int booksId,String booksName, String booksAuthor, int booksStock,Date booksRegistration, String booksLend,
+			String booksRemarks,Date insertDate,int updateEmployeeId, Date updateDate,int classificationId){
 		this.booksId=booksId;
 		this.booksName=booksName;
 		this.booksAuthor=booksAuthor;
@@ -145,7 +151,9 @@ public class Books {
 		this.booksRegistration=booksRegistration;
 		this.booksLend=booksLend;
 		this.booksRemarks=booksRemarks;
+		this.insertDate=insertDate;
 		this.updateDate=updateDate;
+		this.updateEmployeeId=updateEmployeeId;
 		this.classificationId=classificationId;
 
 	}
