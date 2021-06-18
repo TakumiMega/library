@@ -56,6 +56,7 @@ public class LoginController {
 			mv.setViewName("login");
 			return mv;
 		}
+<<<<<<< HEAD
 	
 		
 		// 社員名とパスワードを照合
@@ -67,6 +68,8 @@ public class LoginController {
 			mv.setViewName("login");
 			return mv;
 		}
+=======
+>>>>>>> branch 'main' of git@github.com:TakumiMega/library.git
 
 		//sessionにログインした社員IDを格納
 		session.setAttribute("employeeId", employee.getEmployeeId());
