@@ -31,12 +31,12 @@
 			<td th:text="${#numbers.formatInteger(emp.employeeId, 8)}"></td>
 			<td th:text="${emp.employeeName}"></td>
 			<td th:text="${emp.positionName}"></td>
-			<!-- <td>
+			<td>
 				<form action="/library/updateEmployeePage" method="get">
 					<input type="submit" value="更新">
 					<input type="hidden" name="employeeId" th:value="${emp.employeeId}">
 				</form>
-			</td> -->
+			</td>
 		</tr>
 	</table>
 

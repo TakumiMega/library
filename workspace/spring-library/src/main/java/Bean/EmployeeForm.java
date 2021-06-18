@@ -10,6 +10,12 @@ public class EmployeeForm {
 	public EmployeeForm() {
 		
 	}
+	
+	public EmployeeForm(String employeeName, int positionId, String employeePass) {
+		this.employeeName = employeeName;
+		this.positionId = positionId;
+		this.employeePass = employeePass;
+	}
 
 	public String getEmployeeName() {
 		return employeeName;

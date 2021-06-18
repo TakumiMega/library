@@ -141,6 +141,94 @@ public class EmployeeController {
 		return mv;
 	}
 	
+	//社員更新画面に遷移
+	@RequestMapping("/library/updateEmployeePage")
+	public ModelAndView addEmployeePage(
+			@RequestParam("employeeId") int employeeId,
+			EmployeeForm employeeForm,
+			ModelAndView mv
+			){
+
+		//役職選択に使用する情報をリストに格納する
+		List<Position> positionList = positionRepository.findAll();
+		
+		//
+		Employee employeeList = employeeRepository.findByEmployeeId(employeeId); 
+		
+		//
+		employeeForm = new EmployeeForm(employeeList.getEmployeeName(), employeeList.getPositionId(), employeeList.getEmployeePass());
+
+		mv.addObject("positionList",positionList);
+		mv.addObject("employeeForm",employeeForm);
+		mv.addObject("employeeId",employeeId);
+		mv.setViewName("updateEmployee");
+		return mv;
+	}
+	
+	//社員更新処理
+	@RequestMapping(value="/library/updateEmployee", method=RequestMethod.POST)
+	public ModelAndView updateEmployee(
+			@ModelAttribute EmployeeForm employeeForm,
+			@RequestParam("employeeId") int employeeId,
+			ModelAndView mv
+			) {
+		
+		//今日の日付と登録する社員IDを取得
+		Date updateDate = new Date();
+		int updateEmployeeId = (int) session.getAttribute("employeeId");
+		
+		//役職選択に使用する情報をリストに格納する
+		List<Position> positionList = positionRepository.findAll();			
+		
+		//パスワード大文字小文字含む英数字8文字以上
+		if(!(passcheck(employeeForm.getEmployeePass()))){
+			mv.addObject("message", "パスワードには大文字小文字含む英数字を使用し、8文字以上30文字以下にしてください");
+			mv.addObject("employeeForm",employeeForm);
+			mv.addObject("positionList",positionList);
+			mv.addObject("employeeId",employeeId);
+			mv.setViewName("updateEmployee");
+			return mv;
+		}
+		
+		//パスワード再確認と一致しない
+		if(!(employeeForm.getEmployeePass().equals(employeeForm.getEmployeeRePass()))) {
+			mv.addObject("message", "パスワードが一致しません");
+			mv.addObject("employeeForm", employeeForm);
+			mv.addObject("positionList",positionList);
+			mv.addObject("employeeId",employeeId);
+			mv.setViewName("updateEmployee");
+			return mv;
+		}
+		
+		//既に登録されている名前とパスワードの確認
+		Employee sameEmployee = employeeRepository.findByEmployeeIdNotAndEmployeeNameAndEmployeePass(employeeId, employeeForm.getEmployeeName(), employeeForm.getEmployeePass());
+		if(sameEmployee != null) {
+			mv.addObject("message", "違うパスワードを入力してください");
+			mv.addObject("employeeForm",employeeForm);
+			mv.addObject("positionList",positionList);
+			mv.addObject("employeeId",employeeId);
+			mv.setViewName("updateEmployee");
+			return mv;
+		}
+		
+		//登録日取得
+		Employee insertEmployee = employeeRepository.findByEmployeeId(employeeId);
+		
+		//社員更新
+		Employee employee = new Employee(employeeId, employeeForm.getEmployeeName(), employeeForm.getEmployeePass(), insertEmployee.getInsertDate(), insertEmployee.getInsertEmployeeId(), updateDate, updateEmployeeId, employeeForm.getPositionId());
+		employeeRepository.saveAndFlush(employee);
+		mv.addObject("message", "更新が完了しました");
+		mv.addObject("employeeForm",employeeForm);
+		mv.addObject("positionList",positionList);
+		mv.addObject("employeeId",employeeId);
+		mv.setViewName("updateEmployee");
+		return mv;
+	
+		
+		
+	}
+
+	
 		
 	public static boolean passcheck(String pass) {
 		boolean result = true;
