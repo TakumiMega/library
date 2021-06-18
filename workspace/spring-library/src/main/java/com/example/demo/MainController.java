@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -21,7 +23,8 @@ import DAO.LendingDAO;
 
 @Controller
 public class MainController {
-
+	final Calendar calendar = Calendar.getInstance();
+	final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Autowired
 	HttpSession session;
@@ -90,8 +93,11 @@ public class MainController {
 	@RequestMapping("/library/returnOver")
 	public ModelAndView returnOver(
 			ModelAndView mv
-			){
-		mv.setViewName("returnOver.");
+			) throws DAOException{
+		LendingDAO lendao = new LendingDAO();
+		List<LendingBean> lendingList = lendao.searchFirstLendingOverList();
+		mv.addObject("lendingList",lendingList);
+		mv.setViewName("returnOver");
 		return mv;
 	}
 
