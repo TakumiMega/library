@@ -9,20 +9,18 @@
 <body>
 
 	<form action="/library/searchUsers" method="get">
-		<table border="1">
+		<table>
 			<tr>
 				<th>利用者ID</th>
-				<td><input type="text" name="usersId" th:value="${usersId}"></td>
+				<td><input type="text" name="usersId" th:value="${usersId}" maxlength="8"></td>
 			</tr>
 		</table>
 		<input type="submit" value="検索">
 	</form>
 
-<<<<<<< HEAD
+
 	<p><span th:text="${message}" style="color:red"></span></p>
 	
-=======
->>>>>>> branch 'main' of git@github.com:TakumiMega/library.git
 	<table border="1">
 		<tr>
 			<th>利用者ID</th>
@@ -49,10 +47,5 @@
 		</tr>
 	</table>
 
-	<br>
-
-	<form action="/library/main" method="get">
-		<input type="submit" value="戻る">
-	</form>
 </body>
 </html>

@@ -12,11 +12,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import Bean.ClassificationBean;
 import Bean.EmployeeForm;
+import Bean.EmployeeListBean;
 import Bean.LendingBean;
 import Bean.LendingListForm;
 import Bean.UsersForm;
 import DAO.ClassificationDAO;
 import DAO.DAOException;
+import DAO.EmployeeDAO;
 import DAO.LendingDAO;
 
 @Controller
@@ -123,7 +125,12 @@ public class MainController {
 	@RequestMapping("/library/employeeList")
 	public ModelAndView employeeList(
 			ModelAndView mv
-			){
+			) throws DAOException{
+		
+		// モデルのDAOを生成
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		List<EmployeeListBean> employeeList = employeeDAO.findAll();
+		mv.addObject("employeeList",employeeList);
 		mv.setViewName("employeeList");
 		return mv;
 	}

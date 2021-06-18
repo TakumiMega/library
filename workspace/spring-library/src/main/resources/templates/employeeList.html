@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>社員一覧</title>
+</head>
+<header><a href="/library/main">メイン画面へ</a></header>
+<hr>
+<body>
+	
+	<form action="/library/searchEmployee" method="get">
+		<table>
+			<tr>
+				<th>社員ID</th>
+				<td><input type="text" name="employeeId" th:value="${employeeId}" maxlength="8"></td>
+			</tr>
+		</table>
+		<input type="submit" value="検索">
+	</form>
+	
+	<p><span th:text="${message}" style="color:red"></span></p>
+	
+	<table border="1">
+		<tr>
+			<th>社員ID</th>
+			<th>社員名</th>
+			<th>役職</th>
+			<!-- <th></th> -->
+		</tr>
+		<tr th:each="emp:${employeeList}">
+			<td th:text="${#numbers.formatInteger(emp.employeeId, 8)}"></td>
+			<td th:text="${emp.employeeName}"></td>
+			<td th:text="${emp.positionName}"></td>
+			<!-- <td>
+				<form action="/library/updateEmployeePage" method="get">
+					<input type="submit" value="更新">
+					<input type="hidden" name="employeeId" th:value="${emp.employeeId}">
+				</form>
+			</td> -->
+		</tr>
+	</table>
+
+	
+</body>
+</html>
