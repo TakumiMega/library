@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import Bean.BooksBean;
 import Bean.ClassificationBean;
 import Bean.EmployeeForm;
+import Bean.EmployeeListBean;
 import Bean.LendingBean;
 import Bean.LendingListForm;
 import Bean.UpdateForm;
@@ -20,11 +23,13 @@ import Bean.UsersForm;
 import DAO.BooksDAO;
 import DAO.ClassificationDAO;
 import DAO.DAOException;
+import DAO.EmployeeDAO;
 import DAO.LendingDAO;
 
 @Controller
 public class MainController {
-
+	final Calendar calendar = Calendar.getInstance();
+	final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Autowired
 	HttpSession session;
@@ -106,8 +111,11 @@ public class MainController {
 	@RequestMapping("/library/returnOver")
 	public ModelAndView returnOver(
 			ModelAndView mv
-			){
-		mv.setViewName("returnOver.");
+			) throws DAOException{
+		LendingDAO lendao = new LendingDAO();
+		List<LendingBean> lendingList = lendao.searchFirstLendingOverList();
+		mv.addObject("lendingList",lendingList);
+		mv.setViewName("returnOver");
 		return mv;
 	}
 
@@ -139,7 +147,12 @@ public class MainController {
 	@RequestMapping("/library/employeeList")
 	public ModelAndView employeeList(
 			ModelAndView mv
-			){
+			) throws DAOException{
+		
+		// モデルのDAOを生成
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		List<EmployeeListBean> employeeList = employeeDAO.findAll();
+		mv.addObject("employeeList",employeeList);
 		mv.setViewName("employeeList");
 		return mv;
 	}
@@ -160,10 +173,5 @@ public class MainController {
 		return mv;
 	}
 
-	/*
-	 * //お問い合わせ画面に遷移
-	 *
-	 * @RequestMapping("/library/contact") public ModelAndView contact( ModelAndView
-	 * mv ){ mv.setViewName(""); return mv; }
-	 */
+	
 }

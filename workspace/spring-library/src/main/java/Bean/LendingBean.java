@@ -47,6 +47,15 @@ public class LendingBean {
 		this.booksAuthor = booksAuthor;
 	}
 
+	public LendingBean(int lendingId, int usersId, String usersName, String booksName, String LendDate, String ReturnDate) {
+		this.lendingId = lendingId;
+		this.usersId = usersId;
+		this.usersName = usersName;
+		this.booksName = booksName;
+		this.LendDate = LendDate;
+		this.ReturnDate = ReturnDate;
+	}
+
 	public int getLendingId() {
 		return lendingId;
 	}

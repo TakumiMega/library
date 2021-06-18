@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <title>図書更新</title>
 </head>
+<header><a href="/library/main">メイン画面へ</a></header>
+<hr>
 <body>
 
 	<form th:action="'/library/updateBooks/'+${books.booksId}"th:object="${updateForm}"method="post">
@@ -43,6 +45,7 @@
 		</table>
 		<input type="submit" class="button"value="更新">
 	</form>
+
 	<p><span th:text="${message}" style="color:red"></span></p>
 </body>
 </html>

@@ -46,14 +46,6 @@ public class LendController {
 	Map<Integer, LendingBean> returnMap = new HashMap<>();
 	int key = 0;
 
-	//貸出画面に遷移
-	@RequestMapping("/")
-	public ModelAndView lending(
-			ModelAndView mv) {
-		mv.setViewName("return");
-		return mv;
-	}
-
 	//ユーザID入力
 	@RequestMapping("/library/lending/userId")
 	public ModelAndView lendSearchUserid(
@@ -65,7 +57,7 @@ public class LendController {
 			mv.addObject("message", "正しいIDを入力してください");
 		} else {
 			if (isNumber(usersId) == true) {
-				if (usersId.length() < 8) {
+				if (usersId.length() < 8 || usersId.equals("00000000")) {
 					session.removeAttribute("usersId");
 					session.removeAttribute("usersName");
 					mv.addObject("message", "正しいIDを入力してください");
@@ -167,7 +159,7 @@ public class LendController {
 			Date returnDay = calendar.getTime();
 			String lendUsersId = ((String) session.getAttribute("usersId")).replaceFirst("^0+", "");
 			for (Map.Entry<Integer, BooksBean> entry : lendingMap.entrySet()) {
-				Lending lending = new Lending(nowDay, returnDay, leandingFlg_lending, nowDay, 1, nowDay, 1,
+				Lending lending = new Lending(nowDay, returnDay, leandingFlg_lending, nowDay, (int) session.getAttribute("employeeId"), nowDay, (int) session.getAttribute("employeeId"),
 						Integer.parseInt(lendUsersId), entry.getValue().getBooksId());
 				lendingRepository.saveAndFlush(lending);
 			}
@@ -267,7 +259,7 @@ public class LendController {
 				Lending lending = new Lending(entry.getValue().getLendingId(), entry.getValue().getLendingLendDate(),
 						entry.getValue().getLendingReturnDate(),
 						leandingFlg_return, entry.getValue().getInsertDate(), entry.getValue().getInsertEmployeeId(),
-						nowDay, 1,
+						nowDay, (int) session.getAttribute("employeeId"),
 						entry.getValue().getUsersId(), entry.getValue().getUsersId());
 				lendingRepository.saveAndFlush(lending);
 			}
@@ -280,6 +272,41 @@ public class LendController {
 		}
 		//表示させるHTMLをセット
 		mv.setViewName("return");
+		return mv;
+	}
+
+	@RequestMapping("/library/returnOver/searchUser")
+	public ModelAndView returnOverSearchUserid(
+			@RequestParam("usersId") String usersId,
+			ModelAndView mv) throws DAOException {
+
+		LendingDAO lendao = new LendingDAO();
+		if (usersId.length() == 0 || usersId == null) {
+			session.removeAttribute("usersId");
+			List<LendingBean> lendingList = lendao.searchFirstLendingOverList();
+			mv.addObject("lendingList",lendingList);
+		} else {
+			if (isNumber(usersId) == true) {
+				if (usersId.length() < 8  || usersId.equals("00000000")) {
+					session.removeAttribute("usersId");
+					mv.addObject("message", "正しいIDを入力してください");
+				} else {
+					Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+					if (lendUser != null) {
+						session.setAttribute("usersId", usersId);
+						List<LendingBean> lendingList = lendao.searchLendingOverList(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+						mv.addObject("lendingList",lendingList);
+					} else {
+						session.removeAttribute("usersId");
+						mv.addObject("message", "その会員番号の利用者は存在しません");
+					}
+				}
+			} else {
+				session.removeAttribute("usersId");
+				mv.addObject("message", "正しいIDを入力してください");
+			}
+		}
+		mv.setViewName("returnOver");
 		return mv;
 	}
 
