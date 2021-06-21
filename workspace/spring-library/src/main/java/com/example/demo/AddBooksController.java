@@ -75,7 +75,7 @@ public class AddBooksController {
 						booksRemarks, insertDate,updateDate,insertEmployeeId,insertEmployeeId,classificationId);
 				booksRepository.saveAndFlush(addbooks);
 				mv.addObject("message", "登録完了しました");
-				mv.setViewName("books");
+				mv.setViewName("addBooks");
 
 				return mv;
 			}
