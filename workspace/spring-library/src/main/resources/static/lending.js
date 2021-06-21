@@ -12,13 +12,13 @@ function openWin(formName){
 	win.focus();
 }
 
-function addBooks(){
+function addBooks(booksId){
 	let parForm = window.opener.document.closeWin;
 	if(!parForm){
 		alert('指定したフォームが所得できませんでした');
 		return;
 	}
-	var booksId = document.getElementById('booksId').value;
+
 	//Formのaction設定
 	parForm.action = "/library/lending/"+booksId;
 	//submit実行
