@@ -62,7 +62,7 @@ public class LendController {
 					session.removeAttribute("usersName");
 					mv.addObject("message", "正しいIDを入力してください");
 				} else {
-					Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+					Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId.replaceFirst("0+", "")));
 					if (lendUser != null) {
 						session.setAttribute("usersId", usersId);
 						session.setAttribute("usersName", lendUser.getUsersName());
@@ -102,7 +102,7 @@ public class LendController {
 			ModelAndView mv) throws NumberFormatException, DAOException {
 
 		BooksDAO dao = new BooksDAO();
-		String lendUsersId = ((String) session.getAttribute("usersId")).replaceFirst("^0+", "");
+		String lendUsersId = ((String) session.getAttribute("usersId")).replaceFirst("0+", "");
 
 		if (dao.alreadyLendingBooksId(Integer.parseInt(lendUsersId), booksId) == false) {
 			mv.addObject("message", "すでに借りている本です");
@@ -157,7 +157,7 @@ public class LendController {
 			Date nowDay = calendar.getTime();
 			calendar.add(Calendar.DATE, 7);
 			Date returnDay = calendar.getTime();
-			String lendUsersId = ((String) session.getAttribute("usersId")).replaceFirst("^0+", "");
+			String lendUsersId = ((String) session.getAttribute("usersId")).replaceFirst("0+", "");
 			for (Map.Entry<Integer, BooksBean> entry : lendingMap.entrySet()) {
 				Lending lending = new Lending(nowDay, returnDay, leandingFlg_lending, nowDay, (int) session.getAttribute("employeeId"), nowDay, (int) session.getAttribute("employeeId"),
 						Integer.parseInt(lendUsersId), entry.getValue().getBooksId());
@@ -190,12 +190,12 @@ public class LendController {
 					session.removeAttribute("usersName");
 					mv.addObject("message", "正しいIDを入力してください");
 				} else {
-					Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+					Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId.replaceFirst("0+", "")));
 					if (lendUser != null) {
 						session.setAttribute("usersId", usersId);
 						session.setAttribute("usersName", lendUser.getUsersName());
 						LendingDAO dao = new LendingDAO();
-						lendMap = dao.searchLendingBooks(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+						lendMap = dao.searchLendingBooks(Integer.parseInt(usersId.replaceFirst("0+", "")));
 						mv.addObject("lendMap", lendMap);
 					} else {
 						session.removeAttribute("usersId");
@@ -260,7 +260,7 @@ public class LendController {
 						entry.getValue().getLendingReturnDate(),
 						leandingFlg_return, entry.getValue().getInsertDate(), entry.getValue().getInsertEmployeeId(),
 						nowDay, (int) session.getAttribute("employeeId"),
-						entry.getValue().getUsersId(), entry.getValue().getUsersId());
+						entry.getValue().getUsersId(), entry.getValue().getBooksId());
 				lendingRepository.saveAndFlush(lending);
 			}
 			mv.addObject("message", "返却しました");
@@ -291,10 +291,10 @@ public class LendController {
 					session.removeAttribute("usersId");
 					mv.addObject("message", "正しいIDを入力してください");
 				} else {
-					Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+					Users lendUser = usersRepository.findByUsersId(Integer.parseInt(usersId.replaceFirst("0+", "")));
 					if (lendUser != null) {
 						session.setAttribute("usersId", usersId);
-						List<LendingBean> lendingList = lendao.searchLendingOverList(Integer.parseInt(usersId.replaceFirst("^0+", "")));
+						List<LendingBean> lendingList = lendao.searchLendingOverList(Integer.parseInt(usersId.replaceFirst("0+", "")));
 						mv.addObject("lendingList",lendingList);
 					} else {
 						session.removeAttribute("usersId");
