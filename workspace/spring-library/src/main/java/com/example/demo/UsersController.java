@@ -222,16 +222,18 @@ public class UsersController {
 			return mv;
 		}
 	
-	
-	
 		Users insertEmployee = usersRepository.findByUsersId(usersId);
 	
 		Users updateUsers = new Users(usersId, usersForm.getUsersName(), usersForm.getUsersAddress(), usersBirthday, usersForm.getUsersPhone(), usersForm.getUsersEmail(), insertEmployee.getInsertDate(), insertEmployee.getInsertEmployeeId(), updateDate, updateEmployeeId);
 		usersRepository.saveAndFlush(updateUsers);
 		mv.addObject("message", "登録が完了しました");
-		mv.addObject("usersId",usersId);
-		mv.addObject("usersForm",usersForm);
-		mv.setViewName("updateUsers");
+//		mv.addObject("usersId",usersId);
+//		mv.addObject("usersForm",usersForm);
+		
+		//ユーザの一覧を取得
+		List<Users> usersList = usersRepository.findAll();
+		mv.addObject("usersList",usersList);
+		mv.setViewName("usersList");
 	
 		return mv;
 	}

@@ -27,7 +27,7 @@
 			<th>住所</th>
 			<th>電話番号</th>
 			<th>メールアドレス</th>
-			<th></th>
+			<th>更新</th>
 		</tr>
 		<tr th:each="user:${usersList}">
 			<td th:text="${#numbers.formatInteger(user.usersId, 8)}"></td>

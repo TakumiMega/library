@@ -176,7 +176,7 @@ public class EmployeeController {
 			@ModelAttribute EmployeeForm employeeForm,
 			@RequestParam("employeeId") int employeeId,
 			ModelAndView mv
-			) {
+			) throws DAOException {
 		
 		//今日の日付と登録する社員IDを取得
 		Date updateDate = new Date();
@@ -223,10 +223,16 @@ public class EmployeeController {
 		Employee employee = new Employee(employeeId, employeeForm.getEmployeeName(), employeeForm.getEmployeePass(), insertEmployee.getInsertDate(), insertEmployee.getInsertEmployeeId(), updateDate, updateEmployeeId, employeeForm.getPositionId());
 		employeeRepository.saveAndFlush(employee);
 		mv.addObject("message", "更新が完了しました");
-		mv.addObject("employeeForm",employeeForm);
-		mv.addObject("positionList",positionList);
-		mv.addObject("employeeId",employeeId);
-		mv.setViewName("updateEmployee");
+//		mv.addObject("employeeForm",employeeForm);
+//		mv.addObject("positionList",positionList);
+//		mv.addObject("employeeId",employeeId);
+		
+		// モデルのDAOを生成
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		//社員テーブルと役職テーブルを結合する
+		List<EmployeeListBean> employeeList = employeeDAO.findAll();
+		mv.addObject("employeeList",employeeList);
+		mv.setViewName("employeeList");
 		return mv;
 	
 		
