@@ -185,7 +185,7 @@ public class LendController {
 			mv.addObject("message", "正しいIDを入力してください");
 		} else {
 			if (isNumber(usersId) == true) {
-				if (usersId.length() < 8) {
+				if (usersId.length() < 8 || usersId.equals("00000000")) {
 					session.removeAttribute("usersId");
 					session.removeAttribute("usersName");
 					mv.addObject("message", "正しいIDを入力してください");
