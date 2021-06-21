@@ -30,6 +30,7 @@ import DAO.LendingDAO;
 public class MainController {
 	final Calendar calendar = Calendar.getInstance();
 	final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static final int receptionID  = 1;	//受付ID
 
 	@Autowired
 	HttpSession session;
@@ -42,6 +43,9 @@ public class MainController {
 
 	@Autowired
 	ClassificationRepository classificationRepository;
+	
+	@Autowired
+	EmployeeRepository employeeRepository;
 
 	//貸出画面に遷移
 	@RequestMapping("/library/lending")
@@ -63,14 +67,25 @@ public class MainController {
 
 	//図書一覧画面に遷移
 	@RequestMapping("/library/booksList")
-	public ModelAndView booksList(
+	public ModelAndView booksList(@ModelAttribute UpdateForm updateform,
 			ModelAndView mv
 			) throws DAOException{
 
 		BooksDAO dao = new BooksDAO();
+		
+		//sessionに格納されていた社員IDを用いて役職IDを取得
+		Employee employee = employeeRepository.findByEmployeeId((int) session.getAttribute("employeeId"));
+		//役職が受付だった場合、受付権限のフラグをセット
+		if(employee.getPositionId() == receptionID) {
+			mv.addObject("receptionID", receptionID);
+		}
 
 		List<BooksBean> booksList = dao.findAll();
 		mv.addObject("booksList", booksList);
+		List<Classification> classificationList=classificationRepository.findAll();
+		updateform.setClassificationList(classificationList);
+		mv.addObject("updateform", updateform);
+		mv.addObject("classificationList", classificationList);
 		mv.setViewName("books");
 		return mv;
 	}
@@ -148,7 +163,7 @@ public class MainController {
 	public ModelAndView employeeList(
 			ModelAndView mv
 			) throws DAOException{
-		
+
 		// モデルのDAOを生成
 		EmployeeDAO employeeDAO = new EmployeeDAO();
 		//社員テーブルと役職テーブルを結合する
@@ -174,5 +189,5 @@ public class MainController {
 		return mv;
 	}
 
-	
+
 }

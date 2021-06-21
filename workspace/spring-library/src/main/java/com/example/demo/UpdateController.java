@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import Bean.BooksBean;
 import Bean.UpdateForm;
+import DAO.BooksDAO;
+import DAO.DAOException;
 
 @Controller
 public class UpdateController {
@@ -29,13 +32,21 @@ public class UpdateController {
 	@RequestMapping("/library/updateBooksPage/{booksId}")
 	public ModelAndView updateBooks(
 			ModelAndView mv,
-			@PathVariable("booksId") int booksId,
-			@ModelAttribute UpdateForm updateform) {
+			@PathVariable("booksId") int booksId) {
+		UpdateForm form = new UpdateForm();
+
 		List<Classification> classificationList = classificationRepository.findAll();
 		Books books = booksRepository.findByBooksId(booksId);
-		mv.addObject("books", books);
-		mv.addObject("updateform", updateform);
-		mv.addObject("classificationList", classificationList);
+
+		form.setBooksId(booksId);
+		form.setBooksName(books.getBooksName());
+		form.setBooksAuthor(books.getBooksAuthor());
+		form.setClassificationId(books.getClassificationId());
+		form.setBooksStock(String.valueOf(books.getBooksStock()));
+		form.setBooksRemarks(books.getBooksRemarks());
+		form.setBooksLend(books.getBooksLend());
+		form.setClassificationList(classificationList);
+		mv.addObject("updateForm", form);
 		mv.setViewName("updateBooks");
 		return mv;
 	}
@@ -49,16 +60,18 @@ public class UpdateController {
 			@RequestParam(name = "booksRemarks") String booksRemarks,
 			@RequestParam(name = "classificationId") int classificationId,
 			@ModelAttribute UpdateForm updateform,
-			ModelAndView mv) {
-
-		@SuppressWarnings("unchecked")
-		/*List<Books> updatelist=(List<Books>) booksRepository.findByBooksId(booksId);*/
+			ModelAndView mv) throws DAOException {
+		List<Classification> classificationList = classificationRepository.findAll();
+		BooksDAO dao = new BooksDAO();
+		UpdateForm form = new UpdateForm();
 		Books books = booksRepository.findByBooksId(Integer.parseInt(booksId));
 		//sessionから図書登録をする役職IDを取得
-		int insertEmployeeId = (int) session.getAttribute("employeeId");
+		int updateEmployeeId = (int) session.getAttribute("employeeId");
 		Date updateDate = new Date();
 		Date insertDate = books.getInsertDate();
+
 		//冊数項目に数値以外が入力されていないかチェック
+
 		if (isNumber(booksStock)) {
 			int booksStockCount = Integer.parseInt(booksStock);
 
@@ -66,15 +79,27 @@ public class UpdateController {
 
 			Books updatebooks = new Books((Integer.parseInt(booksId)), booksName, booksAuthor, booksStockCount,
 					books.getBooksRegistration(), booksLend,
-					booksRemarks, insertDate, insertEmployeeId, updateDate, classificationId);
+					booksRemarks, insertDate, updateEmployeeId, updateDate, classificationId);
 			booksRepository.saveAndFlush(updatebooks);
 			mv.addObject("message", "更新完了しました");
+			List<BooksBean> booksList = dao.searchBooksInfo(booksName);
+			form.setClassificationList(classificationList);
+			mv.setViewName("updateBooks");
+			mv.addObject("updateForm", form);
+			mv.addObject("booksList", booksList);
 			mv.setViewName("books");
 			return mv;
 		} else
 			//数値以外が入力されていた場合
 			mv.addObject("message", "数値を入力してください");
-		mv.setViewName("updateBooks");
+			form.setBooksId(Integer.parseInt(booksId));
+			form.setBooksName(booksName);
+			form.setBooksAuthor(booksAuthor);
+			form.setClassificationId(classificationId);
+			form.setClassificationList(classificationList);
+			mv.setViewName("updateBooks");
+			mv.addObject("updateForm", form);
+
 		return mv;
 
 	}

@@ -6,7 +6,7 @@
 </head>
 <body>
 
-	<h3><span th:text="${message}" style="color:red"></span></h3>
+	<p><span th:text="${message}" style="color:red"></span></p>
 	<form action="/library/main" method="post">
 		名前：	<input type="text" name="employeeName" th:value="${employeeName}" maxlength="50" required><br>
 		パスワード：	<input type="password" name="employeePass" maxlength="30" required><br>

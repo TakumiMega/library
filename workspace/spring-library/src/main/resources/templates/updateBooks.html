@@ -4,22 +4,22 @@
 <meta charset="UTF-8">
 <title>図書更新</title>
 </head>
-<header><a href="/library/main">メイン画面へ</a></header>
+<header><a href="/library/booksList">一覧へ戻る</a></header>
 <hr>
 <body>
 
-	<form th:action="'/library/updateBooks/'+${books.booksId}"th:object="${updateForm}"method="post">
+	<form th:action="'/library/updateBooks/'+*{booksId}"th:object="${updateForm}"method="post">
 		<table border=1>
 			<tr>
-				<th>図書名</th><th><input type="text"name="booksName"required th:value="${books.booksName}"maxlength="100"></th>
+				<th>図書名</th><th><input type="text"name="booksName"required th:field="*{booksName}"maxlength="100"></th>
 			</tr>
 			<tr>
 				<th>著者名</th>
-				<th><input type="text"name="booksAuthor" maxlength="50" required th:value="${books.booksAuthor}"></th>
+				<th><input type="text"name="booksAuthor" maxlength="50" required th:field="*{booksAuthor}"></th>
 			</tr>
 			<tr>
 				<th>冊数</th>
-				<th><input type="text"name="booksStock"required th:value="${books.booksStock}"></th>
+				<th><input type="text"name="booksStock"required th:field="*{booksStock}"></th>
 			<tr>
 				<th>貸出の是非</th>
 			<th>
@@ -31,13 +31,13 @@
 			</tr>
 			<tr>
 				<th>備考</th>
-				<th><input type="text"name="booksRemarks" th:value="${books.booksRemarks}"></th>
+				<th><input type="text"name="booksRemarks" th:field="*{booksRemarks}"></th>
 			</tr>
 			<tr>
 				<th>分類</th>
 				<th>
-					<select name="classificationId"th:field="*{classificationId}">
-						<option  th:each="classification:${classificationList}"
+					<select name="classificationId">
+						<option th:each="classification:*{classificationList}"th:selected="${classification.classificationId} == *{classificationId}"
 								 th:value="${classification.classificationId}" th:text="${classification.classificationName}"></option>
 					</select>
 				</th>

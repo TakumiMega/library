@@ -25,7 +25,7 @@
 			<th>社員ID</th>
 			<th>社員名</th>
 			<th>役職</th>
-			<!-- <th></th> -->
+			<th>更新</th>
 		</tr>
 		<tr th:each="emp:${employeeList}">
 			<td th:text="${#numbers.formatInteger(emp.employeeId, 8)}"></td>

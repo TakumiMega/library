@@ -7,7 +7,7 @@
 <header><a href="/library/main">メイン画面へ</a></header>
 <hr>
 <body>
-	<form action="/library/serchBooks"th:object="${updateForm}"method="get">
+	<form action="/library/serchBooks"th:object="${updateForm}"method="post">
 
 		<table>
 			<tr>
@@ -20,24 +20,15 @@
 				<th>分類名</th>
 				<th>
 					<select name="classificationId">
-						<option value="0">すべて</option>
-						<option value="1">哲学</option>
-						<option value="2">歴史</option>
-						<option value="3">社会科学</option>
-						<option value="4">自然科学</option>
-						<option value="5">技術</option>
-						<option value="6">産業</option>
-						<option value="7">産業</option>
-						<option value="8">芸術</option>
-						<option value="9">文学</option>
-						<option value="10">総記</option>
+						<option th:each="classification:*{classificationList}"
+								 th:value="${classification.classificationId}" th:text="${classification.classificationName}"></option>
 					</select>
 				</th>
 			</tr>
 		</table>
 		<input type="submit" class="button"value="検索">
 	</form>
-
+	<p><span th:text="${message}" style="color:red"></span></p>
 	 <table border=1>
 	 	<tr>
 	 		<th>図書名</th>
@@ -60,7 +51,7 @@
 				</td>
 		</tr>
 	</table>
-	<p><span th:text="${message}" style="color:red"></span></p>
+
 
 </body>
 </html>

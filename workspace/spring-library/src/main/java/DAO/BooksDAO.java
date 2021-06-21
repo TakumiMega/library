@@ -37,7 +37,7 @@ public class BooksDAO {
 				String booksName = rs.getString("books_name");
 				String booksAuthor = rs.getString("books_author");
 				int booksStock= rs.getInt("books_stock");
-				String booksRemarks= rs.getString("books_stock");
+				String booksRemarks= rs.getString("books_remarks");
 				String classificationName= rs.getString("classification_name");
 				BooksBean bean = new BooksBean(booksId, booksName, booksAuthor,booksStock,booksRemarks,classificationName);
 				list.add(bean);
