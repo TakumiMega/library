@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import Bean.EmployeeForm;
+import Bean.EmployeeListBean;
+import DAO.DAOException;
+import DAO.EmployeeDAO;
 
 @Controller
 public class EmployeeController {
@@ -91,12 +94,15 @@ public class EmployeeController {
 	public ModelAndView searchUsers(
 			@RequestParam("employeeId") String employeeId,
 			ModelAndView mv
-			) {
+			) throws DAOException {
+		
+		// モデルのDAOを生成
+		EmployeeDAO employeeDAO = new EmployeeDAO();
 
 		//検索フォームに何も入力されずに検索ボタンを押下された場合、全件表示
 		if(employeeId.equals("")) {
-			//ユーザの一覧を取得
-			List<Employee> employeeList = employeeRepository.findAll();
+			//社員テーブルと役職テーブルを結合する
+			List<EmployeeListBean> employeeList = employeeDAO.findAll();
 			mv.addObject("employeeList",employeeList);
 			mv.setViewName("employeeList");
 			return mv;
@@ -126,10 +132,9 @@ public class EmployeeController {
 		int serchemployeeId  = Integer.parseInt(outEmployeeId);
 
 		//検索対象の情報を取得
-		Employee employeeList = employeeRepository.findByEmployeeId(serchemployeeId);
-
+		List<EmployeeListBean> employeeList = employeeDAO.searchEmployeeId(serchemployeeId);
 		//
-		if(employeeList == null) {
+		if(employeeList == null || employeeList.size() == 0) {
 			mv.addObject("message", "その会員番号の利用者は存在しません");
 			mv.setViewName("employeeList");
 			return mv;

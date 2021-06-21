@@ -238,7 +238,7 @@ public class UsersController {
 
 	public boolean isNumber(String number) {
 		try {
-			Integer.parseInt(number);
+			Long.parseLong(number);
 			return true;
 		} catch (NumberFormatException e) {
 			return false;

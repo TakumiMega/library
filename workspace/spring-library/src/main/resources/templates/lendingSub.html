@@ -16,8 +16,8 @@
 		<td th:text="${books.booksId}"></td>
 		<td th:text="${books.booksName}"></td>
 		<td th:text="${books.booksAuthor}"></td>
-		<td><input type ="button" value = "追加"onClick="addBooks()">
-		<input type ="hidden" id="booksId"  th:value = "${books.booksId}"></td>
+		<td><input type ="button" value = "追加"th:onClick="'addBooks(' + ${books.booksId} + ');'">
+		</td>
 	</tr>
 	</table>
 
