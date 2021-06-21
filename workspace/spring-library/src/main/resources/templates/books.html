@@ -20,7 +20,7 @@
 				<th>分類名</th>
 				<th>
 					<select name="classificationId">
-						<option value="0">すべて</option>
+						<option value="0">全件</option>
 						<option value="1">哲学</option>
 						<option value="2">歴史</option>
 						<option value="3">社会科学</option>
@@ -37,7 +37,7 @@
 		</table>
 		<input type="submit" class="button"value="検索">
 	</form>
-
+	<p><span th:text="${message}" style="color:red"></span></p>
 	 <table border=1>
 	 	<tr>
 	 		<th>図書名</th>
@@ -60,7 +60,7 @@
 				</td>
 		</tr>
 	</table>
-	<p><span th:text="${message}" style="color:red"></span></p>
+
 
 </body>
 </html>

@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import Bean.BooksBean;
 import Bean.UpdateForm;
+import DAO.BooksDAO;
+import DAO.DAOException;
 
 @Controller
 public class UpdateController {
@@ -31,6 +34,7 @@ public class UpdateController {
 			ModelAndView mv,
 			@PathVariable("booksId") int booksId) {
 		UpdateForm form = new UpdateForm();
+
 		List<Classification> classificationList = classificationRepository.findAll();
 		Books books = booksRepository.findByBooksId(booksId);
 
@@ -56,9 +60,9 @@ public class UpdateController {
 			@RequestParam(name = "booksRemarks") String booksRemarks,
 			@RequestParam(name = "classificationId") int classificationId,
 			@ModelAttribute UpdateForm updateform,
-			ModelAndView mv) {
+			ModelAndView mv) throws DAOException {
 		List<Classification> classificationList = classificationRepository.findAll();
-
+		BooksDAO dao = new BooksDAO();
 		UpdateForm form = new UpdateForm();
 		Books books = booksRepository.findByBooksId(Integer.parseInt(booksId));
 		//sessionから図書登録をする役職IDを取得
@@ -78,6 +82,9 @@ public class UpdateController {
 					booksRemarks, insertDate, updateEmployeeId, updateDate, classificationId);
 			booksRepository.saveAndFlush(updatebooks);
 			mv.addObject("message", "更新完了しました");
+			List<BooksBean> booksList = dao.searchBooksInfo(booksName);
+
+			mv.addObject("booksList", booksList);
 			mv.setViewName("books");
 			return mv;
 		} else

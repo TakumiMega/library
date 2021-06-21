@@ -37,16 +37,17 @@ public class AddBooksController {
 			@ModelAttribute UpdateForm updateform,ModelAndView mv) {
 
 			List<Classification> classificationList=classificationRepository.findAll();
+			UpdateForm form = new UpdateForm();
 			mv.addObject("updateform", updateform);
 			mv.addObject("classificationList", classificationList);
 
 		//sessionから図書登録をする役職IDを取得
-			int insertEmployeeId=(int) session.getAttribute("employeeId");
+			int updateEmployeeId=(int) session.getAttribute("employeeId");
 
-		//登録に必要な今日の日付
-		Date booksRegistration = new Date();
-		Date insertDate = new Date();
-		Date updateDate = new Date();
+			//登録に必要な今日の日付
+			Date booksRegistration = new Date();
+			Date insertDate = new Date();
+			Date updateDate = new Date();
 
 		//sessionにセット
 		session.setAttribute("booksRegistration", booksRegistration);
@@ -75,9 +76,11 @@ public class AddBooksController {
 			Books booksinfo = booksRepository.findByBooksNameAndBooksAuthor(booksName, booksAuthor);
 			if (booksinfo == null) {
 				Books addbooks = new Books(booksName, booksAuthor, booksStockCount, booksRegistration,booksLend,
-						booksRemarks, insertDate,updateDate,insertEmployeeId,insertEmployeeId,classificationId);
+						booksRemarks, insertDate,updateDate,updateEmployeeId,updateEmployeeId,classificationId);
 				booksRepository.saveAndFlush(addbooks);
 				mv.addObject("message", "登録完了しました");
+				form.setClassificationList(classificationList);
+				mv.addObject("updateForm", form);
 				mv.setViewName("addBooks");
 
 				return mv;
@@ -85,6 +88,12 @@ public class AddBooksController {
 			//数値以外が入力されていた場合
 		} else {
 			mv.addObject("message", "数値を入力してください");
+			form.setBooksName(booksName);
+			form.setBooksAuthor(booksAuthor);
+			form.setClassificationId(classificationId);
+			form.setClassificationList(classificationList);
+			mv.setViewName("updateBooks");
+			mv.addObject("updateForm", form);
 			mv.setViewName("addBooks");
 
 			return mv;
