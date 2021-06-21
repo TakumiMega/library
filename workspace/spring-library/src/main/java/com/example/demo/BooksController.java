@@ -32,6 +32,7 @@ public class BooksController {
 			@RequestParam("classificationId") int classificationId,
 			@ModelAttribute UpdateForm updateform,
 			ModelAndView mv) throws DAOException {
+		List<Classification> classificationList = classificationRepository.findAll();
 		UpdateForm form = new UpdateForm();
 		BooksDAO dao = new BooksDAO();
 
@@ -92,6 +93,9 @@ public class BooksController {
 			}
 		}
 		//表示させるHTMLをセット
+		form.setClassificationList(classificationList);
+		mv.setViewName("updateBooks");
+		mv.addObject("updateForm", form);
 		mv.setViewName("books");
 		return mv;
 	}

@@ -83,20 +83,22 @@ public class UpdateController {
 			booksRepository.saveAndFlush(updatebooks);
 			mv.addObject("message", "更新完了しました");
 			List<BooksBean> booksList = dao.searchBooksInfo(booksName);
-
+			form.setClassificationList(classificationList);
+			mv.setViewName("updateBooks");
+			mv.addObject("updateForm", form);
 			mv.addObject("booksList", booksList);
 			mv.setViewName("books");
 			return mv;
 		} else
 			//数値以外が入力されていた場合
 			mv.addObject("message", "数値を入力してください");
-		form.setBooksId(Integer.parseInt(booksId));
-		form.setBooksName(booksName);
-		form.setBooksAuthor(booksAuthor);
-		form.setClassificationId(classificationId);
-		form.setClassificationList(classificationList);
-		mv.setViewName("updateBooks");
-		mv.addObject("updateForm", form);
+			form.setBooksId(Integer.parseInt(booksId));
+			form.setBooksName(booksName);
+			form.setBooksAuthor(booksAuthor);
+			form.setClassificationId(classificationId);
+			form.setClassificationList(classificationList);
+			mv.setViewName("updateBooks");
+			mv.addObject("updateForm", form);
 
 		return mv;
 
