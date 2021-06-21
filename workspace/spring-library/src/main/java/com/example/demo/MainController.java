@@ -30,6 +30,7 @@ import DAO.LendingDAO;
 public class MainController {
 	final Calendar calendar = Calendar.getInstance();
 	final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static final int receptionID  = 1;	//受付ID
 
 	@Autowired
 	HttpSession session;
@@ -42,6 +43,9 @@ public class MainController {
 
 	@Autowired
 	ClassificationRepository classificationRepository;
+	
+	@Autowired
+	EmployeeRepository employeeRepository;
 
 	//貸出画面に遷移
 	@RequestMapping("/library/lending")
@@ -68,6 +72,13 @@ public class MainController {
 			) throws DAOException{
 
 		BooksDAO dao = new BooksDAO();
+		
+		//sessionに格納されていた社員IDを用いて役職IDを取得
+		Employee employee = employeeRepository.findByEmployeeId((int) session.getAttribute("employeeId"));
+		//役職が受付だった場合、受付権限のフラグをセット
+		if(employee.getPositionId() == receptionID) {
+			mv.addObject("receptionID", receptionID);
+		}
 
 		List<BooksBean> booksList = dao.findAll();
 		mv.addObject("booksList", booksList);
