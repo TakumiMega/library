@@ -36,16 +36,19 @@ public class AddBooksController {
 			@RequestParam(name = "classificationId") int classificationId,
 			@ModelAttribute UpdateForm updateform,ModelAndView mv) {
 
-		List<Classification> classificationList=classificationRepository.findAll();
-		mv.addObject("updateform", updateform);
-		mv.addObject("classificationList", classificationList);
+			List<Classification> classificationList=classificationRepository.findAll();
+			mv.addObject("updateform", updateform);
+			mv.addObject("classificationList", classificationList);
+
 		//sessionから図書登録をする役職IDを取得
-		int insertEmployeeId=(int) session.getAttribute("employeeId");
+			int insertEmployeeId=(int) session.getAttribute("employeeId");
+
 		//登録に必要な今日の日付
 		Date booksRegistration = new Date();
 		Date insertDate = new Date();
 		Date updateDate = new Date();
-		//session
+
+		//sessionにセット
 		session.setAttribute("booksRegistration", booksRegistration);
 
 		//図書名文字チェック 101字以上入力の場合エラー
@@ -83,6 +86,7 @@ public class AddBooksController {
 		} else {
 			mv.addObject("message", "数値を入力してください");
 			mv.setViewName("addBooks");
+
 			return mv;
 		}
 

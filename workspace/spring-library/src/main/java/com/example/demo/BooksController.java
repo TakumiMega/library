@@ -84,6 +84,7 @@ public class BooksController {
 				mv.addObject("booksList", booksList);
 			}
 		}
+		
 		//表示させるHTMLをセット
 		mv.setViewName("books");
 		return mv;
