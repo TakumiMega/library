@@ -63,7 +63,7 @@ public class MainController {
 
 	//図書一覧画面に遷移
 	@RequestMapping("/library/booksList")
-	public ModelAndView booksList(
+	public ModelAndView booksList(@ModelAttribute UpdateForm updateform,
 			ModelAndView mv
 			) throws DAOException{
 
@@ -71,6 +71,10 @@ public class MainController {
 
 		List<BooksBean> booksList = dao.findAll();
 		mv.addObject("booksList", booksList);
+		List<Classification> classificationList=classificationRepository.findAll();
+		updateform.setClassificationList(classificationList);
+		mv.addObject("updateform", updateform);
+		mv.addObject("classificationList", classificationList);
 		mv.setViewName("books");
 		return mv;
 	}
@@ -148,7 +152,7 @@ public class MainController {
 	public ModelAndView employeeList(
 			ModelAndView mv
 			) throws DAOException{
-		
+
 		// モデルのDAOを生成
 		EmployeeDAO employeeDAO = new EmployeeDAO();
 		//社員テーブルと役職テーブルを結合する
@@ -174,5 +178,5 @@ public class MainController {
 		return mv;
 	}
 
-	
+
 }
