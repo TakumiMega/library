@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -95,6 +96,15 @@ public class LendController {
 
 		BooksDAO dao = new BooksDAO();
 		List<BooksBean> booksList = dao.searchBooks(booksName);
+		List<BooksBean> cloneList = new ArrayList<BooksBean>(booksList);
+		int listnum = 0;
+
+		for(BooksBean list: cloneList) {
+			if (dao.allcasesLendingBooksId(list.getBooksId()) == false) {
+				booksList.remove(listnum);
+			}
+			listnum++;
+		}
 		mv.addObject("booksName", booksName);
 		mv.addObject("booksList", booksList);
 
@@ -185,9 +195,10 @@ public class LendController {
 						Integer.parseInt(lendUsersId), entry.getValue().getBooksId());
 				lendingRepository.saveAndFlush(lending);
 			}
-
+			//メッセージ設定
 			mv.addObject("message", "貸出しました");
 			calendar.add(Calendar.DATE, -7);
+			//セッション削除
 			session.removeAttribute("usersId");
 			session.removeAttribute("usersName");
 			lendingMap.clear();
@@ -288,14 +299,17 @@ public class LendController {
 			Date nowDay = calendar.getTime();
 			//返却処理
 			for (Entry<Integer, LendingBean> entry : returnMap.entrySet()) {
+				//貸出情報セット
 				Lending lending = new Lending(entry.getValue().getLendingId(), entry.getValue().getLendingLendDate(),
 						entry.getValue().getLendingReturnDate(),
 						leandingFlg_return, entry.getValue().getInsertDate(), entry.getValue().getInsertEmployeeId(),
 						nowDay, (int) session.getAttribute("employeeId"),
 						entry.getValue().getUsersId(), entry.getValue().getBooksId());
+				//更新処理
 				lendingRepository.saveAndFlush(lending);
 			}
 			mv.addObject("message", "返却しました");
+			//セッション削除
 			session.removeAttribute("usersId");
 			session.removeAttribute("usersName");
 			lendMap.clear();
@@ -335,13 +349,16 @@ public class LendController {
 						//返却超過検索
 						List<LendingBean> lendingList = lendao
 								.searchLendingOverList(Integer.parseInt(usersId.replaceFirst("0+", "")));
+						//画面に超過リストをセット
 						mv.addObject("lendingList", lendingList);
 					} else {
+						//セッション削除
 						session.removeAttribute("usersId");
 						mv.addObject("message", "その会員番号の利用者は存在しません");
 					}
 				}
 			} else {
+				//セッション削除
 				session.removeAttribute("usersId");
 				mv.addObject("message", "正しいIDを入力してください");
 			}
