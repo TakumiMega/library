@@ -25,7 +25,7 @@ public class BooksDAO {
 		try {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name "
-					+ "FROM books inner join classification on books.classification_id = classification.classification_id";
+					+ "FROM books inner join classification on books.classification_id = classification.classification_id ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			// SQLの実行
@@ -70,7 +70,7 @@ public class BooksDAO {
 		try {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author FROM books "
-					+ "WHERE books_lend = '0' AND books_name LIKE ?";
+					+ "WHERE books_lend = '0' AND books_name LIKE ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookName + "%");
@@ -112,7 +112,7 @@ public class BooksDAO {
 
 		try {
 			// SQL文の作成
-			String sql = "SELECT books_id, books_name, books_author FROM books WHERE books_id = ?";
+			String sql = "SELECT books_id, books_name, books_author FROM books WHERE books_id = ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setInt(1, bookId);
@@ -240,7 +240,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_name LIKE ?";
+					+ "WHERE books_name LIKE ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookName + "%");
@@ -290,7 +290,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_author LIKE ?";
+					+ "WHERE books_author LIKE ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookAuthor + "%");
@@ -340,7 +340,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE classification.classification_id = ?";
+					+ "WHERE classification.classification_id = ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setInt(1, classificationId);
@@ -390,7 +390,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_name LIKE ? AND books_author LIKE ?";
+					+ "WHERE books_name LIKE ? AND books_author LIKE ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookName + "%");
@@ -442,7 +442,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_name LIKE ? AND books_author LIKE ? AND classification_id = ?";
+					+ "WHERE books_name LIKE ? AND books_author LIKE ? AND books.classification_id = ? ORDER BY books.books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookName + "%");
@@ -495,7 +495,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_name LIKE ? AND classification_id = ?";
+					+ "WHERE books_name LIKE ? AND classification_id = ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookName + "%");
@@ -547,7 +547,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_author LIKE ? AND classification_id = ?";
+					+ "WHERE books_author LIKE ? AND classification_id = ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookAuthor + "%");
@@ -597,7 +597,7 @@ public class BooksDAO {
 		try {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name "
-					+ "FROM books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id";
+					+ "FROM books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			// SQLの実行

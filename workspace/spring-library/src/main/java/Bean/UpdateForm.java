@@ -13,6 +13,7 @@ public class UpdateForm {
 	private String booksRemarks;
 	private int classificationId;
 	private List<Classification> classificationList;
+	private List<ClassificationBean> classificationshowList;
 
 	public int getBooksId() {
 		return booksId;
@@ -77,5 +78,15 @@ public class UpdateForm {
 	public void setBooksRemarks(String booksRemarks) {
 		this.booksRemarks = booksRemarks;
 	}
+
+	public List<ClassificationBean> getClassificationshowList() {
+		return classificationshowList;
+	}
+
+	public void setClassificationshowList(List<ClassificationBean> classificationshowList) {
+		this.classificationshowList = classificationshowList;
+	}
+
+
 
 }

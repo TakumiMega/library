@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.Employee;
 
 import Bean.EmployeeListBean;
 
@@ -30,7 +29,7 @@ public class EmployeeDAO {
 		try {
 			// SQL文の作成
 			String sql = "SELECT e.employee_id,e.employee_name,p.position_name"
-					+ " FROM EMPLOYEE e JOIN POSITION p ON e.position_id = p.position_id";
+					+ " FROM EMPLOYEE e JOIN POSITION p ON e.position_id = p.position_id ORDER BY e.employee_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			// SQLの実行
