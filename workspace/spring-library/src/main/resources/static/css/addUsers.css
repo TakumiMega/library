@@ -30,7 +30,7 @@ width		 	:130px;
  color			 : #000000; /* 文字色 */
  background-color: white; /* 背景色 */
  border			 : 2px solid #c7fbaa; /* 枠線 */
- text-align:left;
+ text-align:center;
  line-height:1;
 }
 .tableArea {
@@ -39,7 +39,7 @@ width		 	:130px;
   margin-right   : auto;             /* 自動位置   */
   border-spacing : 0;                /* 罫線間余白 */
   font-size      : 16pt;              /* 文字サイズ */
-
+text-align:left;
 
 }
 .tableArea th{
