@@ -41,7 +41,7 @@
 			<th>返却予定日</th>
 		</tr>
 		<tr th:each="lendings:${lendingList}">
-			<td th:text="${lendings.booksId}"></td>
+			<td th:text="${lendings.booksId}"id='booksid'></td>
 			<td th:text="${lendings.booksName}"></td>
 			<td th:text="${lendings.booksAuthor}"></td>
 			<td th:text="${lendings.classificationName}"></td>

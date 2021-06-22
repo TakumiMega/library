@@ -1,0 +1,115 @@
+@charset "UTF-8";
+body{
+	  background: linear-gradient(#CCFFCC, #FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF);
+   	  background-repeat: no-repeat;
+
+}
+.kakomi-box2 {
+ margin			 : 2em auto;
+ padding		 : 2em;
+ width			 : 25%;
+ color			 : #000000; /* 文字色 */
+ background-color: white; /* 背景色 */
+ border			 : 2px solid #c7fbaa; /* 枠線 */
+ text-align:center;
+}
+.button {
+	width		:120px;
+	margin		: 12px auto;
+	font-size	: 12px;
+  	border-radius: 5%;
+	cursor: pointer;
+	padding: 7px 6px;
+	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
+	color: #000000;
+	line-height: 1em;
+	transition: .3s;
+	border: 2px solid #5d5d5d;
+}
+.button:hover {
+  	color         : #000000;
+	background    : #ffffff;
+
+}
+.usertable {
+width: 40%;
+border-collapse: separate;
+border-spacing: 0;
+text-align:center;
+margin-left:30%;
+margin-right:auto;
+}
+
+.usertable th:first-child {
+border-radius: 5px 0 0 0;
+}
+
+.usertable th:last-child {
+border-radius: 0 5px 0 0;
+border-right: 1px solid #3c6690;
+}
+
+.usertable th {
+text-align: center;
+color: black;
+background: linear-gradient(#FFFFFF, #66FFFF);
+border-left: 1px solid #3c6690;
+border-top: 1px solid #3c6690;
+border-bottom: 1px solid #3c6690;
+box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.3) inset;
+padding: 10px 0;
+}
+
+.usertable td {
+font-size: 13pt;
+font-weight: bold;
+border-left: 1px solid #a8b7c5;
+border-bottom: 1px solid #a8b7c5;
+border-top: none;
+box-shadow: 0px -3px 5px 1px #eee inset;
+padding: 10px 0;
+}
+
+.usertable td:last-child {
+border-right: 1px solid #a8b7c5;
+}
+
+.usertable tr:last-child td:first-child {
+border-radius: 0 0 0 5px;
+}
+
+.usertable tr:last-child td:last-child {
+border-radius: 0 0 5px 0;
+}
+
+#employeeid {
+text-align: right;
+width: 20%;
+}
+
+#employeename {
+width: 40%;
+}
+
+#update {
+	width		:100%;
+	margin		: 12px auto;
+	font-size	: 12px;
+  	border-radius: 5%;
+	cursor: pointer;
+	padding: 7px 6px;
+	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
+	color: #000000;
+	line-height: 1em;
+	transition: .3s;
+	border: 2px solid #5d5d5d;
+}
+#update:hover {
+  	color         : #000000;
+	background    : #ffffff;
+
+}
+
+h2{
+	text-align:center;
+}
