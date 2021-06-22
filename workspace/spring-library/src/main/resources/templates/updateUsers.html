@@ -3,13 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <title>利用者更新</title>
+<link th:href="@{/css/updateUsers.css}" type="text/css"rel="stylesheet">
 </head>
-<header><a href="/library/usersList">一覧へ戻る</a></header>
+<header><a href="/library/usersList">📖一覧へ戻る</a></header>
 <hr>
 <body>
-
+<h2>利用者更新</h2>
 	<form action="/library/updateUsers" method="post" th:object="${usersForm}">
-		<table border="1">
+	<div class="kakomi-box2">
+	<div class="add-place">
+		<table class="tableArea">
 			<tr>
 				<th>名前</th>
 				<td><input type="text" name="usersName" th:field="*{usersName}" maxlength="50" required></td>
@@ -31,10 +34,13 @@
 				<td><input type="text" name="usersEmail" th:field="*{usersEmail}" maxlength="50"></td>
 			</tr>
 		</table>
-		<input type="submit" value="更新">
+		<input type="submit" value="更新"class="button">
 		<input type="hidden" name="usersId" th:value="${usersId}">
+			<p><span th:text="${message}" style="color:red"></span></p>
+		</div>
+		</div>
 	</form>
-	<p><span th:text="${message}" style="color:red"></span></p>
+
 
 
 

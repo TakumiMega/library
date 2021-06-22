@@ -11,8 +11,8 @@ body {
 	margin-left: auto; /* 自動位置   */
 	margin-right: auto; /* 自動位置   */
 	border-spacing: 0; /* 罫線間余白 */
-	font-size: 16pt; /* 文字サイズ */
-	text-align:center;
+	font-size: 12pt; /* 文字サイズ */
+
 }
 
 .tableArea th {
@@ -25,9 +25,9 @@ body {
 .button {
 	width: 130px;
 	margin: 16px auto;
-	font-size: 16px;
-	border-radius: 5%; /* 角丸       */
 	font-weight: bold;
+	border-radius: 5%; /* 角丸       */
+	font-size: 12pt; /* 文字サイズ */
 	text-align: center; /* 文字位置   */
 	border-radius: 5%;
 	cursor: pointer;
@@ -57,11 +57,11 @@ h2{
 	text-align:center;
 }
 .add-place {
-	width: 340px;
+	width: 360px;
 	margin: 16px auto;
 	text-align: center;
 	align-items: center;
 	display: inline-block;
-	font-size:24px;
+	font-size:20px;
 	line-height:55px;
 }
