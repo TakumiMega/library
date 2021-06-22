@@ -5,7 +5,7 @@
 <title>図書一覧</title>
 <link th:href="@{/css/books.css}" type="text/css"rel="stylesheet">
 </head>
-<header><a href="/library/main">メイン画面へ</a></header>
+<header><a href="/library/main">📖メイン画面へ</a></header>
 <hr>
 <body>
 	<form action="/library/serchBooks"th:object="${updateForm}"method="post">
@@ -13,13 +13,13 @@
 		<div class="kakomi-box2">
 		<table>
 			<tr>
-				<th>図書名</th><th><input type="text"name="booksName"th:value="${booksName}" maxlength="100"></th>
+				<th>　図書名　</th><th><input type="text"name="booksName"th:value="${booksName}" maxlength="100"></th>
 			</tr>
 			<tr>
-				<th>著者名</th><th><input type="text"name="booksAuthor"th:value="${booksAuthor}" maxlength="50"></th>
+				<th>　著者名　</th><th><input type="text"name="booksAuthor"th:value="${booksAuthor}" maxlength="50"></th>
 			</tr>
 			<tr>
-				<th>分類名</th>
+				<th>　分類名　</th>
 				<th>
 					<select name="classificationId">
 						<option th:each="classification:*{classificationshowList}"th:selected="${classification.classificationId} == *{classificationId}"
@@ -28,12 +28,13 @@
 				</th>
 			</tr>
 		</table>
-		<input type="submit" class="button"value="検索">
+		<input type="submit" class="buttonserch"value="検索">
 		</div>
 	</form>
 	<p><span th:text="${message}" style="color:red"></span></p>
 	<h2>図書一覧</h2>
-	 <table border=2>
+	<div class="books-place">
+	 <table class="bookslist">
 	 	<tr>
 	 		<th>図書ID</th>
 	 		<th>図書名</th>
@@ -44,20 +45,20 @@
 	 		<th th:if="!${receptionID}">更新</th>
 	 	</tr>
 			<tr th:each="books:${booksList}">
-				<td th:text="${books.booksId}"></td>
-				<td th:text="${books.booksName}"></td>
-				<td th:text="${books.booksAuthor}"></td>
+				<td class="booksid"th:text="${books.booksId}"></td>
+				<td class="booksname"th:text="${books.booksName}"></td>
+				<td class="booksauthor"th:text="${books.booksAuthor}"></td>
 				<td th:text="${books.booksStock}"></td>
 				<td th:text="${books.booksRemarks}"></td>
 				<td th:text="${books.classificationName}"></td>
 				<td th:if="!${receptionID}">
 					<form th:action="'/library/updateBooksPage/'+${books.booksId}"method="get">
-						<input type="submit" class="button"value="更新">
+						<input type="submit" class="buttoninsert"value="更新">
 					</form>
 				</td>
 		</tr>
 	</table>
-
+</div>
 
 </body>
 </html>

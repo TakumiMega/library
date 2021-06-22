@@ -3,23 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <title>利用者一覧</title>
+<link th:href="@{/css/userList.css}" type="text/css"rel="stylesheet">
 </head>
 <header><a href="/library/main">メイン画面へ</a></header>
 <hr>
 <body>
 
 	<form action="/library/searchUsers" method="get">
+	<h2>利用者検索</h2>
+	<div class="kakomi-box2">
 		<table>
 			<tr>
-				<th>利用者ID</th>
+				<th>　利用者ID　</th>
 				<td><input type="text" name="usersId" th:value="${usersId}" maxlength="8"></td>
 			</tr>
 		</table>
-		<input type="submit" value="検索">
+		<input type="submit" value="検索"class="button">
+		</div>
 	</form>
 
 	<p><span th:text="${message}" style="color:red"></span></p>
-	<table border="1">
+	<h2>利用者一覧</h2>
+	<table class="usertable">
 		<tr>
 			<th>利用者ID</th>
 			<th>利用者名</th>
@@ -30,15 +35,15 @@
 			<th>更新</th>
 		</tr>
 		<tr th:each="user:${usersList}">
-			<td th:text="${#numbers.formatInteger(user.usersId, 8)}"></td>
-			<td th:text="${user.usersName}"></td>
-			<td th:text="${#dates.format(user.usersBirthday, 'yyyy年MM月dd日')}"></td>
+			<td class="userid"th:text="${#numbers.formatInteger(user.usersId, 8)}"></td>
+			<td class="username"th:text="${user.usersName}"></td>
+			<td class="userdate"th:text="${#dates.format(user.usersBirthday, 'yyyy年MM月dd日')}"></td>
 			<td th:text="${user.usersAddress}"></td>
 			<td th:text="${user.usersPhone}"></td>
 			<td th:text="${user.usersEmail}"></td>
 			<td>
 				<form action="/library/updateUsersPage" method="get">
-					<input type="submit" value="更新">
+					<input type="submit" value="更新"class="button">
 					<input type="hidden" name="usersId" th:value="${user.usersId}">
 				</form>
 			</td>
