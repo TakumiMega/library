@@ -29,16 +29,6 @@ body {
 }
 
 .kakomi-box2 {
-<<<<<<< HEAD
-	margin: 1em auto;
-	padding: 2em;
-	width: 25%;
-	color: #000000; /* 文字色 */
-	background-color: white; /* 背景色 */
-	border: 2px solid #c7fbaa; /* 枠線 */
-	text-align: center;
-	line-height: 1;
-=======
  margin			 : 1em auto;
  padding		 : 2em;
  width			 : 25%;
@@ -47,27 +37,17 @@ body {
  border			 : 2px solid #c7fbaa; /* 枠線 */
  text-align:center;
  line-height:1;
->>>>>>> branch 'main' of git@github.com:TakumiMega/library.git
 }
 
 .tableArea {
-<<<<<<< HEAD
 	height: 18em;
 	margin-left: auto; /* 自動位置   */
 	margin-right: auto; /* 自動位置   */
 	border-spacing: 0; /* 罫線間余白 */
 	font-size: 16pt; /* 文字サイズ */
 	text-align: left;
-=======
-  height		 : 18em;
-  margin-left    : auto;             /* 自動位置   */
-  margin-right   : auto;             /* 自動位置   */
-  border-spacing : 0;                /* 罫線間余白 */
-  font-size      : 16pt;              /* 文字サイズ */
-text-align:left;
-
->>>>>>> branch 'main' of git@github.com:TakumiMega/library.git
 }
+
 .tableArea th {
 	background: white;
 }
