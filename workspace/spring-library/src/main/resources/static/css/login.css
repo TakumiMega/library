@@ -1,36 +1,52 @@
 @charset "UTF-8";
 
 body {
-	background-color: rgb(211, 211, 211);
+	  background: linear-gradient(#CCFFCC, #FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF);
+   background-repeat: no-repeat;
 }
 h1{
 	text-align:center;
 	font-size: 40px;
 }
 .login-place {
-	width: 400px;
-	margin: 16px auto;
-	height: 27em;
-	display: flex;
-	text-align:center;
-	align-items: center;
-	font-size: 16px;
+	width		: 400px;
+	margin		: 16px auto;
+	height		: 25em;
+	display		: flex;
+	text-align	:center;
+	align-items	: center;
+	font-size	: 16px;
+	display   	: inline-block;
 }
 
 .login-button {
-	width: 400px;
-	margin: 16px auto;
-	font-size: 16px;
+	width		: 150px;
+	margin		: 16px auto;
+	font-size	: 20px;
+  	border-radius: 5%;
+	cursor: pointer;
+	padding: 7px 6px;
+	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
+	color: #000000;
+	line-height: 1em;
+	transition: .3s;
+	border: 2px solid #5d5d5d;
 }
+.login-button:hover {
+  	color         : #000000;
+	background    : #ffffff;
+}
+
+
 .kakomi-box2 {
- margin: 2em auto;
- padding: 1em;
- width: 30%;
- color: #666; /* 文字色 */
- background-color: #f7f7f7; /* 背景色 */
- border: 1px solid #000000; /* 枠線 */
+ margin		: 2em auto;
+ padding	: 1em;
+ width		: 30%;
+ color		: #666; /* 文字色 */
+ background-color: #ffffff;  /* 背景色 */
+ border		: 1px solid #000000; /* 枠線 */
 }
 h3{
 	font-size: 32px;
-	height: 2em;
+	height: 3em;
 }

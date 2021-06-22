@@ -6,20 +6,23 @@
 <link th:href="@{/css/login.css}" type="text/css"rel="stylesheet">
 </head>
 <body>
-<h1>図書管理システム</h1>
+<p style="font-size:40px;text-align:center">図書管理システム</p>
 	<div class="kakomi-box2">
+		<div class="login-place">
+		<p><span th:text="${message}" style="color:red"></span></p>
+			<form action="/library/main" method="post">
+				<p style="font-size:32px; color:black;">ログイン画面</p>
+					<span>名前</span>
+					<p><span><input type="text" name="employeeName" th:value="${employeeName}" maxlength="50" required placeholder="入力"style="width:200px;"></span></p><br>
 
-	<div class="login-place">
-	<p><span th:text="${message}" style="color:red"></span></p>
-	<form action="/library/main" method="post">
-	<h3>ログイン</h3>
-		<p>名前：</p>
-		<p><input type="text" name="employeeName" th:value="${employeeName}" maxlength="50" required placeholder="入力"></p><br>
-		<p>パスワード</p>
-		<p><input type="password" name="employeePass" maxlength="30" required placeholder="入力"></p><br>
-		<div class="login-button"><input type="submit" value="ログイン"></div>
-	</form>
-	</div>
+					<span>パスワード</span>
+					<p><span><input type="password" name="employeePass" maxlength="30" required placeholder="入力"style="width:200px;"></span></p>
+
+				<div >
+					<p><input type="submit" value="ログイン"size=""class="login-button"></p>
+				</div>
+			</form>
+		</div>
 	</div>
 </body>
 </html>

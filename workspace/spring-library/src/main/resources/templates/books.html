@@ -3,12 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>図書一覧</title>
+<link th:href="@{/css/books.css}" type="text/css"rel="stylesheet">
 </head>
 <header><a href="/library/main">メイン画面へ</a></header>
 <hr>
 <body>
 	<form action="/library/serchBooks"th:object="${updateForm}"method="post">
-
+		<h2>図書検索</h2>
+		<div class="kakomi-box2">
 		<table>
 			<tr>
 				<th>図書名</th><th><input type="text"name="booksName"th:value="${booksName}" maxlength="100"></th>
@@ -27,9 +29,11 @@
 			</tr>
 		</table>
 		<input type="submit" class="button"value="検索">
+		</div>
 	</form>
 	<p><span th:text="${message}" style="color:red"></span></p>
-	 <table border=1>
+	<h2>図書一覧</h2>
+	 <table border=2>
 	 	<tr>
 	 		<th>図書ID</th>
 	 		<th>図書名</th>
