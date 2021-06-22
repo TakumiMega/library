@@ -15,6 +15,11 @@ body {
 
 .tableArea th {
 	background: white;
+  margin-left:0;
+  text-align:left;
+  margin	 : 2em auto;
+
+
 }
 
 .button {
@@ -40,14 +45,14 @@ body {
 }
 
 .kakomi-box2 {
-	margin: 2em auto;
+ margin			 : 1em auto;
 	padding: 1em;
 	width: 25%;
-	color: #666; /* 文字色 */
+ color			 : #000000; /* 文字色 */
 	background-color: white; /* 背景色 */
 	border: 2px solid #c7fbaa; /* 枠線 */
-}
 
+}
 h2 {
 	text-align: center;
 }
