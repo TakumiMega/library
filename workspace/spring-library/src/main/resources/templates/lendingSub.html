@@ -3,23 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" th:src="@{/lending.js}"></script>
+<link th:href="@{/css/lendingSub.css}" type="text/css" rel="stylesheet">
 <title>貸出</title>
 </head>
 <body>
+<div class=body>
+<div class=kakomi-box2>
+	<div class=inputform>
 	図書名<input type="text" name="booksName" id="booksName"th:value="${booksName}" disabled>
-
+	</div>
+</div>
 	<table border="1">
 	<tr>
-		<th>図書ID</th><th>図書名</th><th>著者名</th>
+		<th>図書ID</th><th>図書名</th><th>著者名</th><th>追加</th>
 	</tr>
 	<tr th:each="books:${booksList}">
-		<td th:text="${books.booksId}"></td>
-		<td th:text="${books.booksName}"></td>
-		<td th:text="${books.booksAuthor}"></td>
-		<td><input type ="button" value = "追加"th:onClick="'addBooks(' + ${books.booksId} + ');'">
+		<td th:text="${books.booksId}" id='bookid'></td>
+		<td th:text="${books.booksName}" id='booksname'></td>
+		<td th:text="${books.booksAuthor}"id='booksauthor'></td>
+		<td><input type ="button" value = "追加"th:onClick="'addBooks(' + ${books.booksId} + ');'"id='add'>
 		</td>
 	</tr>
 	</table>
-
+</div>
 </body>
 </html>

@@ -11,24 +11,9 @@ body {
 	width: 35%;
 }
 
-#lend {
-	width: 15%;
-	font-size: 13pt;
-	font-weight: bold;
-	margin-right: auto;
-	margin-left: 143%;
-	border-radius: 5%;
-	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
-}
-
-#lend:hover {
-	color: #000000;
-	background: #ffffff;
-}
-
 table {
-	margin-left: 8%;
-	width: 150%;
+	margin-left: -20%;
+	width: 200%;
 	border-collapse: separate;
 	border-spacing: 0;
 }
@@ -78,6 +63,7 @@ table tr:last-child td:last-child {
 #bookid {
 	text-indent: 1em;
 	text-align: right;
+	width: 15%;
 }
 
 #booksname {
@@ -90,7 +76,7 @@ table tr:last-child td:last-child {
 	width: 40%;
 }
 
-#delete {
+#add {
 	font-size: 10pt;
 	font-weight: bold;
 	width: 100%;
@@ -99,15 +85,15 @@ table tr:last-child td:last-child {
 	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
 }
 
-#delete:hover {
+#add:hover {
 	color: #000000;
 	background: #ffffff;
 }
 
 .kakomi-box2 {
-	margin: 2em auto 2em 35%;
+	margin: 2em auto 2em 5%;
 	padding: 2em;
-	width: 80%;
+	width: 120%;
 	color: #000; /* 文字色 */
 	font-weight: bold;
 	background-color: white; /* 背景色 */
@@ -116,21 +102,4 @@ table tr:last-child td:last-child {
 }
 .inputform{
 	margin-left:10%;
-}
-#search {
-	font-size: 10pt;
-	font-weight: bold;
-	border-radius: 5%;
-	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
-}
-
-#search:hover {
-	color: #000000;
-	background: #ffffff;
-}
-#dissearch {
-	font-size: 10pt;
-	font-weight: bold;
-	border-radius: 5%;
-	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
 }

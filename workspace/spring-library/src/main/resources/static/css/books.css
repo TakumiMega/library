@@ -1,8 +1,12 @@
 @charset "UTF-8";
 body {
 	background: linear-gradient(#CCFFCC, #FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF);
+<<<<<<< HEAD
    	  background-repeat: no-repeat;
 
+=======
+   	background-repeat: no-repeat;
+>>>>>>> branch 'main' of git@github.com:TakumiMega/library.git
 }
 h2{
 	text-align:center;
