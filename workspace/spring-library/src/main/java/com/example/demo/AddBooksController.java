@@ -50,7 +50,7 @@ public class AddBooksController {
 			Date updateDate = new Date();
 
 		//sessionにセット
-		session.setAttribute("booksRegistration", booksRegistration);
+			session.setAttribute("booksRegistration", booksRegistration);
 
 		//図書名文字チェック 101字以上入力の場合エラー
 		if (booksName.length() > 100) {
@@ -82,16 +82,16 @@ public class AddBooksController {
 				form.setClassificationList(classificationList);
 				mv.addObject("updateForm", form);
 				mv.setViewName("addBooks");
-
 				return mv;
 			}
 			//数値以外が入力されていた場合
 		} else {
-			mv.addObject("message", "数値を入力してください");
+
 			form.setBooksName(booksName);
 			form.setBooksAuthor(booksAuthor);
 			form.setClassificationId(classificationId);
 			form.setClassificationList(classificationList);
+			mv.addObject("message", "数値を入力してください");
 			mv.setViewName("updateBooks");
 			mv.addObject("updateForm", form);
 			mv.setViewName("addBooks");

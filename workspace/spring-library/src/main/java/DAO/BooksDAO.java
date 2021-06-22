@@ -25,7 +25,7 @@ public class BooksDAO {
 		try {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name "
-					+ "FROM books inner join classification on books.classification_id = classification.classification_id";
+					+ "FROM books inner join classification on books.classification_id = classification.classification_id ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			// SQLの実行
@@ -69,9 +69,8 @@ public class BooksDAO {
 
 		try {
 			// SQL文の作成
-			String sql = "SELECT books_id, books_name, books_author FROM books WHERE books_name LIKE ? AND books_lend = '0' AND books_stock > "
-					+ "(select count(*) as lendcount from lending AS l,books AS b "
-					+ "where l.books_id = b.books_id AND l.lending_flg = '0')";
+			String sql = "SELECT books_id, books_name, books_author FROM books "
+					+ "WHERE books_lend = '0' AND books_name LIKE ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookName + "%");
@@ -113,7 +112,7 @@ public class BooksDAO {
 
 		try {
 			// SQL文の作成
-			String sql = "SELECT books_id, books_name, books_author FROM books WHERE books_id = ?";
+			String sql = "SELECT books_id, books_name, books_author FROM books WHERE books_id = ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setInt(1, bookId);
@@ -187,6 +186,49 @@ public class BooksDAO {
 		}
 	}
 
+	public boolean allcasesLendingBooksId(int bookId) throws DAOException {
+		if (con == null)
+			getConnection();
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		String books_id = null;
+		try {
+			// SQL文の作成
+			String sql = "SELECT books_id FROM books "
+					+ "WHERE books_lend = '0' AND books_id = ? AND books_stock > "
+					+ "(select count(*) as lendcount from lending l LEFT OUTER JOIN books b ON l.books_id = b.books_id  "
+					+ "where b.books_id = ? AND l.lending_flg = '0')";
+			// PreparedStatementオブジェクトの取得
+			st = con.prepareStatement(sql);
+			st.setInt(1, bookId);
+			st.setInt(2, bookId);
+			// SQLの実行
+			rs = st.executeQuery();
+			while (rs.next()) {
+				books_id = String.valueOf(rs.getInt("books_id"));
+			}
+			if (books_id == null || books_id.length() == 0) {
+				return false;
+			}
+
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DAOException("レコードの取得に失敗しました。");
+		} finally {
+			try {
+				// リソースの開放
+				if (rs != null)
+					rs.close();
+				if (st != null)
+					st.close();
+				close();
+			} catch (Exception e) {
+				throw new DAOException("リソースの開放に失敗しました。");
+			}
+		}
+	}
+
 	//図書名検索
 	public List<BooksBean> searchBooksName(String bookName) throws DAOException {
 		if (con == null)
@@ -198,7 +240,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_name LIKE ?";
+					+ "WHERE books_name LIKE ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookName + "%");
@@ -248,7 +290,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_author LIKE ?";
+					+ "WHERE books_author LIKE ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookAuthor + "%");
@@ -298,7 +340,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE classification.classification_id = ?";
+					+ "WHERE classification.classification_id = ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setInt(1, classificationId);
@@ -348,7 +390,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_name LIKE ? AND books_author LIKE ?";
+					+ "WHERE books_name LIKE ? AND books_author LIKE ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookName + "%");
@@ -400,7 +442,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_name LIKE ? AND books_author LIKE ? AND classification_id = ?";
+					+ "WHERE books_name LIKE ? AND books_author LIKE ? AND books.classification_id = ? ORDER BY books.books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookName + "%");
@@ -453,7 +495,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_name LIKE ? AND classification_id = ?";
+					+ "WHERE books_name LIKE ? AND classification_id = ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookName + "%");
@@ -505,7 +547,7 @@ public class BooksDAO {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name FROM "
 					+ "books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id "
-					+ "WHERE books_author LIKE ? AND classification_id = ?";
+					+ "WHERE books_author LIKE ? AND classification_id = ? ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			st.setString(1, "%" + bookAuthor + "%");
@@ -555,7 +597,7 @@ public class BooksDAO {
 		try {
 			// SQL文の作成
 			String sql = "SELECT books_id, books_name, books_author,books_stock,books_remarks,classification_name "
-					+ "FROM books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id";
+					+ "FROM books LEFT OUTER JOIN classification ON books.classification_id=classification.classification_id ORDER BY books_id";
 			// PreparedStatementオブジェクトの取得
 			st = con.prepareStatement(sql);
 			// SQLの実行

@@ -11,16 +11,16 @@
 
 		<table>
 			<tr>
-				<th>図書名</th><th><input type="text"name="booksName"th:value="${booksName}"></th>
+				<th>図書名</th><th><input type="text"name="booksName"th:value="${booksName}" maxlength="100"></th>
 			</tr>
 			<tr>
-				<th>著者名</th><th><input type="text"name="booksAuthor"th:value="${booksAuthor}"></th>
+				<th>著者名</th><th><input type="text"name="booksAuthor"th:value="${booksAuthor}" maxlength="50"></th>
 			</tr>
 			<tr>
 				<th>分類名</th>
 				<th>
 					<select name="classificationId">
-						<option th:each="classification:*{classificationList}"
+						<option th:each="classification:*{classificationshowList}"th:selected="${classification.classificationId} == *{classificationId}"
 								 th:value="${classification.classificationId}" th:text="${classification.classificationName}"></option>
 					</select>
 				</th>
@@ -31,20 +31,22 @@
 	<p><span th:text="${message}" style="color:red"></span></p>
 	 <table border=1>
 	 	<tr>
+	 		<th>図書ID</th>
 	 		<th>図書名</th>
 	 		<th>著者名</th>
 	 		<th>冊数</th>
 	 		<th>備考</th>
 	 		<th>分類</th>
-	 		<th>更新</th>
+	 		<th th:if="!${receptionID}">更新</th>
 	 	</tr>
 			<tr th:each="books:${booksList}">
+				<td th:text="${books.booksId}"></td>
 				<td th:text="${books.booksName}"></td>
 				<td th:text="${books.booksAuthor}"></td>
 				<td th:text="${books.booksStock}"></td>
 				<td th:text="${books.booksRemarks}"></td>
 				<td th:text="${books.classificationName}"></td>
-				<td>
+				<td th:if="!${receptionID}">
 					<form th:action="'/library/updateBooksPage/'+${books.booksId}"method="get">
 						<input type="submit" class="button"value="更新">
 					</form>

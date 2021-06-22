@@ -23,6 +23,7 @@ import Bean.UsersForm;
 public class UsersController {
 
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static final String updateFlag = "updateFlag"; //更新フラグ
 
 	@Autowired
 	HttpSession session;
@@ -85,9 +86,9 @@ public class UsersController {
 	}
 
 
-	//確認後の利用者登録処理
-	@RequestMapping(value="/library/ConfirmUsers", method=RequestMethod.POST)
-	public ModelAndView ConfirmUsers(
+	//確認後の利用者登録処理(登録Ver.)
+	@RequestMapping(value="/library/addConfirmUsers", method=RequestMethod.POST)
+	public ModelAndView addConfirmUsers(
 			@ModelAttribute UsersForm usersForm,
 			ModelAndView mv
 			) throws ParseException{
@@ -221,12 +222,54 @@ public class UsersController {
 			mv.setViewName("updateUsers");
 			return mv;
 		}
+		
+		//同じ利用者名と生年月日が既に登録されている場合
+		Users sameUsers = usersRepository.findByUsersNameAndUsersBirthday(usersForm.getUsersName(), usersBirthday);
+		if(sameUsers != null) {
+			mv.addObject("message", "既に同じ名前と生年月日のユーザが存在しますが、登録しますか");
+			mv.addObject("usersId",usersId);
+			mv.addObject("usersForm",usersForm);
+			mv.addObject("updateFlag",updateFlag);
+			mv.setViewName("confirmUsers");
+			return mv;
+		}
 	
 		Users insertEmployee = usersRepository.findByUsersId(usersId);
 	
 		Users updateUsers = new Users(usersId, usersForm.getUsersName(), usersForm.getUsersAddress(), usersBirthday, usersForm.getUsersPhone(), usersForm.getUsersEmail(), insertEmployee.getInsertDate(), insertEmployee.getInsertEmployeeId(), updateDate, updateEmployeeId);
 		usersRepository.saveAndFlush(updateUsers);
-		mv.addObject("message", "登録が完了しました");
+		mv.addObject("message", "更新が完了しました");
+//		mv.addObject("usersId",usersId);
+//		mv.addObject("usersForm",usersForm);
+		
+		//ユーザの一覧を取得
+		List<Users> usersList = usersRepository.findAll();
+		mv.addObject("usersList",usersList);
+		mv.setViewName("usersList");
+	
+		return mv;
+	}
+	
+	//確認後の利用者登録処理(更新Ver.)
+	@RequestMapping(value="/library/updateConfirmUsers", method=RequestMethod.POST)
+	public ModelAndView updateConfirmUsers(
+			@RequestParam("usersId") int usersId,
+			@ModelAttribute UsersForm usersForm,
+			ModelAndView mv
+			) throws ParseException{
+
+		//入力された利用者の誕生日をString型から Data型に変換
+		Date usersBirthday = dateFormat.parse(usersForm.getUsersBirthday());
+	
+		//今日の日付と登録する社員IDを取得
+		Date updateDate = new Date();
+		int updateEmployeeId = (int) session.getAttribute("employeeId");
+
+		Users insertEmployee = usersRepository.findByUsersId(usersId);
+		
+		Users updateUsers = new Users(usersId, usersForm.getUsersName(), usersForm.getUsersAddress(), usersBirthday, usersForm.getUsersPhone(), usersForm.getUsersEmail(), insertEmployee.getInsertDate(), insertEmployee.getInsertEmployeeId(), updateDate, updateEmployeeId);
+		usersRepository.saveAndFlush(updateUsers);
+		mv.addObject("message", "更新が完了しました");
 //		mv.addObject("usersId",usersId);
 //		mv.addObject("usersForm",usersForm);
 		

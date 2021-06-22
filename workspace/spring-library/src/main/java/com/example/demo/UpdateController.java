@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import Bean.BooksBean;
+import Bean.ClassificationBean;
 import Bean.UpdateForm;
 import DAO.BooksDAO;
+import DAO.ClassificationDAO;
 import DAO.DAOException;
 
 @Controller
@@ -61,7 +63,7 @@ public class UpdateController {
 			@RequestParam(name = "classificationId") int classificationId,
 			@ModelAttribute UpdateForm updateform,
 			ModelAndView mv) throws DAOException {
-		List<Classification> classificationList = classificationRepository.findAll();
+		ClassificationDAO classdao = new ClassificationDAO();
 		BooksDAO dao = new BooksDAO();
 		UpdateForm form = new UpdateForm();
 		Books books = booksRepository.findByBooksId(Integer.parseInt(booksId));
@@ -83,7 +85,9 @@ public class UpdateController {
 			booksRepository.saveAndFlush(updatebooks);
 			mv.addObject("message", "更新完了しました");
 			List<BooksBean> booksList = dao.searchBooksInfo(booksName);
-			form.setClassificationList(classificationList);
+//			form.setClassificationList(classificationList);
+			List<ClassificationBean> classificationList = classdao.searchClassification();
+			form.setClassificationshowList(classificationList);
 			mv.setViewName("updateBooks");
 			mv.addObject("updateForm", form);
 			mv.addObject("booksList", booksList);
@@ -96,6 +100,7 @@ public class UpdateController {
 			form.setBooksName(booksName);
 			form.setBooksAuthor(booksAuthor);
 			form.setClassificationId(classificationId);
+			List<Classification> classificationList = classificationRepository.findAll();
 			form.setClassificationList(classificationList);
 			mv.setViewName("updateBooks");
 			mv.addObject("updateForm", form);

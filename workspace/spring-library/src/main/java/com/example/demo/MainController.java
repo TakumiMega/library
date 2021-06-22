@@ -72,6 +72,7 @@ public class MainController {
 			) throws DAOException{
 
 		BooksDAO dao = new BooksDAO();
+		ClassificationDAO classdao = new ClassificationDAO();
 		
 		//sessionに格納されていた社員IDを用いて役職IDを取得
 		Employee employee = employeeRepository.findByEmployeeId((int) session.getAttribute("employeeId"));
@@ -82,8 +83,8 @@ public class MainController {
 
 		List<BooksBean> booksList = dao.findAll();
 		mv.addObject("booksList", booksList);
-		List<Classification> classificationList=classificationRepository.findAll();
-		updateform.setClassificationList(classificationList);
+		List<ClassificationBean> classificationList = classdao.searchClassification();
+		updateform.setClassificationshowList(classificationList);
 		mv.addObject("updateform", updateform);
 		mv.addObject("classificationList", classificationList);
 		mv.setViewName("books");
@@ -141,7 +142,7 @@ public class MainController {
 			){
 
 		//ユーザの一覧を取得
-		List<Users> usersList = usersRepository.findAll();
+		List<Users> usersList = usersRepository.findAllByOrderByUsersIdAsc();
 		mv.addObject("usersList",usersList);
 		mv.setViewName("usersList");
 		return mv;

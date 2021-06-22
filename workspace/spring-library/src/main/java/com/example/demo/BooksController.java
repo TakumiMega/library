@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import Bean.BooksBean;
+import Bean.ClassificationBean;
 import Bean.UpdateForm;
 import DAO.BooksDAO;
+import DAO.ClassificationDAO;
 import DAO.DAOException;
 
 @Controller
@@ -32,7 +34,8 @@ public class BooksController {
 			@RequestParam("classificationId") int classificationId,
 			@ModelAttribute UpdateForm updateform,
 			ModelAndView mv) throws DAOException {
-		List<Classification> classificationList = classificationRepository.findAll();
+		ClassificationDAO classdao = new ClassificationDAO();
+		List<ClassificationBean> classificationList = classdao.searchClassification();
 		UpdateForm form = new UpdateForm();
 		BooksDAO dao = new BooksDAO();
 
@@ -48,52 +51,19 @@ public class BooksController {
 			mv.setViewName("books");
 			return mv;
 		}
-		List<BooksBean> booksList = dao.searchBooksInfo(booksName);
-		session.setAttribute("booksList", booksList);
+		
+		List<BooksBean> booksList = dao.searchBooksInfo(booksName);	
+		if (!(classificationId == 0)) {
+			booksList = dao.searchBooksNameAndAuthorAndclassificationId(booksName, booksAuthor, classificationId);
+		}else {
+			booksList = dao.searchBooksNameAndAuthor(booksName, booksAuthor);
+		}
+
 		mv.addObject("booksName", booksName);
 		mv.addObject("booksList", booksList);
-		//名前入力○
-		if (!(booksName.length() == 0)) {
-			booksList = dao.searchBooksName(booksName);
-			mv.addObject("booksName", booksName);
-			mv.addObject("booksList", booksList);
-			//名前入力○著者入力○
-			if (!(booksName.length() == 0) && !(booksAuthor.length() == 0)) {
-				booksList = dao.searchBooksNameAndAuthor(booksName, booksAuthor);
-				mv.addObject("booksName", booksName);
-				mv.addObject("booksList", booksList);
-			} else if (!(booksName.length() == 0) && !(booksAuthor.length() == 0) && !(classificationId == 0)) {
-				booksList = dao.searchBooksNameAndAuthorAndclassificationId(booksName, booksAuthor, classificationId);
-				mv.addObject("booksName", booksName);
-				mv.addObject("booksList", booksList);
-			}
-		}
-		//著者入力○
-		else if (!(booksAuthor.length() == 0)) {
-			booksList = dao.searchBooksAuthor(booksAuthor);
-			mv.addObject("booksAuthor", booksAuthor);
-			mv.addObject("booksList", booksList);
-		}
-		//分類入力○
-		else if (!(classificationId == 0)) {
-			booksList = dao.searchBooksclassificationId(classificationId);
-			mv.addObject("classificationId", classificationId);
-			mv.addObject("booksList", booksList);
-			//名前＋分類
-			if (!(booksName.length() == 0) && !(classificationId == 0)) {
-				booksList = dao.searchBooksNameAndclassificationId(booksName, classificationId);
-				mv.addObject("booksName", booksName);
-				mv.addObject("booksList", booksList);
-			}
-			//著者名＋分類
-			if (!(booksAuthor.length() == 0) && !(classificationId == 0)) {
-				booksList = dao.searchBooksAuthorAndclassificationId(booksAuthor, classificationId);
-				mv.addObject("booksAuthor", booksAuthor);
-				mv.addObject("booksList", booksList);
-			}
-		}
 		//表示させるHTMLをセット
-		form.setClassificationList(classificationList);
+		form.setClassificationId(classificationId);
+		form.setClassificationshowList(classificationList);
 		mv.setViewName("updateBooks");
 		mv.addObject("updateForm", form);
 		mv.setViewName("books");

@@ -1,7 +1,9 @@
 package com.example.demo;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
 
 
 
@@ -15,5 +17,5 @@ public interface EmployeeRepository extends JpaRepository <Employee, Integer> {
 	Employee findByEmployeeName(String employeeName);
 
 	Employee findByEmployeeIdNotAndEmployeeNameAndEmployeePass(int employeeId, String employeeName, String employeePass);
-
+	
 }
