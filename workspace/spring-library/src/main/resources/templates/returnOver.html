@@ -3,16 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <title>貸出図書一覧</title>
+<link th:href="@{/css/returnOver.css}" type="text/css"rel="stylesheet">
 </head>
 <header><a href="/library/main">メイン画面へ</a></header>
 <hr>
 <body>
+<div class="kakomi-box2">
 	<form action="/library/returnOver/searchUser"method="get">
-		利用者ID<input type="text" name="usersId"th:value="${session.usersId}" maxlength='8'autofocus>
+		利用者ID　<input type="text" name="usersId"th:value="${session.usersId}" maxlength='8'autofocus>
 		<input type="submit" class="button" value="検索">
 	</form>
 	<p><font color="red"><span th:text="${message}"></span></font></p>
-	<table border=1>
+	</div>
+	<table class="bookslist">
 		<tr>
 			<th>利用者ID</th>
 			<th>利用者</th>

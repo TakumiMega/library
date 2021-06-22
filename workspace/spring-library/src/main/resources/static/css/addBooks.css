@@ -9,10 +9,17 @@ body{
   margin-right   : auto;             /* 自動位置   */
   border-spacing : 0;                /* 罫線間余白 */
   font-size      : 16pt;              /* 文字サイズ */
+  border-collapse: collapse;
+    padding: 0;
 
 }
 .tableArea th{
   background 	 :white;
+  margin-left:0;
+  text-align:left;
+  margin	 : 2em auto;
+
+
 }
 .button {
   width		 	:130px;
@@ -35,10 +42,10 @@ body{
   background    : #ffffff;   /* 文字色     */
 }
 .kakomi-box2 {
- margin			 : 2em auto;
+ margin			 : 1em auto;
  padding		 : 1em;
  width			 : 25%;
- color			 : #666; /* 文字色 */
+ color			 : #000000; /* 文字色 */
  background-color: white; /* 背景色 */
  border			 : 2px solid #c7fbaa; /* 枠線 */
 
