@@ -5,31 +5,34 @@ body{
 
 }
 .kakomi-box2 {
- margin			 : 2em auto;
+ margin			 : 1em auto;
  padding		 : 2em;
  width			 : 25%;
  color			 : #000000; /* 文字色 */
  background-color: white; /* 背景色 */
  border			 : 2px solid #c7fbaa; /* 枠線 */
- text-align:center;
+ text-align		 :center;
 }
+
 .button {
-	width		:120px;
-	margin		: 12px auto;
-	font-size	: 12px;
-  	border-radius: 5%;
-	cursor: pointer;
-	padding: 7px 6px;
-	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
-	color: #000000;
-	line-height: 1em;
-	transition: .3s;
-	border: 2px solid #5d5d5d;
+  width		 	:120px;
+  margin		: 16px auto;
+  font-size		 : 16px;
+  border-radius : 5%;          /* 角丸       */
+  font-size     : 12pt;        /* 文字サイズ */
+  text-align    : left;      /* 文字位置   */
+  border-radius : 5%;
+  cursor		: pointer;
+  padding		: 7px 6px;
+  background	: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
+  color			: #000000;
+  line-height	: 1em;
+  transition	: .3s;
+  border		: 2px solid #5d5d5d;
 }
 .button:hover {
   	color         : #000000;
 	background    : #ffffff;
-
 }
 .usertable {
 width: 70%;
@@ -38,6 +41,7 @@ border-spacing: 0;
 text-align:center;
 margin-left:200px;
 margin-right:140px;
+
 }
 
 .usertable th:first-child {

@@ -33,12 +33,12 @@ width		 	:130px;
  text-align:center;
 }
 .bookslist{
-width: 110%;
+width: 70%;
 border-collapse: separate;
 border-spacing: 0;
 text-align:center;
-margin-left:230px;
-margin-right:160px;
+margin-left:200px;
+margin-right:100px;
 }
 
 .bookslist th:first-child {
