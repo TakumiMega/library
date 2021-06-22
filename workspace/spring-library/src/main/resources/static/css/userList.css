@@ -15,12 +15,12 @@ body{
 }
 
 .button {
-  width		 	:120px;
+  width		 	:78px;
   margin		: 16px auto;
   font-size		 : 16px;
   border-radius : 5%;          /* 角丸       */
   font-size     : 12pt;        /* 文字サイズ */
-  text-align    : left;      /* 文字位置   */
+  text-align    : center;      /* 文字位置   */
   border-radius : 5%;
   cursor		: pointer;
   padding		: 7px 6px;
@@ -35,11 +35,11 @@ body{
 	background    : #ffffff;
 }
 .usertable {
-width: 70%;
+width: 80%;
 border-collapse: separate;
 border-spacing: 0;
 text-align:center;
-margin-left:200px;
+margin-left:140px;
 margin-right:140px;
 
 }
@@ -86,32 +86,48 @@ border-radius: 0 0 0 5px;
 border-radius: 0 0 5px 0;
 }
 
-#userid {
+.userid {
 text-align: right;
 }
 
-#username {
+.username {
+text-align: center;
+width: 15%;
+}
+.userdate {
 text-align: left;
-width: 40%;
+width: 20%;
 }
-#userdate {
+.userup
+{
 text-align: left;
-
+width: 8%;
 }
-
-#delete {
-font-size: 10pt;
-font-weight: bold;
-width: 100%;
-height: 100%;
-border-radius: 5%;
-background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
-}
-
-#delete:hover {
-color: #000000;
-background: #ffffff;
+.useremail
+{
+text-align: center;
+width: 20%;
 }
 h2{
 	text-align:center;
+}
+.buttonserch {
+  width		 	:100px;
+  margin		: 16px auto;
+  font-size		 : 16px;
+  border-radius : 5%;          /* 角丸       */
+  font-size     : 12pt;        /* 文字サイズ */
+  text-align    : center;      /* 文字位置   */
+  border-radius : 5%;
+  cursor		: pointer;
+  padding		: 7px 6px;
+  background	: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
+  color			: #000000;
+  line-height	: 1em;
+  transition	: .3s;
+  border		: 2px solid #5d5d5d;
+}
+.buttonserch:hover {
+  	color         : #000000;
+	background    : #ffffff;
 }
