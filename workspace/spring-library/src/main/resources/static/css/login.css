@@ -1,0 +1,36 @@
+@charset "UTF-8";
+
+body {
+	background-color: rgb(211, 211, 211);
+}
+h1{
+	text-align:center;
+	font-size: 40px;
+}
+.login-place {
+	width: 400px;
+	margin: 16px auto;
+	height: 27em;
+	display: flex;
+	text-align:center;
+	align-items: center;
+	font-size: 16px;
+}
+
+.login-button {
+	width: 400px;
+	margin: 16px auto;
+	font-size: 16px;
+}
+.kakomi-box2 {
+ margin: 2em auto;
+ padding: 1em;
+ width: 30%;
+ color: #666; /* 文字色 */
+ background-color: #f7f7f7; /* 背景色 */
+ border: 1px solid #000000; /* 枠線 */
+}
+h3{
+	font-size: 32px;
+	height: 2em;
+}
