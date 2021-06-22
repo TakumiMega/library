@@ -3,13 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <title>社員更新</title>
+<link th:href="@{/css/updateEmployee.css}" type="text/css"rel="stylesheet">
 </head>
 <header><a href="/library/employeeList">一覧へ戻る</a></header>
 <hr>
 <body>
 
 	<form action="/library/updateEmployee" method="post" th:object="${employeeForm}">
-		<table border="1">
+		<h2>社員更新</h2>
+	<div class="kakomi-box2">
+	<div class="add-place">
+		<table class="tableArea">
 			<tr>
 				<th>名前</th>
 				<td><input type="text" name="employeeName" th:field="*{employeeName}" maxlength="50" required></td>
@@ -31,11 +35,13 @@
 				<td><input type="password" name="employeeRePass" th:field="*{employeeRePass}" maxlength="30" required></td>
 			</tr>
 		</table>
-		<input type="submit" value="更新">
+		<input type="submit"class="button" value="更新">
 		<input type="hidden" name="employeeId" th:value="${employeeId}">
-	</form>
 
-	<p><span th:text="${message}" style="color:red"></span></p>
+	    <p><span th:text="${message}" style="color:red"></span></p>
+		</div>
+		</div>
+	</form>
 
 
 </body>
