@@ -11,21 +11,6 @@ body {
 	width: 35%;
 }
 
-#lend {
-	width: 15%;
-	font-size: 13pt;
-	font-weight: bold;
-	margin-right: auto;
-	margin-left: 143%;
-	border-radius: 5%;
-	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
-}
-
-#lend:hover {
-	color: #000000;
-	background: #ffffff;
-}
-
 table {
 	margin-left: 8%;
 	width: 150%;
@@ -90,7 +75,7 @@ table tr:last-child td:last-child {
 	width: 40%;
 }
 
-#delete {
+#btn {
 	font-size: 10pt;
 	font-weight: bold;
 	width: 100%;
@@ -99,7 +84,7 @@ table tr:last-child td:last-child {
 	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
 }
 
-#delete:hover {
+#btn:hover {
 	color: #000000;
 	background: #ffffff;
 }
@@ -117,6 +102,7 @@ table tr:last-child td:last-child {
 .inputform{
 	margin-left:10%;
 }
+
 #search {
 	font-size: 10pt;
 	font-weight: bold;
@@ -128,9 +114,23 @@ table tr:last-child td:last-child {
 	color: #000000;
 	background: #ffffff;
 }
-#dissearch {
-	font-size: 10pt;
+
+#return {
+	width: 15%;
+	font-size: 13pt;
 	font-weight: bold;
+	margin-right: auto;
+	margin-left: 143%;
 	border-radius: 5%;
 	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
+}
+
+#return:hover {
+	color: #000000;
+	background: #ffffff;
+}
+#yj{
+	margin-left: 80%;
+	font-size: 30pt;
+	font-weight: bold;
 }

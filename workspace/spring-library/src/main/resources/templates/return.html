@@ -2,46 +2,52 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/return.css}" type="text/css" rel="stylesheet">
 <title>返却</title>
 </head>
 <header><a href="/library/main">メイン画面へ</a></header>
 <hr>
 <body>
-
+<div class=body>
+<div class=kakomi-box2>
+	<div class=inputform>
 	<form method="get" action="/library/returning/userId">
-		利用者ID<input type="text" name="usersId"th:value="${session.usersId}" maxlength='8'autofocus><br>
-		利用者名<input type="text" name="usersName"th:value="${session.usersName}" disabled><input type="submit"value="検索">
+		利用者ID　<input type="text" name="usersId"th:value="${session.usersId}" maxlength='8'autofocus><br>
+		利用者名　<input type="text" name="usersName"th:value="${session.usersName}" disabled>
+		<input type="submit"value="検索" id='search'>
 	</form>
-
 	<p><font color="red"><span th:text="${message}"></span></font></p>
+		</div>
+</div>
 	<table border="1">
 	<tr>
-		<th>図書ID</th><th>図書名</th><th>著者名</th>
+		<th>図書ID</th><th>図書名</th><th>著者名</th><th>　　</th>
 	</tr>
 	<tr th:each="lendmap:${lendMap}">
-		<td th:text="${lendmap.value.booksId}"></td>
-		<td th:text="${lendmap.value.booksName}"></td>
-		<td th:text="${lendmap.value.booksAuthor}"></td>
-		<td><form th:action="'/library/returning/'+${lendmap.key}"><input type="submit" value="追加"></form></td>
+		<td th:text="${lendmap.value.booksId}"id='bookid'></td>
+		<td th:text="${lendmap.value.booksName}" id='booksname'></td>
+		<td th:text="${lendmap.value.booksAuthor}"id='booksauthor'></td>
+		<td><form th:action="'/library/returning/'+${lendmap.key}"><input type="submit" value="追加" id='btn'></form></td>
 	</tr>
 	</table>
 	<br>
-	<span>↓</span>
+	<span id="yj">⇩</span>
 	<br>
 	<table border="1">
 	<tr>
-		<th>図書ID</th><th>図書名</th><th>著者名</th>
+		<th>図書ID</th><th>図書名</th><th>著者名</th><th>　　</th>
 	</tr>
 	<tr th:each="returnmap:${returnMap}">
-		<td th:text="${returnmap.value.booksId}"></td>
-		<td th:text="${returnmap.value.booksName}"></td>
-		<td th:text="${returnmap.value.booksAuthor}"></td>
-		<td><form th:action="'/library/returningback/'+${returnmap.key}"><input type="submit" value="戻す"></form></td>
+		<td th:text="${returnmap.value.booksId}"id='bookid'></td>
+		<td th:text="${returnmap.value.booksName}" id='booksname'></td>
+		<td th:text="${returnmap.value.booksAuthor}"id='booksauthor'></td>
+		<td><form th:action="'/library/returningback/'+${returnmap.key}"><input type="submit" value="戻す" id='btn'></form></td>
 	</tr>
 	</table>
+	<br>
 	<form action="/library/returned" method="post">
-		<input type="submit" value="返却">
+		<input type="submit" value="返却"id='return'>
 	</form>
-
+</div>
 </body>
 </html>

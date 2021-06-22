@@ -3,39 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" th:src="@{/lending.js}"></script>
+<link th:href="@{/css/lending.css}" type="text/css" rel="stylesheet">
 <title>貸出</title>
 </head>
-<header><a href="/library/main">メイン画面へ</a></header>
+<header id='header'><a href="/library/main">メイン画面へ</a></header>
 <hr>
 <body>
-
+<div class=body>
+<div class=kakomi-box2>
+	<div class=inputform>
 	<form method="get" action="/library/lending/userId">
-		利用者ID<input type="text" name="usersId"th:value="${session.usersId}" maxlength='8'autofocus>
+		利用者Id　<input type="text" name="usersId"th:value="${session.usersId}" maxlength='8'autofocus>
 	</form>
-		利用者名<input type="text" name="usersName"th:value="${session.usersName}" disabled>
+		利用者名　<input type="text" name="usersName"th:value="${session.usersName}" disabled>
 	<form th:action="@{/library/lendingSub}"method="GET"name="formGet"onsubmit="return false;">
-		図書名<input type="text" name="booksName">
-		<input type="button"value="検索" onClick="openWin('formGet')"th:if="${session.usersId}">
-		<input type="button"value="検索" onClick="openWin('formGet')"th:unless="${session.usersId}"disabled>
+		図書名　　<input type="text" name="booksName">
+		<input type="button"value="検索" onClick="openWin('formGet')"th:if="${session.usersId}"id='search'>
+		<input type="button"value="検索" onClick="openWin('formGet')"th:unless="${session.usersId}"disabled id='dissearch'>
 	</form>
-
 	<p><font color="red"><span th:text="${message}"></span></font></p>
+	</div>
+</div>
 	<table border="1">
 	<tr>
 		<th>図書ID</th><th>図書名</th><th>著者名</th><th>削除</th>
 	</tr>
 	<tr th:each="map:${lendingMap}">
-		<td th:text="${map.value.booksId}"></td>
-		<td th:text="${map.value.booksName}"></td>
-		<td th:text="${map.value.booksAuthor}"></td>
-		<td><form th:action="'/library/deleteLending/'+${map.key}"><input type="submit" value="削除"></form></td>
+		<td th:text="${map.value.booksId}" id='bookid'></td>
+		<td th:text="${map.value.booksName}" id='booksname'></td>
+		<td th:text="${map.value.booksAuthor}"id='booksauthor'></td>
+		<td><form th:action="'/library/deleteLending/'+${map.key}"><input type="submit" value="削除" id='delete'></form></td>
 	</tr>
 	</table>
+	<br>
 	<form action="/library/lended" method="post">
-		<input type="submit" value="貸出">
+		<input type="submit" value="貸出"id='lend'>
 	</form>
 	<form action="/library/lending/"method="GET"name="closeWin">
 	</form>
-
+</div>
 </body>
 </html>
