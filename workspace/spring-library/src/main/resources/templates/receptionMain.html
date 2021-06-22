@@ -2,56 +2,63 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/main.css}" type="text/css" rel="stylesheet">
 <title>メイン</title>
 </head>
 <body>
-
-
-	<!-- 貸出 -->
-	<form action="/library/lending" method="get">
-		<input type="submit" value="貸出">
-	</form>
-
-	<!-- 返却 -->
-	<form action="/library/returnning" method="get">
-		<input type="submit" value="返却">
-	</form>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class=form>
+		<!-- 貸出 -->
+		<form action="/library/lending" method="get">
+			<input type="submit" value="貸出" id='lendreturn'>
+		</form>
+		<!-- 返却 -->
+		<form action="/library/returnning" method="get">
+			<input type="submit" value="返却" id='lendreturn'>
+		</form>
+	</div>
 
 	<br>
-
-	<!-- 図書一覧 -->
-	<form action="/library/booksList" method="get">
-		<input type="submit" value="図書一覧">
-	</form>
-
-	<!-- 貸出図書一覧 -->
-	<form action="/library/lendingList" method="get">
-		<input type="submit" value="貸出図書一覧">
-	</form>
-
-	<!-- 返却超過一覧 -->
-	<form action="/library/returnOver" method="get">
-		<input type="submit" value="返却超過一覧">
-	</form>
-
 	<br>
+	<div class=form>
+		<!-- 図書一覧 -->
+		<form action="/library/booksList" method="get">
+			<input type="submit" value="図書一覧" id='submit'>
+		</form>
 
-	<!-- 利用者一覧 -->
-	<form action="/library/usersList" method="get">
-		<input type="submit" value="利用者一覧">
-	</form>
+		<!-- 貸出図書一覧 -->
+		<form action="/library/lendingList" method="get">
+			<input type="submit" value="貸出図書一覧" id='submit'>
+		</form>
 
-	<!-- 利用者登録 -->
-	<form action="/library/addUsersPage" method="get">
-		<input type="submit" value="利用者登録">
-	</form>
-
+		<!-- 返却超過一覧 -->
+		<form action="/library/returnOver" method="get">
+			<input type="submit" value="返却超過一覧" id='submit'>
+		</form>
+	</div>
 	<br>
+	<br>
+	<div class=form>
+		<!-- 利用者一覧 -->
+		<form action="/library/usersList" method="get">
+			<input type="submit" value="利用者一覧" id='submit'>
+		</form>
 
+		<!-- 利用者登録 -->
+		<form action="/library/addUsersPage" method="get">
+			<input type="submit" value="利用者登録" id='submit'>
+		</form>
+	</div>
+	<br>
+	<br>
 	<form action="/library" method="get">
-		<input type="submit" value="ログアウト">
+		<input type="submit" value="ログアウト" id='logout'>
 	</form>
-
 
 
 
