@@ -3,26 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <title>社員一覧</title>
-<link th:href="@{/css/employeeList.css}" type="text/css"rel="stylesheet">
+<link th:href="@{/css/employeeList.css}" type="text/css"
+	rel="stylesheet">
 </head>
-<header><a href="/library/main">📖メイン画面へ</a></header>
+<header>
+	<a href="/library/main">📖メイン画面へ</a>
+</header>
 <hr>
 <body>
 
 	<form action="/library/searchEmployee" method="get">
 		<h2>社員検索</h2>
-	<div class="kakomi-box2">
-		<table>
-			<tr>
-				<th>　社員ID　</th>
-				<td><input type="text" name="employeeId" th:value="${employeeId}" maxlength="8"></td>
-			</tr>
-		</table>
-		<input type="submit" value="検索"class="button">
+		<div class="kakomi-box2">
+			<table>
+				<tr>
+					<th>社員ID</th>
+					<td><input type="text" name="employeeId"
+						th:value="${employeeId}" maxlength="8"></td>
+				</tr>
+			</table>
+			<input type="submit" value="検索" class="button">
+
+			<p>
+				<span th:text="${message}" style="color: red"></span>
+			</p>
 		</div>
 	</form>
 
-	<p><span th:text="${message}" style="color:red"></span></p>
 	<h2>社員一覧</h2>
 	<table class="usertable">
 		<tr>
@@ -32,13 +39,14 @@
 			<th>更新</th>
 		</tr>
 		<tr th:each="emp:${employeeList}">
-			<td th:text="${#numbers.formatInteger(emp.employeeId, 8)}"id='employeeid'></td>
-			<td th:text="${emp.employeeName}"id='employeename'></td>
-			<td th:text="${emp.positionName}"id='positionname'></td>
+			<td th:text="${#numbers.formatInteger(emp.employeeId, 8)}"
+				id='employeeid'></td>
+			<td th:text="${emp.employeeName}" id='employeename'></td>
+			<td th:text="${emp.positionName}" id='positionname'></td>
 			<td>
 				<form action="/library/updateEmployeePage" method="get">
-					<input type="submit" value="更新"id='update'>
-					<input type="hidden" name="employeeId" th:value="${emp.employeeId}">
+					<input type="submit" value="更新" id='update'> <input
+						type="hidden" name="employeeId" th:value="${emp.employeeId}">
 				</form>
 			</td>
 		</tr>

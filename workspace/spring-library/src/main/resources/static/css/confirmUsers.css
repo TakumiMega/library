@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+body {
+	background: linear-gradient(#CCFFCC, #FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF);
+	background-repeat: no-repeat;
+}
+
+.button {
+	width: 130px;
+	margin: 16px auto;
+	font-size: 16px;
+	border-radius: 5%; /* 角丸       */
+	font-size: 12pt; /* 文字サイズ */
+	font-weight: bold;
+	text-align: center; /* 文字位置   */
+	border-radius: 5%;
+	cursor: pointer;
+	padding: 7px 6px;
+	background: linear-gradient(to bottom, #FFFFFF, #EEEEEE, #EEEEEE, #DDDDDD);
+	color: #000000;
+	line-height: 1em;
+	transition: .3s;
+	border: 2px solid #5d5d5d;
+}
+
+.button:hover {
+	color: #000000;
+	background: #ffffff;
+}
+
+.kakomi-box2 {
+ margin			 : 1em auto;
+ padding		 : 2em;
+ width			 : 28%;
+ color			 : #000000; /* 文字色 */
+ background-color: white; /* 背景色 */
+ border			 : 2px solid #c7fbaa; /* 枠線 */
+ text-align:center;
+ line-height:1;
+}
+
+.tableArea {
+	height: 18em;
+	margin-left: auto; /* 自動位置   */
+	margin-right: auto; /* 自動位置   */
+	border-spacing: 0; /* 罫線間余白 */
+	font-size: 16pt; /* 文字サイズ */
+	text-align: left;
+}
+
+.tableArea th {
+	background: white;
+}
+h2 {
+	text-align: center;
+}
+
+tr {
+	visibility: 1px;
+}
+p{
+	text-align: left;
+}

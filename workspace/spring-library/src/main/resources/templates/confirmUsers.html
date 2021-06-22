@@ -2,42 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link th:href="@{/css/confirmUsers.css}" type="text/css"
+	rel="stylesheet">
 <title th:if="!${updateFlag}">利用者登録確認</title>
 <title th:if="${updateFlag}">利用者更新確認</title>
 </head>
 <body>
+	<form action="/library/addConfirmUsers" method="post"
+		th:object="${usersForm}">
+		<h2>利用者登録確認</h2>
 
-	<p><span th:text="${message}" style="color:red"></span></p>
-	<form action="/library/addConfirmUsers" method="post" th:object="${usersForm}">
-		<table border="1">
-			<tr>
-				<th>名前</th>
-				<td><input type="text" name="usersName" th:field="*{usersName}" readonly></td>
-			</tr>
-			<tr>
-				<th>生年月日</th>
-				<td><input type="date" name="usersBirthday" th:field="*{usersBirthday}" readonly></td>
-			</tr>
-			<tr>
-				<th>住所</th>
-				<td><input type="text" name="usersAddress" th:field="*{usersAddress}" readonly></td>
-			</tr>
-			<tr>
-				<th>電話番号</th>
-				<td><input type="text" name="usersPhone" th:field="*{usersPhone}" readonly></td>
-			</tr>
-			<tr>
-				<th>メールアドレス</th>
-				<td><input type="text" name="usersEmail" th:field="*{usersEmail}" readonly></td>
-			</tr>
-		</table>
-		<input type="submit" value="はい" th:if="!${updateFlag}">
-		<input type="submit" value="いいえ" formaction="/library/addUsersPage" th:if="!${updateFlag}">
-		
-		<input type="submit" value="はい" formaction="/library/updateConfirmUsers" th:if="${updateFlag}">
-		<input type="submit" value="いいえ" formaction="/library/updateUsersPage" th:if="${updateFlag}">
-		<input type="hidden" name="usersId" th:value="${usersId}">
+		<div class="kakomi-box2">
+			<table class="tableArea">
+			<p><span th:text="${message}" style="color: red"></span></p>
+				<tr>
+					<th>名前</th>
+					<td><input type="text" name="usersName"
+						th:field="*{usersName}" readonly></td>
+				</tr>
+				<tr>
+					<th>生年月日</th>
+					<td><input type="date" name="usersBirthday"
+						th:field="*{usersBirthday}" readonly></td>
+				</tr>
+				<tr>
+					<th>住所</th>
+					<td><input type="text" name="usersAddress"
+						th:field="*{usersAddress}" readonly></td>
+				</tr>
+				<tr>
+					<th>電話番号</th>
+					<td><input type="text" name="usersPhone"
+						th:field="*{usersPhone}" readonly></td>
+				</tr>
+				<tr>
+					<th>メールアドレス</th>
+					<td><input type="text" name="usersEmail"
+						th:field="*{usersEmail}" readonly></td>
+				</tr>
+			</table>
+			<input type="submit" value="はい" th:if="!${updateFlag}" class="button">
+			<input type="submit" value="いいえ" formaction="/library/addUsersPage" th:if="!${updateFlag}" class="button">
+			<input type="submit" value="はい" formaction="/library/updateConfirmUsers" th:if="${updateFlag}"class="button">
+			<input type="submit" value="いいえ" formaction="/library/updateUsersPage" th:if="${updateFlag}"class="button">
+			<input type="hidden" name="usersId" th:value="${usersId}">
 
+		</div>
 	</form>
 
 
